@@ -1,0 +1,7 @@
+{
+  "name": "TennisMaster",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
