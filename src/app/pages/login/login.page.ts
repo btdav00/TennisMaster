@@ -38,3 +38,4 @@ export class LoginPage implements OnInit {
     return this.credential.get('password');
   }
 }
+let a=1;
