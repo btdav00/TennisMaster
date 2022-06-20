@@ -1,0 +1,64 @@
+<ion-header> </ion-header>
+
+<ion-content>
+  <br /><br />
+  <div class="ion-text-center">
+    <p class="text-center">Registrazione</p>
+  </div>
+  <br />
+  <ion-text color="primary">
+    <h3>Credenziali</h3>
+  </ion-text>
+  <form [formGroup]="credential">
+    <ion-item>
+      <ion-label position="floating" color="#808080">email</ion-label>
+      <ion-input
+        type="email"
+        formControlName="email"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">password</ion-label>
+      <ion-input
+        type="password"
+        formControlName="password"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080"
+        >conferma password</ion-label
+      >
+      <ion-input
+        type="password"
+        formControlName="confirmPassword"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+  <br />
+  <ion-text color="primary">
+    <h3>Dati personali</h3>
+  </ion-text>
+  <form [formGroup]="personalData">
+    <ion-item>
+      <ion-label position="floating" color="#808080">nome</ion-label>
+      <ion-input
+        type="text"
+        formControlName="name"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">cognome</ion-label>
+      <ion-input
+        type="text"
+        formControlName="surname"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+  <br />
+  <ion-button href="calendar" (click)="setUrl()">Data di nascita</ion-button>
+</ion-content>

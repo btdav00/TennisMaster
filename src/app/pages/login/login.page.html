@@ -1,0 +1,38 @@
+<ion-header> </ion-header>
+
+<ion-content>
+  <br /><br />
+  <div class="ion-text-center">
+    <p class="text-center">Login</p>
+  </div>
+  <br />
+  <form [formGroup]="credential">
+    <ion-item>
+      <ion-label position="floating" color="#808080">email</ion-label>
+      <ion-input
+        type="email"
+        formControlName="email"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" color="#808080">password</ion-label>
+      <ion-input
+        type="password"
+        formControlName="password"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+
+  <br /><br />
+  <section>
+    <ion-button expand="block" href="home">Accedi</ion-button>
+    <div class="ion-text-center">
+      <a href="registration"
+        ><p class="text-center">non sei ancora registrato?</p></a
+      >
+    </div>
+  </section>
+</ion-content>
