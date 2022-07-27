@@ -13,6 +13,7 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CalendarPage } from '../calendar/calendar.page';
+import { format , parseISO } from 'date-format';
 
 
 @Component({
@@ -23,6 +24,10 @@ import { CalendarPage } from '../calendar/calendar.page';
 export class RegistrationPage implements OnInit {
   credential: FormGroup;
   personalData: FormGroup;
+  labelDate="Data di nascita"
+  date : Date;
+  showCal =false;
+
 
   constructor() {
     this.credential = new FormGroup({
@@ -37,9 +42,39 @@ export class RegistrationPage implements OnInit {
     });
   }
 
-  setUrl() {
-    CalendarPage.setUrl('registration');
-    console.log("ciao");
+  showCalendar(){
+    this.showCal = !this.showCal;
+  }
+
+  dateChange(dateinput : string ){
+
+    this.date= new Date(dateinput);
+    let  day= <unknown>this.date.getUTCDate()
+    let month= <unknown>(this.date.getMonth()+1)
+    let year= <unknown>this.date.getFullYear()
+    if(day<10){
+       day= "0"+day
+    }
+    if(month<10){
+       month= "0"+month
+    }
+    this.labelDate='data di nascita : '+day+"/"+month+"/"+this.date.getFullYear();
+    this.showCalendar()
+  }
+
+  getDateValue(){
+    if (this.date){
+      return this.date.toISOString()
+    }
+    else new Date().toISOString()
+  }
+
+  getToday(){
+    return new Date().toISOString()
+  }
+
+  submit(){
+
   }
   ngOnInit() {}
 }

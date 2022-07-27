@@ -1,18 +1,20 @@
-<ion-header> </ion-header>
+<ion-header>
+  <ion-toolbar color="primary">
+    <div class="ion-text-center">
+      <p class="text-center">Registrazione</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-  <br /><br />
-  <div class="ion-text-center">
-    <p class="text-center">Registrazione</p>
-  </div>
-  <br />
-  <ion-text color="primary">
+  <ion-text class="ion-text-center" color="primary">
     <h3>Credenziali</h3>
   </ion-text>
   <form [formGroup]="credential">
     <ion-item>
       <ion-label position="floating" color="#808080">email</ion-label>
       <ion-input
+        required="true"
         type="email"
         formControlName="email"
         clearInput="true"
@@ -21,6 +23,7 @@
     <ion-item>
       <ion-label position="floating" color="#808080">password</ion-label>
       <ion-input
+        required="true"
         type="password"
         formControlName="password"
         clearInput="true"
@@ -31,6 +34,7 @@
         >conferma password</ion-label
       >
       <ion-input
+        required="true"
         type="password"
         formControlName="confirmPassword"
         clearInput="true"
@@ -38,13 +42,14 @@
     </ion-item>
   </form>
   <br />
-  <ion-text color="primary">
+  <ion-text class="ion-text-center" color="primary">
     <h3>Dati personali</h3>
   </ion-text>
   <form [formGroup]="personalData">
     <ion-item>
       <ion-label position="floating" color="#808080">nome</ion-label>
       <ion-input
+        required="true"
         type="text"
         formControlName="name"
         clearInput="true"
@@ -53,6 +58,7 @@
     <ion-item>
       <ion-label position="floating" color="#808080">cognome</ion-label>
       <ion-input
+        required="true"
         type="text"
         formControlName="surname"
         clearInput="true"
@@ -60,5 +66,14 @@
     </ion-item>
   </form>
   <br />
-  <ion-button href="calendar" (click)="setUrl()">Data di nascita</ion-button>
+  <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
+  <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
+  </ion-datetime>
+  <ion-button color="primary" expand="block" (click)="submit()" href="login"> Registrati </ion-button>
+
+  <div class="ion-text-center">
+    <a href="login"
+    ><p class="text-center">annulla</p></a
+    >
+  </div>
 </ion-content>
