@@ -7,6 +7,14 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  page : String
+
+  constructor() {
+    this.page='partite'
+  }
+
+  setPage(page : String){
+    this.page=page;
+  }
 
 }
