@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'calendar',
     loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
   },
+  {
+    path: 'userprofile',
+    loadChildren: () => import('./pages/userprofile/userprofile.module').then(m => m.UserprofilePageModule)
+  },
 ];
 
 @NgModule({
