@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+
+
+
+</ion-header>
+<ion-toolbar color="primary">
+
+
+
+  <ion-buttons slot="secondary">
+    <ion-button>
+      <ion-icon slot="icon-only" name="search"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+</ion-toolbar>
+<ion-toolbar color="light">
+  <ion-segment color="secondary"  value="profilo">
+    <ion-segment-button style="font-size: 10px" value="prenotazioni">
+      Prenotazioni
+    </ion-segment-button>
+    <ion-segment-button style="font-size: 10px" value="profilo">
+      Profilo
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+<br><br><br>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+      <ion-buttons slot="start"> </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-card>
+      <img src="./default.jpg" />
+      <ion-card-header>
+        <ion-card-subtitle>Dati personali</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Nome
+      </ion-card-content>
+      <ion-card-content>
+        Cognome
+      </ion-card-content>
+      <ion-card-content>
+        Partite giocate
+      </ion-card-content>
+      <ion-card-content>
+        Superficie preferita
+      </ion-card-content>
+      <ion-card-content>
+        <ion-button color="primary" expand="block" href="#"> Modifica </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
+  <ion-tabs >
+    <ion-tab-bar color="primary" slot="bottom">
+      <ion-tab-button  tab="home">
+        <ion-icon color="secondary"  name="home"></ion-icon>
+        <ion-label color="secondary">Home</ion-label>
+      </ion-tab-button>
+
+
+      <ion-tab-button tab="map">
+        <ion-icon name="tennisball"></ion-icon>
+        <ion-label>Circolo</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button  tab="speakers">
+        <ion-icon name="person-circle"></ion-icon>
+        <ion-label>Profilo</ion-label>
+      </ion-tab-button>
+
+
+
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>
+
