@@ -29,9 +29,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
   },
   {
+    path: 'partite',
+    loadChildren: () => import('./pages/partite/partite.module').then( m => m.PartitePageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+  {
     path: 'userprofile',
     loadChildren: () => import('./pages/userprofile/userprofile.module').then(m => m.UserprofilePageModule)
   },
+
 ];
 
 @NgModule({

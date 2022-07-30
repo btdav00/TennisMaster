@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import {PartitePageModule} from "../partite/partite.module";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
+    imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, PartitePageModule],
   declarations: [HomePage],
 })
 export class HomePageModule {}

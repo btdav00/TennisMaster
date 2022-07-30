@@ -1,53 +1,40 @@
-<ion-header [translucent]="true">
+<ion-header >
+
+  <ion-toolbar color="primary">
+
+
+
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-segment color="secondary"  value="partite">
+      <ion-segment-button style="font-size: 10px" (click)="setPage('notifiche')" value="notifiche">
+        Notifiche
+      </ion-segment-button>
+      <ion-segment-button style="font-size: 10px" (click)="setPage('partite')" value="partite">
+        Partite
+      </ion-segment-button>
+      <ion-segment-button style="font-size: 10px" (click)="setPage('prenotazioni')" value="prenotazioni">
+        Prenotazioni
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+
 
 
 
 </ion-header>
-<ion-toolbar color="primary">
 
 
-
-  <ion-buttons slot="secondary">
-    <ion-button>
-      <ion-icon slot="icon-only" name="search"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-
-</ion-toolbar>
-<ion-toolbar color="light">
-  <ion-segment color="secondary"  value="partite">
-    <ion-segment-button style="font-size: 10px" (click)="setPage('notifiche')" value="notifiche">
-      Notifiche
-    </ion-segment-button>
-    <ion-segment-button style="font-size: 10px" (click)="setPage('partite')" value="partite">
-      Partite
-    </ion-segment-button>
-    <ion-segment-button style="font-size: 10px" (click)="setPage('prenotazioni')" value="prenotazioni">
-      Prenotazioni
-    </ion-segment-button>
-  </ion-segment>
-</ion-toolbar>
-<br><br><br>
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-      <ion-buttons slot="start"> </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-button color="primary" href="login">Primary</ion-button>
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p *ngIf="page=='partite'">
-      Start with Ionic Partite
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://ionicframework.com/docs/components"
-        >UI Components</a
-      >
-    </p>
+<ion-content >
+    <a href="login">Login</a>
+    <app-partite *ngIf="page=='partite'"></app-partite>
 
     <p *ngIf="page=='notifiche'">
       Start with Ionic Notifiche
@@ -68,28 +55,10 @@
       >UI Components</a
       >
     </p>
-  </div>
-
-  <ion-tabs >
-    <ion-tab-bar color="primary" slot="bottom">
-      <ion-tab-button  tab="home">
-        <ion-icon color="secondary"  name="home"></ion-icon>
-        <ion-label color="secondary">Home</ion-label>
-      </ion-tab-button>
-
-
-      <ion-tab-button tab="map">
-        <ion-icon name="tennisball"></ion-icon>
-        <ion-label>Circolo</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button  tab="speakers" href='userprofile'>
-        <ion-icon name="person-circle"></ion-icon>
-        <ion-label>Profilo</ion-label>
-      </ion-tab-button>
 
 
 
-    </ion-tab-bar>
-  </ion-tabs>
+
 </ion-content>
+
+
