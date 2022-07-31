@@ -23,12 +23,12 @@
       </ion-tab-button>
     </ng-template>
 
-    <ion-tab-button  tab="home" *ngIf="selected=='profile';else notProfile" (click)="showProfile()">
+    <ion-tab-button  tab="userprofile" *ngIf="selected=='profile';else notProfile" (click)="showProfile()">
       <ion-icon color="secondary" name="person-circle"></ion-icon>
       <ion-label color="secondary" >Profilo</ion-label>
     </ion-tab-button>
     <ng-template #notProfile>
-      <ion-tab-button tab="home" (click)="showProfile()">
+      <ion-tab-button tab="userprofile" (click)="showProfile()">
         <ion-icon  name="person-circle"></ion-icon>
         <ion-label >Profilo</ion-label>
       </ion-tab-button>
