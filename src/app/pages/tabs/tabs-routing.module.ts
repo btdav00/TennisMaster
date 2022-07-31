@@ -21,12 +21,10 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
-      /*
       {
-        path: 'club',
-        loadChildren: () => import('../club/club.module').then(m => m.ClubPageModule)
+        path: 'clubprofile',
+        loadChildren: () => import('../clubprofile/clubprofile.module').then(m => m.ClubprofilePageModule)
       },
-       */
       {
         path: 'userprofile',
         loadChildren: () => import('../userprofile/userprofile.module').then(m => m.UserprofilePageModule),
