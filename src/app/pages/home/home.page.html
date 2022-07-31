@@ -33,18 +33,16 @@
 
 
 <ion-content >
-    <a href="login">Login</a>
-    <app-partite *ngIf="page=='partite'"></app-partite>
 
-    <p *ngIf="page=='notifiche'">
-      Start with Ionic Notifiche
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://ionicframework.com/docs/components"
-      >UI Components</a
-      >
-    </p>
+    <app-partite *ngIf="page=='partite'"></app-partite>
+    <ion-fab *ngIf="page=='partite'" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+
+    <app-notifications *ngIf="page=='notifiche'"></app-notifications>
 
     <p *ngIf="page=='prenotazioni'">
       Start with Ionic Prenotazioni

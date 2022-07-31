@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { PartitePageRoutingModule } from './partite-routing.module';
 
 import { PartitePage } from './partite.page';
+import {MatchPageModule} from "./match/match.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PartitePageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        PartitePageRoutingModule,
+        MatchPageModule
+    ],
   exports: [
     PartitePage
   ],

@@ -6,9 +6,10 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import {PartitePageModule} from "../partite/partite.module";
+import {NotificationsPageModule} from "../notifications/notifications.module";
 
 @NgModule({
-    imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, PartitePageModule],
+  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, PartitePageModule, NotificationsPageModule],
   declarations: [HomePage],
 })
 export class HomePageModule {}

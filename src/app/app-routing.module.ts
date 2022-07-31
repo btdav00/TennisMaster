@@ -39,7 +39,11 @@ const routes: Routes = [
   {
     path: 'userprofile',
     loadChildren: () => import('./pages/userprofile/userprofile.module').then(m => m.UserprofilePageModule)
+  },  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then( m => m.NotificationsPageModule)
   },
+
 
 ];
 
