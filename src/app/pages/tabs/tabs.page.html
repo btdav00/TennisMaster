@@ -12,12 +12,12 @@
     </ng-template>
 
 
-    <ion-tab-button tab="home" *ngIf="selected=='club';else notClub" (click)="showClub()">
+    <ion-tab-button tab="clubprofile" *ngIf="selected=='club';else notClub" (click)="showClub()">
       <ion-icon color="secondary" name="tennisball"></ion-icon>
       <ion-label color="secondary" >Circolo</ion-label>
     </ion-tab-button>
     <ng-template #notClub>
-      <ion-tab-button tab="home" (click)="showClub()">
+      <ion-tab-button tab="club" (click)="showClub()">
         <ion-icon  name="tennisball"></ion-icon>
         <ion-label >Circolo</ion-label>
       </ion-tab-button>
