@@ -44,6 +44,10 @@ const routes: Routes = [
     path: 'clubprofile',
     loadChildren: () => import('./pages/clubprofile/clubprofile.module').then(m => m.ClubprofilePageModule)
   },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./pages/notifications/notifications.module').then(m => m.NotificationsPageModule)
+  },
 
 ];
 

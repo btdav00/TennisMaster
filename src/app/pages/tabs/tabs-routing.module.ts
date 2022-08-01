@@ -37,7 +37,22 @@ const routes: Routes = [
     path: '',
     redirectTo: 'tabs/home',
     pathMatch: 'full'
-  }
+  },
+  {
+    path: 'home',
+    redirectTo: 'tabs/home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'clubprofile',
+    redirectTo: 'tabs/clubprofile',
+    pathMatch: 'full'
+  },
+  {
+    path: 'userprofile',
+    redirectTo: 'tabs/userprofile',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

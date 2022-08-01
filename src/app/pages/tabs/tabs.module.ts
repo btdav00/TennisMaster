@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   imports: [
