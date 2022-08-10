@@ -1,0 +1,97 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>modprofile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-text class="ion-text-center" color="primary">
+    <h3>Nuove credenziali</h3>
+  </ion-text>
+  <form [formGroup]="credential">
+    <ion-item>
+      <ion-label position="floating" color="#808080">email</ion-label>
+      <ion-input
+        required="true"
+        type="email"
+        formControlName="email"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">password</ion-label>
+      <ion-input
+        required="true"
+        type="password"
+        formControlName="password"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080"
+      >conferma password</ion-label
+      >
+      <ion-input
+        required="true"
+        type="password"
+        formControlName="confirmPassword"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+  <br />
+  <ion-text class="ion-text-center" color="primary">
+    <h3>Dati personali</h3>
+  </ion-text>
+  <form [formGroup]="personalData">
+    <ion-item>
+      <ion-label position="floating" color="#808080">nome</ion-label>
+      <ion-input
+        required="true"
+        type="text"
+        formControlName="name"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">cognome</ion-label>
+      <ion-input
+        required="true"
+        type="text"
+        formControlName="surname"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+  <br />
+  <ion-text class="ion-text-center" color="primary">
+    <h3>Autentiazione</h3>
+  </ion-text>
+  <form [formGroup]="auth">
+    <ion-item>
+      <ion-label position="floating" color="#808080">email</ion-label>
+      <ion-input
+        required="true"
+        type="email"
+        formControlName="email"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">password</ion-label>
+      <ion-input
+        required="true"
+        type="password"
+        formControlName="password"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+  </form>
+
+
+  <ion-button color="primary" expand="block" (click)="submit()" href="login"> Conferma </ion-button>
+
+  <div class="ion-text-center">
+    <a href="login"><p class="text-center">annulla</p></a>
+  </div>
+</ion-content>
