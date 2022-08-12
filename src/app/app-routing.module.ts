@@ -55,7 +55,11 @@ const routes: Routes = [
   {
     path: 'mybookings',
     loadChildren: () => import('./pages/mybookings/mybookings.module').then( m => m.MybookingsPageModule)
+  },  {
+    path: 'matchdetails',
+    loadChildren: () => import('./pages/matchdetails/matchdetails.module').then( m => m.MatchdetailsPageModule)
   },
+
 
 
 
