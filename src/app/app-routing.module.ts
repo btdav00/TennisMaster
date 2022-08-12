@@ -52,6 +52,12 @@ const routes: Routes = [
     path: 'modprofile',
     loadChildren: () => import('./pages/modprofile/modprofile.module').then(m => m.ModprofilePageModule)
   },
+  {
+    path: 'mybookings',
+    loadChildren: () => import('./pages/mybookings/mybookings.module').then( m => m.MybookingsPageModule)
+  },
+
+
 
 ];
 
