@@ -59,6 +59,10 @@ const routes: Routes = [
     path: 'matchdetails',
     loadChildren: () => import('./pages/matchdetails/matchdetails.module').then( m => m.MatchdetailsPageModule)
   },
+  {
+    path: 'postsmatch',
+    loadChildren: () => import('./pages/postsmatch/postsmatch.module').then( m => m.PostsmatchPageModule)
+  },
 
 
 

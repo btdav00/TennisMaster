@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="secondary">
+      <ion-button href="tabs">
+        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-row>
+      <ion-col class="ion-align-self-center ion-text-center">
+        Squadra 1
+      </ion-col>
+      <ion-col class="col-separator"></ion-col>
+      <ion-col class="ion-align-self-center ion-text-center">
+        Squadra 2
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+
+
+      <ion-col class="ion-align-self-center">
+        <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+
+      <ion-col class="col-separator ion-align-self-center ion-text-center"><a href="matchdetails"> 1 - 2 </a>  </ion-col>
+
+      <ion-col class="ion-align-self-center">
+        <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+  <app-post></app-post>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row align-items-center no-padding>
+      <ion-col size="10">
+        <textarea autosize maxRows="5" [(ngModel)]="newMsg" class="message-input"></textarea>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button expand="block" fill="clear" color="primary" [disabled]="newMsg === ''" class="msg-btn" (click)="sendPost()">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <br>
+  </ion-toolbar>
+</ion-footer>
