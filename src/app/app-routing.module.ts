@@ -55,7 +55,8 @@ const routes: Routes = [
   {
     path: 'mybookings',
     loadChildren: () => import('./pages/mybookings/mybookings.module').then( m => m.MybookingsPageModule)
-  },  {
+  },
+  {
     path: 'matchdetails',
     loadChildren: () => import('./pages/matchdetails/matchdetails.module').then( m => m.MatchdetailsPageModule)
   },
@@ -63,6 +64,15 @@ const routes: Routes = [
     path: 'postsmatch',
     loadChildren: () => import('./pages/postsmatch/postsmatch.module').then( m => m.PostsmatchPageModule)
   },
+  {
+    path: 'reservations',
+    loadChildren: () => import('./pages/reservations/reservations.module').then(m => m.ReservationsPageModule)
+  },
+  {
+    path: 'homeclub',
+    loadChildren: () => import('./pages/homeclub/homeclub.module').then(m => m.HomeClubPageModule)
+  },
+
 
 
 

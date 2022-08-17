@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+  <ion-toolbar color="light">
+    <ion-segment color="secondary" value="profilo">
+      <ion-segment-button style="font-size: 10px" (click)="setPage('prenotazioni')"  value="prenotazioni">
+        Prenotazioni
+      </ion-segment-button>
+      <ion-segment-button style="font-size: 10px" (click)="setPage('profilo')"  value="profilo">
+        Profilo
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+
+  <app-clubprofile *ngIf="page=='profilo'"></app-clubprofile>
+
+  <app-reservations *ngIf="page=='prenotazioni'"></app-reservations>
+
+</ion-content>

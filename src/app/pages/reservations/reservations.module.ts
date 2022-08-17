@@ -4,20 +4,20 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ClubprofilePageRoutingModule } from './clubprofile-routing.module';
+import { ReservationsPageRoutingModule } from './reservations-routing.module';
 
-import { ClubprofilePage } from './clubprofile.page';
+import { ReservationsPage } from './reservations.page';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        ClubprofilePageRoutingModule
+        ReservationsPageRoutingModule
     ],
     exports: [
-        ClubprofilePage
+        ReservationsPage
     ],
-    declarations: [ClubprofilePage]
+    declarations: [ReservationsPage]
 })
-export class ClubprofilePageModule {}
+export class ReservationsPageModule {}
