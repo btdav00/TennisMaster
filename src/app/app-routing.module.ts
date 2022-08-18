@@ -72,6 +72,11 @@ const routes: Routes = [
     path: 'homeclub',
     loadChildren: () => import('./pages/homeclub/homeclub.module').then(m => m.HomeClubPageModule)
   },
+  {
+    path: 'addmatch',
+    loadChildren: () => import('./pages/addmatch/addmatch.module').then(m => m.AddmatchPageModule)
+  },
+
 
 
 
