@@ -1,9 +1,92 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>addmatch</ion-title>
+<ion-header xmlns="http://www.w3.org/1999/html">
+  <ion-toolbar color="primary">
+    <div class="ion-text-center">
+      <p class="text-center">Aggiungi risultato</p>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <form [formGroup]="result">
+    <ion-item>
+      <ion-label position="floating" color="#808080">Nome del vincitore</ion-label>
+      <ion-input
+        required="true"
+        type="text"
+        formControlName="wName"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating" color="#808080">Nome del secondo giocatore</ion-label>
+      <ion-input
+        required="true"
+        type="text"
+        formControlName="lName"
+        clearInput="true"
+      ></ion-input>
+    </ion-item>
+    <p>Inserire nei campi il numero di game per ogni set dei rispettivi giocatori</p>
+    <ion-row>
+      <ion-col>
+        <p>Vincitore</p>
+      </ion-col>
+      <ion-col>
+        <p>Secondo giocatore</p>
+      </ion-col>
+    </ion-row>
+    <h3>Primo set:</h3>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="wGameSet1" required="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="lGameSet1" required="true"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <br>
+    <h3>Secondo set:</h3>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="wGameSet2" required="true"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="lGameSet2" required="true"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <br>
+    <h3>*Terzo set:</h3>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="wGameSet3"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-input min="0" max="7" placeholder="Games" type="number" formControlName="lGameSet3"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <br>
+  </form>
+  <br />
+  <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
+  <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
+  </ion-datetime>
+  <ion-button color="primary" expand="block" (click)="submit()" href="login"> Inserisci </ion-button>
+
+  <div class="ion-text-center">
+    <a href="login"><p class="text-center">annulla</p></a>
+  </div>
 
 </ion-content>
