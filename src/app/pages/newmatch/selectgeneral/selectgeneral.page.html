@@ -1,0 +1,13 @@
+<ion-list>
+  <ion-item>
+    <ion-label>Tipo Partita : </ion-label>
+    <ion-select [(ngModel)]="type" (change)="sendType()" class="ion-text-center" interface="action-sheet" placeholder="Seleziona tipo partita" >
+      <ion-select-option  value="singolo">Singolo</ion-select-option>
+      <ion-select-option value="doppio">Doppio</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>
+
+<ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
+<ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
+</ion-datetime>

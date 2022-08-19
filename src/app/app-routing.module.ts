@@ -55,13 +55,26 @@ const routes: Routes = [
   {
     path: 'mybookings',
     loadChildren: () => import('./pages/mybookings/mybookings.module').then( m => m.MybookingsPageModule)
-  },  {
+  },
+  {
     path: 'matchdetails',
     loadChildren: () => import('./pages/matchdetails/matchdetails.module').then( m => m.MatchdetailsPageModule)
   },
   {
     path: 'postsmatch',
     loadChildren: () => import('./pages/postsmatch/postsmatch.module').then( m => m.PostsmatchPageModule)
+  },
+  {
+    path: 'newmatch',
+    loadChildren: () => import('./pages/newmatch/newmatch.module').then( m => m.NewmatchPageModule)
+  },
+  {
+    path: 'selecclub',
+    loadChildren: () => import('./pages/newmatch/selecclub/selecclub.module').then( m => m.SelecclubPageModule)
+  },
+  {
+    path: 'selectplayer',
+    loadChildren: () => import('./pages/newmatch/selectplayer/selectplayer.module').then( m => m.SelectplayerPageModule)
   },
 
 

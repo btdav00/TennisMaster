@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col class="ion-align-self-center ion-text-center">
+          Squadra 1
+        </ion-col>
+        <ion-col class="col-separator"></ion-col>
+        <ion-col class="ion-align-self-center ion-text-center">
+          Squadra 2
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row *ngIf="typeMatch=='doppio';else _else">
+
+        <ion-col offset="0.2" class="ion-align-self-center">
+          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+        </ion-col>
+        <ion-col class="ion-align-self-center">
+          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+        </ion-col>
+
+        <ion-col>
+        </ion-col>
+        <ion-col class="ion-align-self-center">
+          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+        </ion-col>
+        <ion-col class="ion-align-self-center">
+          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+        </ion-col>
+
+
+      </ion-row>
+      <ng-template #_else>
+
+        <ion-row>
+
+          <ion-col offset="0.2" class="ion-align-self-center">
+            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+          </ion-col>
+
+          <ion-col>
+          </ion-col>
+
+          <ion-col offset="3.2" class="ion-align-self-center">
+           <ion-img [src]="" style="width: 50px ; height: 50px "></ion-img>
+          </ion-col>
+
+        </ion-row>
+
+      </ng-template>
+
+    </ion-grid>
+
+    <ion-searchbar debounce="500" animated="true" (ionChange)="_ionChange($event)"></ion-searchbar>
+
+    <ion-segment color="secondary"  value="partite">
+      <ion-segment-button style="font-size: 10px" (click)="setTeam(1)" value="notifiche">
+        Squadra 1
+      </ion-segment-button>
+      <ion-segment-button style="font-size: 10px" (click)="setTeam(2)" value="partite">
+        Squadra 2
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of searchedItem">
+      <ion-row (click)="addPlayer(item)">
+        <ion-col>
+          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+        </ion-col>
+        <ion-col class="ion-align-self-center">
+          <ion-label>{{item.name+' '+item.surname}}</ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+
+  <ion-item-divider></ion-item-divider>
+
+</ion-content>

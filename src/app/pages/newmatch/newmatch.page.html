@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="secondary">
+      <ion-button href="tabs">
+        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+  <ion-toolbar>
+
+    <ion-button *ngIf="mood!='generali';else _else_general" expand="block" (click)="setMood('generali')">Dati generali partita</ion-button>
+    <ng-template #_else_general>
+      <ion-button expand="block" (click)="setMood('generali')"><ion-text color="secondary">Dati generali partita</ion-text></ion-button>
+    </ng-template>
+    <ion-button *ngIf="mood!='circolo';else _else_club" expand="block" (click)="setMood('circolo')">Circolo</ion-button>
+    <ng-template #_else_club>
+      <ion-button expand="block" (click)="setMood('circolo')"><ion-text color="secondary">Circolo</ion-text></ion-button>
+    </ng-template>
+    <ion-button *ngIf="mood!='giocatori';else _else_players" expand="block" (click)="setMood('giocatori')">Giocatori</ion-button>
+    <ng-template #_else_players>
+      <ion-button expand="block" (click)="setMood('giocatori')"><ion-text color="secondary">Giocatori</ion-text></ion-button>
+    </ng-template>
+    <ion-button *ngIf="mood!='set' ;else _else_set" expand="block" (click)="setMood('set')">Set</ion-button>
+    <ng-template #_else_set>
+      <ion-button expand="block" (click)="setMood('set')"><ion-text color="secondary">Set</ion-text></ion-button>
+    </ng-template>
+    <ion-button *ngIf="mood!='riepilogo';else _else_summary" expand="block" (click)="setMood('riepilogo')">Riepilogo e conferma</ion-button>
+    <ng-template #_else_summary>
+      <ion-button *ngIf="mood=='riepilogo'" expand="block" (click)="setMood('riepilogo')"><ion-text color="secondary">Riepilogo e conferma</ion-text></ion-button>
+    </ng-template>
+
+
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+
+  <app-selecclub *ngIf="mood=='circolo'" [selectedItem]="club" (selected)="setClub($event)"></app-selecclub>
+
+  <app-selectplayer *ngIf="mood=='giocatori'" (outputTeam1)="setTeam1($event)" (outputTeam2)="setTeam2($event)" [team1]="match.player1" [team2]="match.player2" [typeMatch]="match.type" ></app-selectplayer>
+
+  <app-selectgeneral *ngIf="mood=='generali'" [date]="match.date" [type]="match.type" (outputType)="setType($event)" (outputDate)="setDate($event)"></app-selectgeneral>
+
+  <app-selectset *ngIf="mood=='set'" (outputSets)="setSets($event)" [sets]="match.sets"></app-selectset>
+
+  <app-showsummary *ngIf="mood=='riepilogo'" [match]="match" [club]="club"></app-showsummary>
+
+</ion-content>

@@ -1,0 +1,148 @@
+<ion-item-divider></ion-item-divider>
+
+
+<ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-text class="ion-text-center"  style="opacity: 0.7"> Squadra 1 </ion-text>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.player1.length>=1 ; else _else_team1_player1" class="ion-text-center"> {{match.player1[0].name}} {{match.player1[0].surname}}</ion-text>
+        <ng-template #_else_team1_player1>
+          <ion-text color="danger" class="ion-text-center">Non selezionato</ion-text>
+        </ng-template>
+      </ion-col>
+      <ion-col *ngIf="match.type=='doppio'" class="ion-align-self-center">
+        <ion-text *ngIf="match.player1.length==2 ; else _else_team1_player2" class="ion-text-center">{{match.player1[1].name}} {{match.player1[1].surname}}</ion-text>
+        <ng-template #_else_team1_player2>
+          <ion-text color="danger" class="ion-text-center">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center" size="12">
+        <ion-text class="ion-text-center" style="opacity: 0.7"> Squadra 2 </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.player2.length>=1 ; else _else_team2_player1" class="ion-text-center"> {{match.player2[0].name}} {{match.player2[0].surname}}</ion-text>
+        <ng-template #_else_team2_player1>
+          <ion-text color="danger" class="ion-text-center">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+      <ion-col *ngIf="match.type=='doppio'" class="ion-align-self-center">
+        <ion-text *ngIf="match.player2.length==2 ; else _else_team2_player2" class="ion-text-center">{{match.player2[1].name}} {{match.player2[1].surname}}</ion-text>
+        <ng-template #_else_team2_player2>
+          <ion-text color="danger" class="ion-text-center">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center" style="opacity: 0.7"> Circolo </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="club!=null; else _else_club" class="ion-text-center"> {{club.name}} </ion-text>
+        <ng-template #_else_club>
+          <ion-text color="danger">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center" style="opacity: 0.7">Data</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.date!=null; else _else_date" class="ion-text-center"> {{dateToString()}} </ion-text>
+        <ng-template #_else_date>
+          <ion-text color="danger">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ion-item>
+  <ion-grid>
+    <ion-row>
+      <ion-text class="ion-text-center"  style="opacity: 0.7"> Set </ion-text>
+    </ion-row>
+    <br>
+    <ion-row>
+      <ion-col>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">Squadra 1</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">Squadra 2</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-end">Set 1</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.sets.length>=1;else _else_set1" class="ion-text-center">{{match.sets[0].gamesPlayer1}}</ion-text>
+        <ng-template #_else_set1>
+          <ion-text color="danger">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+      <ion-col class="ion-align-self-center" *ngIf="match.sets.length>=1">
+        <ion-text class="ion-text-center">{{match.sets[0].gamesPlayer2}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">Set 2</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.sets.length>=2;else _else_set2" class="ion-text-center">{{match.sets[1].gamesPlayer1}}</ion-text>
+        <ng-template #_else_set2>
+          <ion-text color="danger">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+      <ion-col *ngIf="match.sets.length>=2" class="ion-align-self-center">
+        <ion-text class="ion-text-center">{{match.sets[1].gamesPlayer2}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">Set 3</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text *ngIf="match.sets.length==3;else _else_set3" class="ion-text-center">{{match.sets[2].gamesPlayer1}}</ion-text>
+        <ng-template #_else_set3>
+          <ion-text color="danger">{{allertMessage}}</ion-text>
+        </ng-template>
+      </ion-col>
+      <ion-col *ngIf="match.sets.length>=3" class="ion-align-self-center">
+        <ion-text class="ion-text-center">{{match.sets[2].gamesPlayer2}}</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ion-button expand="block" (click)="submit()" [disabled]="!validation()">Conferema e crea</ion-button>
+<br>

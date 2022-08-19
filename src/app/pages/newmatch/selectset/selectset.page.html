@@ -1,0 +1,50 @@
+<form [formGroup]="newSet">
+  <ion-item>
+    <ion-label position="floating" color="#808080">games squadra 1</ion-label>
+    <ion-input
+      min="0"
+      value="0"
+      type="number"
+      formControlName="games1"
+      clearInput="true"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating" color="#808080">games squadra 2</ion-label>
+    <ion-input
+      min="0"
+      value="0"
+      type="number"
+      formControlName="games2"
+      clearInput="true"
+    ></ion-input>
+  </ion-item>
+
+</form>
+
+<ion-button expand="block" (click)="addSet()" [disabled]="sets.length>=3" color="light">Aggiungi set</ion-button>
+<br>
+<ion-item *ngIf="sets.length>0">
+  <ion-grid>
+    <ion-row>
+      <ion-text class="ion-text-center"  style="opacity: 0.7"> Set </ion-text>
+    </ion-row>
+    <br>
+    <ion-row *ngFor="let item of sets; let i=index">
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-end">Set {{i+1}}</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">{{item.gamesPlayer1}}</ion-text>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-text class="ion-text-center">{{item.gamesPlayer2}}</ion-text>
+      </ion-col>
+      <ion-col size="2.5">
+        <ion-button expand="block" fill="clear" color="primary"   (click)="deleteSet(i)">
+          <ion-icon  color="danger" name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>
