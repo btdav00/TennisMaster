@@ -22,8 +22,8 @@ const routes: Routes = [
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'clubprofile',
-        loadChildren: () => import('../clubprofile/clubprofile.module').then(m => m.ClubprofilePageModule)
+        path: 'homeclub',
+        loadChildren: () => import('../homeclub/homeclub.module').then(m => m.HomeClubPageModule)
       },
       {
         path: 'userprofile',
@@ -44,8 +44,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'clubprofile',
-    redirectTo: 'tabs/clubprofile',
+    path: 'homeclub',
+    redirectTo: 'tabs/homeclub',
     pathMatch: 'full'
   },
   {

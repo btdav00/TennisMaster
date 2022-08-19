@@ -22,7 +22,7 @@ export class TabsPage implements OnInit {
 
   showClub(){
     this.selected='club'
-    this.router.navigate(['./tabs','clubprofile'])
+    this.router.navigate(['./tabs','homeclub'])
 
   }
 

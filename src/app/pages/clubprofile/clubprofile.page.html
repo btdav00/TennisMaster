@@ -7,45 +7,23 @@
     }
   </style>
 </head>
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="secondary">
-      <ion-button>
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-    </ion-buttons>
 
-  </ion-toolbar>
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <img src="./default.jpg" />
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full">unisciti</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<br>
+<p class="ion-text-center">nome</p>
+<p class="ion-text-center">indirizzo</p>
+<p class="ion-text-center">n° campi</p>
+<p class="ion-text-center">n° membri</p>
+<hr>
+<br>
+<ion-button expand="full">recensioni</ion-button>
 
-  <ion-toolbar color="light">
-    <ion-segment color="secondary"  value="profilo">
-      <ion-segment-button style="font-size: 10px" value="prenotazioni">
-        Prenotazioni
-      </ion-segment-button>
-      <ion-segment-button style="font-size: 10px" value="profilo">
-        Profilo
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <img src="./default.jpg" />
-      </ion-col>
-      <ion-col>
-        <ion-button expand="full">unisciti</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <br>
-  <p class="ion-text-center">nome</p>
-  <p class="ion-text-center">indirizzo</p>
-  <p class="ion-text-center">n° campi</p>
-  <p class="ion-text-center">n° membri</p>
-  <hr>
-  <br>
-  <ion-button expand="full">recensioni</ion-button>
-</ion-content>

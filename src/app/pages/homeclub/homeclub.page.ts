@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-clubprofile',
-  templateUrl: './clubprofile.page.html',
-  styleUrls: ['./clubprofile.page.scss'],
+  selector: 'app-homeclub',
+  templateUrl: './homeclub.page.html',
+  styleUrls: ['./homeclub.page.scss'],
 })
-export class ClubprofilePage implements OnInit {
+export class HomeclubPage implements OnInit {
 
   page: String
 
