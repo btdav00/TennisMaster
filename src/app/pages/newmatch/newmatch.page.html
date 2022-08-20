@@ -41,7 +41,7 @@
 
   <app-selecclub *ngIf="mood=='circolo'" [selectedItem]="club" (selected)="setClub($event)"></app-selecclub>
 
-  <app-selectplayer *ngIf="mood=='giocatori'" (outputTeam1)="setTeam1($event)" (outputTeam2)="setTeam2($event)" [team1]="match.player1" [team2]="match.player2" [typeMatch]="match.type" ></app-selectplayer>
+  <app-selectplayer *ngIf="mood=='giocatori'" (outputTeams)="setTeams($event)"  [team1]="match.player1" [team2]="match.player2" [typeMatch]="match.type" ></app-selectplayer>
 
   <app-selectgeneral *ngIf="mood=='generali'" [date]="match.date" [type]="match.type" (outputType)="setType($event)" (outputDate)="setDate($event)"></app-selectgeneral>
 

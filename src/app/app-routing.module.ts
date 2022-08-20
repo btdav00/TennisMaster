@@ -64,6 +64,10 @@ const routes: Routes = [
     path: 'postsmatch',
     loadChildren: () => import('./pages/postsmatch/postsmatch.module').then( m => m.PostsmatchPageModule)
   },
+  {
+    path: 'newmatch',
+    loadChildren: () => import('./pages/newmatch/newmatch.module').then( m => m.NewmatchPageModule)
+  },
 
 
 
