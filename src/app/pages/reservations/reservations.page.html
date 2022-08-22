@@ -18,18 +18,20 @@
 
   </style>
 </head>
+<p>GIORNO:</p>
 <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
 <ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
 </ion-datetime>
-
-<p>CAMPO 1</p>
+<br>
+<p><b>CAMPO 1</b></p>
 <div class="scrolling-wrapper">
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
-  <div class="rectangle"></div>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
+  <ion-button size="small">9:00-10:00</ion-button>
 </div>

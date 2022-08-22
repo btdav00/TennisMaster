@@ -9,6 +9,7 @@
     <h3>Nuove credenziali</h3>
   </ion-text>
   <form [formGroup]="credential">
+    <p>Modifica e-mail:</p>
     <ion-item>
       <ion-label position="floating" color="#808080">email</ion-label>
       <ion-input
@@ -18,6 +19,8 @@
         clearInput="true"
       ></ion-input>
     </ion-item>
+    <br>
+    <p>Modifica password:</p>
     <ion-item>
       <ion-label position="floating" color="#808080">password</ion-label>
       <ion-input
@@ -44,6 +47,7 @@
     <h3>Dati personali</h3>
   </ion-text>
   <form [formGroup]="personalData">
+    <p>Modifica nome:</p>
     <ion-item>
       <ion-label position="floating" color="#808080">nome</ion-label>
       <ion-input
@@ -53,6 +57,7 @@
         clearInput="true"
       ></ion-input>
     </ion-item>
+    <p>Modifica cognome:</p>
     <ion-item>
       <ion-label position="floating" color="#808080">cognome</ion-label>
       <ion-input
@@ -73,7 +78,7 @@
       <ion-input
         required="true"
         type="email"
-        formControlName="email"
+        formControlName="authemail"
         clearInput="true"
       ></ion-input>
     </ion-item>
@@ -82,7 +87,7 @@
       <ion-input
         required="true"
         type="password"
-        formControlName="password"
+        formControlName="authpassword"
         clearInput="true"
       ></ion-input>
     </ion-item>
