@@ -19,6 +19,10 @@ export class NewmatchPage implements OnInit {
   //club
   club:Club
 
+
+
+
+
   constructor() {
 
   }
@@ -38,6 +42,10 @@ export class NewmatchPage implements OnInit {
 
 
 
+
+
+
+
   setMood(mood:String){
     if(this.mood!=mood)this.mood=mood
     else this.mood=''
@@ -48,11 +56,9 @@ export class NewmatchPage implements OnInit {
 
   }
 
-  setTeam1(team){
-    this.match.player1=team
-  }
-  setTeam2(team){
-    this.match.player2=team
+  setTeams(teams){
+    this.match.player1=teams.team1
+    this.match.player2=teams.team2
   }
 
   setType(type){

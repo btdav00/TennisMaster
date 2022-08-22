@@ -25,8 +25,8 @@
     <ion-list>
       <div *ngFor="let item of searchedItem" (click)="sendSelected(item)">
         <ion-item >
-          <ion-row>
-            <ion-col>
+          <ion-row class="ripple">
+            <ion-col size="4">
               <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
             </ion-col>
             <ion-col class="ion-align-self-center">
