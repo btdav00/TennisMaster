@@ -18,78 +18,47 @@
   <ion-item>
     <ion-grid>
 
-      <ion-row>
-        <ion-col class="ion-align-self-center">
-          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
-        </ion-col>
-        <ion-col class="ion-align-self-center">
+      <ion-row *ngIf="match.type=='doppio';else _else_double">
+        <ion-col *ngFor="let item of match.player1" class="ion-align-self-center">
           <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
         </ion-col>
         <ion-col>
         </ion-col>
-        <ion-col class="ion-align-self-center">
-          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
-        </ion-col>
-        <ion-col class="ion-align-self-center">
+        <ion-col *ngFor="let item of match.player2" class="ion-align-self-center">
           <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
         </ion-col>
 
 
       </ion-row>
+      <ng-template #_else_double>
+        <ion-row>
+          <ion-col *ngFor="let item of match.player1" class="ion-align-self-center" offset="1.2">
+            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+          </ion-col>
 
-      <ion-row>
-        <ion-col class="ion-align-self-center" offset="1.2">
-          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
-        </ion-col>
+          <ion-col>
+          </ion-col>
+          <ion-col *ngFor="let item of match.player2" class="ion-align-self-center" offset="0.8">
+            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+          </ion-col>
 
-        <ion-col>
-        </ion-col>
-        <ion-col class="ion-align-self-center" offset="0.8">
-          <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
-        </ion-col>
-
-      </ion-row>
+        </ion-row>
+      </ng-template>
 
 
 
-      <ion-row>
+
+
+      <ion-row *ngFor="let item of match.sets">
         <ion-col  offset="2" class="ion-align-self-center">
-          <ion-text>5</ion-text>
+          <ion-text>{{item.gamesPlayer1}}</ion-text>
         </ion-col>
 
         <ion-col>
         </ion-col>
 
         <ion-col offset="2" class="ion-align-self-center">
-          <ion-text>3</ion-text>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col offset="2" class="ion-align-self-center">
-          <ion-text>3</ion-text>
-        </ion-col>
-
-        <ion-col>
-        </ion-col>
-
-        <ion-col offset="2" class="ion-align-self-center">
-          <ion-text>5</ion-text>
-        </ion-col>
-      </ion-row>
-
-
-
-      <ion-row>
-        <ion-col offset="2" class="ion-align-self-center">
-          <ion-text>4</ion-text>
-        </ion-col>
-
-        <ion-col>
-        </ion-col>
-
-        <ion-col offset="2" class="ion-align-self-center">
-          <ion-text class="ion-text-center">5</ion-text>
+          <ion-text>{{item.gamesPlayer2}}</ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -101,11 +70,8 @@
         <ion-text class="ion-text-center"  style="opacity: 0.7"> Squadra 1 </ion-text>
       </ion-row>
       <ion-row>
-        <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> Roberto Di Stefano</ion-text>
-        </ion-col>
-        <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> Davide Battistone</ion-text>
+        <ion-col *ngFor="let item of match.player1" class="ion-align-self-center">
+          <ion-text class="ion-text-center"> {{item.name}} {{item.surname}}</ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -119,11 +85,8 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> Carla Di Stefano</ion-text>
-        </ion-col>
-        <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> Gloria Marinelli</ion-text>
+        <ion-col *ngFor="let item of match.player2" class="ion-align-self-center">
+          <ion-text class="ion-text-center"> {{item.name}} {{item.surname}}</ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -138,7 +101,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> Circolo di Avezzano </ion-text>
+          <ion-text class="ion-text-center"> {{club.name}} </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -153,13 +116,13 @@
       </ion-row>
       <ion-row>
         <ion-col class="ion-align-self-center">
-          <ion-text class="ion-text-center"> il 12/08/2022 alle 19:00 </ion-text>
+          <ion-text class="ion-text-center"> {{stringDate(match.date)}} </ion-text>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-item>
 
-  <ion-button expand="block" href="postsmatch">Post</ion-button>
+  <ion-button expand="block" (click)="goToPostMatch()">Post</ion-button>
 
 
 </ion-content>

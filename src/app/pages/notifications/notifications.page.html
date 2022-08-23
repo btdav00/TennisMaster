@@ -1,20 +1,8 @@
 
 
 <ion-list>
-  <ion-item>
-    <app-notification></app-notification>
-  </ion-item>
-  <ion-item>
-    <app-notification></app-notification>
-  </ion-item>
-  <ion-item>
-    <app-notification></app-notification>
-  </ion-item>
-  <ion-item>
-    <app-notification></app-notification>
-  </ion-item>
-  <ion-item >
-    <app-notification></app-notification>
+  <ion-item *ngFor="let item of notifications">
+    <app-notification [notification]="item"></app-notification>
   </ion-item>
 </ion-list>
 

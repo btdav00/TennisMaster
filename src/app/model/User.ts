@@ -4,6 +4,5 @@ export class User {
   public password: string;
   public name: string;
   public surname: string;
-  public type: string;
   constrctor() {}
 }

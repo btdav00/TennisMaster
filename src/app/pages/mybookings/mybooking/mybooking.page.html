@@ -1,18 +1,14 @@
 <ion-grid>
-  <ion-row>
-    <ion-col size="5" >
-      <ion-label class="ion-text-center">Circolo</ion-label>
+  <ion-row style="width: 100%">
+    <ion-col class="ion-align-self-center">
       <ion-img class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="" ></ion-img>
     </ion-col>
     <ion-col size="7" class="ion-align-self-center">
-      <ion-text style="opacity: 0.7">il 03/08/22</ion-text>
-      <br>
-      <ion-text style="opacity: 0.7"> alle 18:30</ion-text>
-
+      <ion-text style="opacity: 0.7">{{stringDate(booking.date)}}</ion-text>
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col size="22" class="ion-align-self-center">
+    <ion-col style="width: 100%" class="ion-align-self-center">
       <ion-button color="danger" expand="block" href="tabs">Elimina</ion-button>
     </ion-col>
   </ion-row>

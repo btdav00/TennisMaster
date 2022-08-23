@@ -1,11 +1,11 @@
 <ion-grid>
   <ion-row>
     <ion-col size="12" class="message other-message">
-      <b>user</b>
+      <b>{{post.writer.name}} {{post.writer.surname}}</b>
       <br>
-      <span>message ...</span>
+      <span>{{post.text}}</span>
       <br>
-      <div class="time"> time </div>
+      <div class="time"> {{stringDate(post.time)}} </div>
 
     </ion-col>
   </ion-row>

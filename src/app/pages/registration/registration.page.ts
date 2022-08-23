@@ -14,6 +14,9 @@ import {
 import { Router } from '@angular/router';
 import { CalendarPage } from '../calendar/calendar.page';
 import { format , parseISO } from 'date-format';
+import {User} from "../../model/User";
+
+
 
 
 @Component({
@@ -22,11 +25,13 @@ import { format , parseISO } from 'date-format';
   styleUrls: ['./registration.page.scss'],
 })
 export class RegistrationPage implements OnInit {
-  credential: FormGroup;
-  personalData: FormGroup;
-  labelDate="Data di nascita"
-  date : Date;
-  showCal =false;
+  public credential: FormGroup;
+  public personalData: FormGroup;
+  public labelDate="Data di nascita"
+  public date : Date;
+  public showCal =false;
+
+
 
 
   constructor() {
@@ -74,7 +79,14 @@ export class RegistrationPage implements OnInit {
   }
 
   submit(){
+    let user=new User()
+    user.name=this.personalData.value.name
+    user.surname=this.personalData.value.surname
+    user.email=this.credential.value.email
 
   }
-  ngOnInit() {}
+  ngOnInit() {
+
+
+  }
 }

@@ -1,4 +1,6 @@
-
+.clickable{
+  cursor: pointer;
+}
 
 .msg-btn{
   --padding-start: 0.5em;
@@ -18,4 +20,5 @@
 .col-separator{
   background: var(--ion-color-light);
 }
+
 

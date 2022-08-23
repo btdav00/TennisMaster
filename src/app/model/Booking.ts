@@ -1,6 +1,11 @@
+import {Club} from "./Club";
+import {Court} from "./Court";
+
 export class Booking {
-  public type: string;
   public payment: boolean;
   public houorsNumber: number;
+  public club : Club
+  public date : Date
+  public court : Court
   constructor() {}
 }

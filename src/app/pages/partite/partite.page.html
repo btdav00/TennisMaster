@@ -1,20 +1,8 @@
 
 
   <ion-list>
-    <ion-item>
-      <app-match></app-match>
-    </ion-item>
-    <ion-item>
-      <app-match></app-match>
-    </ion-item>
-    <ion-item>
-      <app-match></app-match>
-    </ion-item>
-    <ion-item>
-      <app-match></app-match>
-    </ion-item>
-    <ion-item >
-      <app-match></app-match>
+    <ion-item *ngFor="let item of maches">
+      <app-match [match]="item"></app-match>
     </ion-item>
   </ion-list>
 
