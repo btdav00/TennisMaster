@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {formatDate} from "@angular/common";
+import {formatDate} from '@angular/common';
+
 
 @Component({
   selector: 'app-reservations',
@@ -13,7 +14,7 @@ export class ReservationsPage implements OnInit {
   showCal =false;
 
   constructor() {
-    //this.labelDate = this.date.getDay().toString()+"/"+this.date.getMonth().toString()+"/"+this.date.getFullYear().toString();
+    this.labelDate = formatDate(new Date(), 'yyy/MM/dd', 'en');
   }
 
   showCalendar(){
@@ -32,7 +33,7 @@ export class ReservationsPage implements OnInit {
     if(month<10){
       month= "0"+month
     }
-    this.labelDate= day+"/"+month+"/"+this.date.getFullYear();
+    this.labelDate= day+"/"+month+"/"+year;
     this.showCalendar()
   }
 
