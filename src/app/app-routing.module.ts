@@ -68,6 +68,10 @@ const routes: Routes = [
     path: 'newmatch',
     loadChildren: () => import('./pages/newmatch/newmatch.module').then( m => m.NewmatchPageModule)
   },
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then(m => m.SearchPageModule)
+  },
 
 
 

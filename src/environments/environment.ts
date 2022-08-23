@@ -1,8 +1,10 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+
+import {initializeApp} from "firebase/app";
+import {getAnalytics} from "firebase/analytics";
+
 
 export const environment = {
   production: false,
@@ -12,10 +14,11 @@ export const environment = {
     projectId: "tennismaster-22032",
     storageBucket: "tennismaster-22032.appspot.com",
     messagingSenderId: "475309292079",
-    appId: "1:475309292079:web:eb0d9817e9f8bdb84e24da",
-    measurementId: "G-P2S5Q63FVC"
-  }
+    appId: "1:475309292079:web:aa2bf74b24ac9c594e24da",
+    measurementId: "G-MQ0RSB33R9"
+  },
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file
