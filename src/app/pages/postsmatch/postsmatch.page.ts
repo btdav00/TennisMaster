@@ -3,10 +3,10 @@ import {IonContent} from "@ionic/angular";
 import {Comment} from "../../model/Comment";
 import {User} from "../../model/User";
 import {Match} from "../../model/Match";
-import {MyInput} from "../../service/input";
 import {Club} from "../../model/Club";
 import {Place} from "../../model/Place";
 import {Router} from "@angular/router";
+import {MyinputService} from "../../service/input/myinput.service";
 
 @Component({
   selector: 'app-postsmatch',
@@ -19,9 +19,10 @@ export class PostsmatchPage implements OnInit {
   club : Club
   newMsg : string
   msgs : Comment[]
+
   @ViewChild(IonContent) content: IonContent
 
-  constructor(private router : Router) {
+  constructor(private router : Router , private input : MyinputService) {
 
   }
 
@@ -39,9 +40,9 @@ export class PostsmatchPage implements OnInit {
       this.msgs.push(c1)
     }
     // @ts-ignore
-    this.match=MyInput.getInput().match
+    this.match=this.input.getInput().match
     // @ts-ignore
-    this.club=MyInput.getInput().club
+    this.club=this.input.getInput().club
   }
 
   resultMatch(match: Match,required=null , mood='number') {
@@ -63,7 +64,7 @@ export class PostsmatchPage implements OnInit {
   goToMatchDetail(){
     if(this.club==null)console.log('mannaggiaaaaaaaaa')
 
-    MyInput.addInput({
+    this.input.addInput({
       match : this.match,
       club : this.club
     })

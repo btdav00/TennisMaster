@@ -12,7 +12,7 @@ import {
   NavController,
 } from '@ionic/angular';
 import { Router } from '@angular/router';
-import {AuthorizationService} from "../../service/authorization.service";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-login',
@@ -21,19 +21,21 @@ import {AuthorizationService} from "../../service/authorization.service";
 })
 export class LoginPage implements OnInit {
   credential: FormGroup;
-  private loadingController: LoadingController;
-  private alertController: AlertController;
-  private authService: AuthorizationService;
-  private route: Router;
 
-  constructor() {
+
+
+
+
+
+  constructor(private route: Router,private authService: AuthorizationService,private loadingController: LoadingController) {
     this.credential = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   get email() {
     return this.credential.get('email').value;
@@ -44,14 +46,17 @@ export class LoginPage implements OnInit {
   }
 
   async submit() {
-    const login = await this.loadingController.create()
-    await login.present()
-    const user = this.authService.login(this.email, this.password)
-    await login.dismiss()
 
-    if(user){
-      this.route.navigateByUrl('/tabs', {replaceUrl: true})
-    }
+    const loading= await this.loadingController.create()
+    await loading.present()
+    this.authService.login(this.email,this.password).then((result) => {
+        if (result) this.route.navigate(['tabs']);
+        loading.dismiss();
+      },
+      (err) => {
+        console.log(err)
+        loading.dismiss();
+      })
   }
 }
 

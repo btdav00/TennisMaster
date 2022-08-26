@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Match} from "../../model/Match";
-import {MyInput} from "../../service/input";
 import {Club} from "../../model/Club";
 import {Router} from "@angular/router";
+import {MyinputService} from "../../service/input/myinput.service";
 
 @Component({
   selector: 'app-matchdetails',
@@ -14,13 +14,13 @@ export class MatchdetailsPage implements OnInit {
   public match: Match
   public club: Club
 
-  constructor(private router : Router) { }
+  constructor(private router : Router , private input : MyinputService) { }
 
   ngOnInit() {
     // @ts-ignore
-    this.match=MyInput.getInput().match
+    this.match=this.input.getInput().match
     // @ts-ignore
-    this.club=MyInput.getInput().club
+    this.club=this.input.getInput().club
   }
 
   stringDate(date : Date ){
@@ -42,7 +42,7 @@ export class MatchdetailsPage implements OnInit {
   }
 
   goToPostMatch(){
-    MyInput.addInput({
+    this.input.addInput({
       match : this.match,
       club : this.club
     })

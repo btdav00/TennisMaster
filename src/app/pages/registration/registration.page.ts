@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { CalendarPage } from '../calendar/calendar.page';
 import { format , parseISO } from 'date-format';
 import {User} from "../../model/User";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 
 
@@ -34,7 +35,14 @@ export class RegistrationPage implements OnInit {
 
 
 
-  constructor() {
+
+
+
+
+
+
+
+  constructor(private authService: AuthorizationService,private route: Router,private loadingController: LoadingController) {
     this.credential = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
@@ -45,6 +53,9 @@ export class RegistrationPage implements OnInit {
       surname: new FormControl(''),
       date: new FormControl(''),
     });
+  }
+
+  ngOnInit() {
   }
 
   showCalendar(){
@@ -78,15 +89,32 @@ export class RegistrationPage implements OnInit {
     return new Date().toISOString()
   }
 
-  submit(){
+  async submit(){
     let user=new User()
     user.name=this.personalData.value.name
     user.surname=this.personalData.value.surname
-    user.email=this.credential.value.email
+    user.birthdate=this.date
+    let email=this.credential.value.email
+    let password=this.credential.value.password
+
+    const loading= await this.loadingController.create()
+    await loading.present()
+
+    this.authService.register(email,password,user).then(
+      (result) => {
+        if(result)this.route.navigateByUrl('/login', {replaceUrl: true});
+        loading.dismiss();
+
+      },
+      (err) => {
+        console.log(err)
+        loading.dismiss();
+    })
+
+
+
+
 
   }
-  ngOnInit() {
 
-
-  }
 }
