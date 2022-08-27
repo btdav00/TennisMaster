@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {formatDate} from '@angular/common';
+import {Booking} from "../../model/Booking";
+import {MyinputService} from "../../service/input/myinput.service";
+import{getFirestore, collection, query, where} from 'firebase/firestore'
 
 
 @Component({
@@ -11,9 +14,11 @@ export class ReservationsPage implements OnInit {
 
   date: Date
   labelDate: string
-  showCal =false;
+  showCal =false
+  reservation: Booking
+  courts: any;
 
-  constructor() {
+  constructor(private myInput: MyinputService) {
     this.labelDate = formatDate(new Date(), 'yyy/MM/dd', 'en');
   }
 
@@ -50,6 +55,11 @@ export class ReservationsPage implements OnInit {
 
 
   ngOnInit() {
+    // @ts-ignore
+    this.reservation.club=this.myInput.getInput().reservation.club
+    const db = getFirestore();
+    const col = collection(db, 'court')
+    this.courts = query(col, where('club','==',this.reservation.club));
   }
 
 }

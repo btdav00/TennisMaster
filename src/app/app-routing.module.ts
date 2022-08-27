@@ -85,6 +85,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/search/search.module').then(m => m.SearchPageModule),
     canActivate:[RedirectIfNotLoggedGuard]
   },
+  {
+    path: 'reviews',
+    loadChildren: () => import('./pages/reviews/reviews.module').then(m => m.ReviewsPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
+  },
 
 
 

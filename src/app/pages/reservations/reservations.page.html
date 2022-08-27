@@ -23,15 +23,22 @@
 <ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
 </ion-datetime>
 <br>
-<p><b>CAMPO 1</b></p>
-<div class="scrolling-wrapper">
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
-  <ion-button size="small">9:00-10:00</ion-button>
+<div *ngFor="let court of courts">
+  <p><b>CAMPO {{court.number}}</b></p>
+  <div class="scrolling-wrapper">
+    <ion-button size="small">9:00-10:00</ion-button>
+    <ion-button size="small">10:00-11:00</ion-button>
+    <ion-button size="small">11:00-12:00</ion-button>
+    <ion-button size="small">12:00-13:00</ion-button>
+    <ion-button size="small">13:00-14:00</ion-button>
+    <ion-button size="small">14:00-15:00</ion-button>
+    <ion-button size="small">15:00-16:00</ion-button>
+    <ion-button size="small">16:00-17:00</ion-button>
+    <ion-button size="small">17:00-18:00</ion-button>
+    <ion-button size="small">18:00-19:00</ion-button>
+    <ion-button size="small">19:00-20:00</ion-button>
+    <ion-button size="small">20:00-21:00</ion-button>
+    <ion-button size="small">21:00-22:00</ion-button>
+  </div>
 </div>
+

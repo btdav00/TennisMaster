@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Club} from "../../model/Club";
+import {MyinputService} from "../../service/input/myinput.service";
 
 @Component({
   selector: 'app-clubprofile',
@@ -8,8 +10,9 @@ import { Component, OnInit } from '@angular/core';
 export class ClubprofilePage implements OnInit {
 
   page: String
+  private club: Club
 
-  constructor() {
+  constructor(private myInput: MyinputService) {
     this.page='profilo'
   }
 
@@ -18,6 +21,8 @@ export class ClubprofilePage implements OnInit {
   }
 
   ngOnInit() {
+    // @ts-ignore
+    this.club=this.myInput.getInput().club
   }
 
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
+
 
 @Component({
   selector: 'app-userprofile',
@@ -11,7 +14,7 @@ export class UserprofilePage implements OnInit {
   surname: string
   playedmatch: string
   favouritecourt: string
-  constructor() {
+  constructor(private route: Router, private auth: AuthorizationService) {
     this.name = "nome";
     this.surname = "cognome";
     this.playedmatch = "match giocati";
@@ -19,6 +22,10 @@ export class UserprofilePage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.auth.logout();
   }
 
 }
