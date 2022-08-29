@@ -3,6 +3,7 @@ import {formatDate} from '@angular/common';
 import {Booking} from "../../model/Booking";
 import {MyinputService} from "../../service/input/myinput.service";
 import{getFirestore, collection, query, where} from 'firebase/firestore'
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -53,8 +54,11 @@ export class ReservationsPage implements OnInit {
     return new Date().toISOString()
   }
 
-
   ngOnInit() {
+    let  day= <unknown>this.date.getUTCDate()
+    let month= <unknown>(this.date.getMonth()+1)
+    let year= <unknown>this.date.getFullYear()
+    this.labelDate= day+"/"+month+"/"+year;
     // @ts-ignore
     this.reservation.club=this.myInput.getInput().reservation.club
     const db = getFirestore();

@@ -81,14 +81,21 @@ const routes: Routes = [
     canActivate:[RedirectIfNotLoggedGuard]
   },
   {
-    path: 'search',
-    loadChildren: () => import('./pages/search/search.module').then(m => m.SearchPageModule),
-    canActivate:[RedirectIfNotLoggedGuard]
-  },
-  {
     path: 'reviews',
     loadChildren: () => import('./pages/reviews/reviews.module').then(m => m.ReviewsPageModule),
     canActivate:[RedirectIfNotLoggedGuard]
+  },
+  {
+    path: 'homesearch',
+    loadChildren: () => import('./pages/search/homesearch/homesearch.module').then(m => m.HomesearchPageModule)
+  },
+  {
+    path: 'searchplayer',
+    loadChildren: () => import('./pages/search/searchplayer/searchplayer.module').then( m => m.SearchplayerPageModule)
+  },
+  {
+    path: 'searchclub',
+    loadChildren: () => import('./pages/search/searchclub/searchclub.module').then(m => m.SearchclubPageModule)
   },
 
 

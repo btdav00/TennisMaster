@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-segment color="secondary" value="players">
+      <ion-segment-button style="font-size: 10px" (click)="setPage('players')"  value="players">
+        Ricerca giocatore
+      </ion-segment-button>
+      <ion-segment-button style="font-size: 10px" (click)="setPage('clubs')"  value="clubs">
+        Ricerca Profilo
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-searchplayer *ngIf="page=='players'"></app-searchplayer>
+  <app-searchclub *ngIf="page=='clubs'"></app-searchclub>
+</ion-content>

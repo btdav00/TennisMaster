@@ -6,6 +6,7 @@ export class Booking {
   public club : Club
   public date : Date
   public startHour: number
+  public numberHour: number
   public court : Court
   constructor() {}
 }
