@@ -103,17 +103,13 @@ export class RegistrationPage implements OnInit {
     this.authService.register(email,password,user).then(
       (result) => {
         if(result)this.route.navigateByUrl('/login', {replaceUrl: true});
+        else console.log('register do not success')
         loading.dismiss();
-
-      },
+        },
       (err) => {
         console.log(err)
         loading.dismiss();
-    })
-
-
-
-
+      })
 
   }
 

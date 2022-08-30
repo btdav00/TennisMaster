@@ -11,6 +11,7 @@ export const environment = {
   firebaseConfig: {
     apiKey: "AIzaSyB8jI6-rvrqMFNtD052q8p31kuodMgLlWY",
     authDomain: "tennismaster-22032.firebaseapp.com",
+    databaseURL: "https://tennismaster-22032-default-rtdb.firebaseio.com",
     projectId: "tennismaster-22032",
     storageBucket: "tennismaster-22032.appspot.com",
     messagingSenderId: "475309292079",

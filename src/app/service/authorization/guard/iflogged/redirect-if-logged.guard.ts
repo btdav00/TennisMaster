@@ -13,9 +13,9 @@ export class RedirectIfLoggedGuard implements CanActivate {
   canActivate() {
     if (this.auth.isLogged()) {
       this.router.navigate([this.redirect])
-      return true
+      return false
     }
-    else return false;
+    else return true;
   }
 
 

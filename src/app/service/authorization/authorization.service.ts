@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import firebase from "firebase/compat";
+import firebase from "firebase/compat/app";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 
@@ -7,6 +7,7 @@ import {User} from "../../model/User";
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {onAuthStateChanged} from "@angular/fire/auth";
+import {PersistentMenagerService} from "../persistent/persistentMenager/persistent-menager.service";
 
 
 
@@ -18,10 +19,19 @@ import {onAuthStateChanged} from "@angular/fire/auth";
 
 export class AuthorizationService {
 
-  private store: AngularFirestore
   private isauthorized: boolean
+  private currentUserUid: string
 
-  constructor(private auth: AngularFireAuth, private route: Router){
+  constructor(private auth: AngularFireAuth, private route: Router, private persistentMenager: PersistentMenagerService) {
+    this.auth.onAuthStateChanged(user => {
+      if (user) this.currentUserUid = user.uid;
+      else this.currentUserUid = null;
+    })
+    if (this.currentUserUid == null) {
+        this.auth.currentUser.then((user) => {
+        if(user!=null)this.currentUserUid = user.uid
+      })
+    }
   }
 
   async login(email: string, password: string) {
@@ -29,30 +39,41 @@ export class AuthorizationService {
   }
 
   async register(email : string,password : string,user: User){
-    return this.auth.createUserWithEmailAndPassword(email,password)
+    let opsuccess=true;
+    await this.auth.createUserWithEmailAndPassword(email,password).then(
+      (result)=>{
+        user.id=result.user.uid
+        this.persistentMenager.store(user,user.id).then(
+          ()=>{},
+          (e)=>{
+            console.log(e)
+            this.logout().then(()=>{
+              result.user.delete()
+            })
+            opsuccess=false;
+          }
+        )
+      },
+      (e)=>{
+        console.log(e)
+        opsuccess=false;
+      })
+    return opsuccess
   }
 
+
   public isLogged():boolean{
-    if(this.auth.currentUser) return true ;
+    if(this.currentUserUid!=null) return true ;
     else return false
   }
 
-  public async logout(){
-    await this.auth.signOut().then(result => {
-      console.log(result);
-      this.route.navigate(['login'])
-    }, ()=>console.log("fottuti"))
+  async logout(){
+    await this.auth.signOut()
   }
 
-  /*
-  public logout1(){
-    const logout = document.querySelector('#logout');
-    logout.addEventListener('click', (e)=>{
-      e.preventDefault();
-      this.auth.signOut.then(() => {
-        console.log('logout succesfull')
-      })
-    })
+  public getCurrentUId(){
+    return this.currentUserUid
   }
-   */
+
+
 }

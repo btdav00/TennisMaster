@@ -8,7 +8,7 @@
 
 <ion-content>
   <br><br>
-  <form [formGroup]="credential">
+  <form [formGroup]="credential" (click)="error=false">
     <ion-item>
       <ion-label position="floating" color="#808080">email</ion-label>
       <ion-input
@@ -31,6 +31,9 @@
   <br /><br />
   <section>
     <ion-button expand="block" (click)="submit()">Accedi</ion-button>
+    <div class="ion-text-center">
+      <ion-text *ngIf="error" class="error-size" color="danger">* sign in don't success , check the credentials entered</ion-text>
+    </div>
     <div class="ion-text-center">
       <a href="registration"
         ><p class="text-center">non sei ancora registrato?</p></a

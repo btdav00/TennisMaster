@@ -25,7 +25,10 @@ export class UserprofilePage implements OnInit {
   }
 
   logout(){
-    this.auth.logout();
+    this.auth.logout().then(() => {
+      console.log('logout success')
+      this.route.navigate(['login'])
+    }, ()=>console.log("logout do not success"));
   }
 
 }

@@ -21,6 +21,7 @@ import {AuthorizationService} from "../../service/authorization/authorization.se
 })
 export class LoginPage implements OnInit {
   credential: FormGroup;
+  error: boolean
 
 
 
@@ -32,9 +33,15 @@ export class LoginPage implements OnInit {
       email: new FormControl(''),
       password: new FormControl(''),
     });
+    this.error=false
   }
 
   ngOnInit() {
+  }
+
+  reset(){
+    this.credential.reset()
+    this.error=false
   }
 
   get email() {
@@ -52,8 +59,10 @@ export class LoginPage implements OnInit {
     this.authService.login(this.email,this.password).then((result) => {
         if (result) this.route.navigate(['tabs']);
         loading.dismiss();
+        this.reset()
       },
       (err) => {
+        this.error=true;
         console.log(err)
         loading.dismiss();
       })
