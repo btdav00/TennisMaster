@@ -13,7 +13,7 @@ import {Place} from "../../../model/Place";
 import {Review} from "../../../model/Review";
 import {Schedule} from "../../../model/Schedule";
 import {Set} from "../../../model/Set";
-import {UserPerformerService} from "../persistentPerformer/user-performer.service";
+import {UserPerformerService} from "../persistentPerformer/userPerformer/user-performer.service";
 
 @Injectable({
   providedIn: 'root'
