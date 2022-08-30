@@ -5,8 +5,10 @@ export class Booking {
   public payment: boolean;
   public club : Club
   public date : Date
-  public startHour: number
-  public numberHour: number
+  public time: number
   public court : Court
-  constructor() {}
+  public reservated : boolean
+  constructor() {
+    this.reservated = false
+  }
 }

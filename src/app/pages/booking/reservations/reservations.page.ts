@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {formatDate} from '@angular/common';
-import {Booking} from "../../model/Booking";
-import {MyinputService} from "../../service/input/myinput.service";
+import {Booking} from "../../../model/Booking";
+import {MyinputService} from "../../../service/input/myinput.service";
 import{getFirestore, collection, query, where} from 'firebase/firestore'
 import {Router} from "@angular/router";
 
@@ -16,8 +16,12 @@ export class ReservationsPage implements OnInit {
   date: Date
   labelDate: string
   showCal =false
-  reservation: Booking
   courts: any;
+  private timeClicked: number
+  private color: String
+  private arrayTimes = [];
+  private arrayCourts = [];
+  private selected: Booking;
 
   constructor(private myInput: MyinputService) {
     this.labelDate = formatDate(new Date(), 'yyy/MM/dd', 'en');
@@ -54,6 +58,22 @@ export class ReservationsPage implements OnInit {
     return new Date().toISOString()
   }
 
+  bookingCheck(){
+    const db = getFirestore();
+    const colcourt = collection(db, 'court')
+    const colclub = collection(db, 'club')
+    const coltime = collection(db, 'time')
+    // @ts-ignore
+    this.reservation.club=this.myInput.getInput().reservation.club
+    foreach(court in this.courts){
+      foreach(time in this.times){
+        this.arrayTime[time]=query((colcourt, colclub, coltime), where('booking', '==',(court, this.reservation.club, time)))
+      }
+      this.arrayCourts[court]=(this.arrayTimes)//contiene quindi array con un array di oggetti Booking (uno per ogni ora) per ogni campo
+      this.arrayTimes = []
+    }
+  }
+
   ngOnInit() {
     let  day= <unknown>this.date.getUTCDate()
     let month= <unknown>(this.date.getMonth()+1)
@@ -64,6 +84,7 @@ export class ReservationsPage implements OnInit {
     const db = getFirestore();
     const col = collection(db, 'court')
     this.courts = query(col, where('club','==',this.reservation.club));
+    this.bookingCheck();
   }
 
 }

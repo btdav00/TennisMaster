@@ -8,7 +8,7 @@ import { HomeClubPageRoutingModule } from './homeclub-routing.module';
 
 import { HomeclubPage } from './homeclub.page';
 import {ClubprofilePageModule} from "../clubprofile/clubprofile.module";
-import {ReservationsPageModule} from "../reservations/reservations.module";
+import {ReservationsPageModule} from "../booking/reservations/reservations.module";
 
 @NgModule({
   imports: [
