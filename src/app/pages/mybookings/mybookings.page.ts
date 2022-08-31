@@ -20,7 +20,6 @@ export class MybookingsPage implements OnInit {
     for (let i = 0; i < 10; i++) {
       let b1=new Booking()
       b1.date=date
-      b1.club=club
       this.bookings.push(b1)
     }
   }

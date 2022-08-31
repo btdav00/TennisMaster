@@ -1,10 +1,9 @@
-import { Time } from '@angular/common';
 
 export class Schedule {
-  public type: string;
-  public daysWeek: string[];
-  public openingTime: Time;
-  public closingTime: Time;
+  public id: string
+  public daysWeek: number[];
+  public openingTime: number;
+  public closingTime: number;
   public fristDate: Date;
   public lastDate: Date;
   constructor() {}

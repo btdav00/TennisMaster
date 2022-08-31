@@ -60,6 +60,7 @@ export class LoginPage implements OnInit {
         if (result) this.route.navigate(['tabs']);
         loading.dismiss();
         this.reset()
+        console.log('login success : '+result.user.uid)
       },
       (err) => {
         this.error=true;

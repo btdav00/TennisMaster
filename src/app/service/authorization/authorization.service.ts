@@ -8,6 +8,8 @@ import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {onAuthStateChanged} from "@angular/fire/auth";
 import {PersistentMenagerService} from "../persistent/persistentMenager/persistent-menager.service";
+import {Observable} from "rxjs";
+import {switchMap, tap} from "rxjs/operators";
 
 
 
@@ -19,19 +21,11 @@ import {PersistentMenagerService} from "../persistent/persistentMenager/persiste
 
 export class AuthorizationService {
 
-  private isauthorized: boolean
-  private currentUserUid: string
-
   constructor(private auth: AngularFireAuth, private route: Router, private persistentMenager: PersistentMenagerService) {
-    this.auth.onAuthStateChanged(user => {
-      if (user) this.currentUserUid = user.uid;
-      else this.currentUserUid = null;
+    this.auth.onAuthStateChanged((user)=>{
+      if(user)localStorage.setItem('userUid',user.uid)
+      else localStorage.setItem('userUid','')
     })
-    if (this.currentUserUid == null) {
-        this.auth.currentUser.then((user) => {
-        if(user!=null)this.currentUserUid = user.uid
-      })
-    }
   }
 
   async login(email: string, password: string) {
@@ -42,9 +36,10 @@ export class AuthorizationService {
     let opsuccess=true;
     await this.auth.createUserWithEmailAndPassword(email,password).then(
       (result)=>{
-        user.id=result.user.uid
-        this.persistentMenager.store(user,user.id).then(
-          ()=>{},
+        this.persistentMenager.store(user,result.user.uid).then(
+          ()=>{
+            console.log('registration success')
+          },
           (e)=>{
             console.log(e)
             this.logout().then(()=>{
@@ -63,7 +58,11 @@ export class AuthorizationService {
 
 
   public isLogged():boolean{
-    if(this.currentUserUid!=null) return true ;
+    console.log(localStorage.getItem('userUid'))
+    if(<string>localStorage.getItem('userUid')!="") {
+      console.log('perchè')
+      return true ;
+    }
     else return false
   }
 
@@ -72,7 +71,7 @@ export class AuthorizationService {
   }
 
   public getCurrentUId(){
-    return this.currentUserUid
+    return localStorage.getItem('userUid')
   }
 
 

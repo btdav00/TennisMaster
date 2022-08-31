@@ -1,45 +1,91 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {User} from "../../../../model/User";
-import {collection} from "firebase/firestore";
-import {Observable} from "rxjs";
-import {refCount} from "rxjs/operators";
-import {exists} from "fs";
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
+import {Club} from "../../../../model/Club";
+import {Place} from "../../../../model/Place";
+import {Court} from "../../../../model/Court";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserPerformerService {
+export class ClubPerformerService {
 
   constructor(private persistent:AngularFirestore ) { }
 
-  public JsonToClassObject(json: object):User{
+  public JsonToClassObject(json: object):Club{
     let obj=<object>json;
-    let user= new User()
+    let club= new Club()
     // @ts-ignore
-    user.id=obj.id
+    club.id=obj.id
     // @ts-ignore
-    user.name=obj.name
+    club.name=obj.name
     // @ts-ignore
-    user.surname=obj.surname
+    club.place=this.JsonToPlace(obj.place)
     // @ts-ignore
-    user.birthdate=new Date(<number>obj.birthdate)
-    return user
+    club.courts=this.JsonToCourts(obj.courts)
+    return club
   }
 
-  public ClassObjectToJson(user : User):object{
+  public ClassObjectToJson(club : Club):object{
     return {
-      id: user.id,
-      name: user.name,
-      surname: user.surname,
-      birthdate: user.birthdate.getTime()
+      id: club.id,
+      name: club.name,
+      place: this.JsonToPlace(club.place),
+      courts: this.JsonToCourts(club.courts)
     }
   }
 
-  async store(toBeStored : User,id: string){
+  private JsonToPlace(json:object){
+    let place=new Place()
+    // @ts-ignore
+    place.street=json.street
+    // @ts-ignore
+    place.cap=json.cap
+    // @ts-ignore
+    place.city=json.city
+    // @ts-ignore
+    place.houseNumber=json.houseNumber
+    return place
+  }
+
+  private PlaceToJson(place: Place){
+    return {
+      cap: place.cap,
+      city: place.city,
+      houseNumber: place.houseNumber,
+      street : place.street
+    }
+  }
+
+  private JsonToCourts(json:object){
+    let courtsObj=Object.assign([],json)
+    let courts=[]
+    for (const courtObj of courtsObj) {
+      let court=new Court()
+      court.number=<number>courtObj.number
+      court.indoor=<boolean>courtObj.indoor
+      court.surface=courtObj.surface
+      courts.push(court)
+    }
+    return courts
+  }
+
+  private CourtsToJson(courts: Court[]){
+    let courtsObj=[]
+    for (const court of courts) {
+      let courtObj={
+        number: court.number,
+        indoor: court.indoor,
+        surface: court.surface
+      }
+      courtsObj.push(courtsObj)
+    }
+    return Object.assign({},courtsObj)
+  }
+
+  async store(toBeStored : Club,id=null){
     if(id!=null){
       await this.persistent.collection(toBeStored.constructor.name).doc(id).set(this.ClassObjectToJson(toBeStored)).then(
         ()=> toBeStored.id=id,
@@ -61,7 +107,7 @@ export class UserPerformerService {
     return this.persistent.collection(User.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges()
   }
 
-  public update(toBeStored : User) {
+  public update(toBeStored : Club) {
     this.persistent.doc(User.name + "/" + toBeStored.id).update(this.ClassObjectToJson(toBeStored)).catch(
       (error) => console.log('update ' + User.name + ' error : ' + error))
   }
