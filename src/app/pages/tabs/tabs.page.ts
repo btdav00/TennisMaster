@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {BehaviorSubject} from "rxjs";
+import {DataService} from "../search/data.service";
 
 @Component({
   selector: 'app-tabs',
@@ -9,10 +11,14 @@ import {Router} from '@angular/router';
 export class TabsPage implements OnInit {
 
   selected : String
+  fromTabs: boolean
 
-
-  constructor(private router : Router) {
+  constructor(private router : Router, private data: DataService) {
     this.selected='home'
+  }
+
+  ngOnInit() {
+    this.data.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
   }
 
   showHome(){
@@ -31,7 +37,8 @@ export class TabsPage implements OnInit {
     this.router.navigate(['./tabs','userprofile'])
   }
 
-  ngOnInit() {
+  sendFrom() {
+    this.data.changeFromTabs(true)//fare la stessa cosa nella ricerca (impostando fromTabs su false) e usare la pagina dell'utente come padre
   }
 
 }

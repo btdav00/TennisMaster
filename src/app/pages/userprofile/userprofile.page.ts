@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {BehaviorSubject} from "rxjs";
+import {DataService} from "../search/data.service";
 
 
 @Component({
@@ -14,7 +16,9 @@ export class UserprofilePage implements OnInit {
   surname: string
   playedmatch: string
   favouritecourt: string
-  constructor(private route: Router, private auth: AuthorizationService) {
+  fromTabs: boolean
+
+  constructor(private route: Router, private auth: AuthorizationService, private data: DataService) {
     this.name = "nome";
     this.surname = "cognome";
     this.playedmatch = "match giocati";
@@ -22,6 +26,7 @@ export class UserprofilePage implements OnInit {
   }
 
   ngOnInit() {
+    this.data.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
   }
 
   logout(){

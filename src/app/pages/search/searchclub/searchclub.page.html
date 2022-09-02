@@ -1,8 +1,20 @@
 <ion-content>
 
-  <ion-toolbar>
-    <ion-title>Nome del circolo</ion-title>
-  </ion-toolbar>
+  <ion-searchbar debounce="500" animated="true" (ionChange)="_ionChange($event)"></ion-searchbar>
+  <ion-list>
+    <div *ngFor="let item of searchedItem" (click)="sendSelected(item)">
+      <ion-item >
+        <ion-row class="ripple">
+          <ion-col size="4">
+            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+          </ion-col>
+          <ion-col class="ion-align-self-center">
+            <ion-label>{{item.name}}</ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </div>
+  </ion-list>
   <br>
   <ion-button size="small" href="tabs">Back</ion-button>
 

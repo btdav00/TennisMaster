@@ -1,22 +1,10 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="primary">//mettere un ngIf, se sono l'utente corrente non visualizzare la ricerca
     <ion-buttons slot="secondary">
       <ion-button>
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-  </ion-toolbar>
-
-  <ion-toolbar color="light">
-    <ion-segment color="secondary"  value="profilo">
-      <ion-segment-button style="font-size: 10px" value="prenotazioni">
-        Prenotazioni
-      </ion-segment-button>
-      <ion-segment-button style="font-size: 10px" value="profilo">
-        Profilo
-      </ion-segment-button>
-    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
@@ -28,7 +16,33 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+    <ion-card *ngIf="name=='tab'&&fromTabs==false;else notTab">
+      <img src="./default.jpg" />
+      <ion-card-header>
+        <ion-card-subtitle>Dati personali</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Nome
+      </ion-card-content>
+      <ion-card-content>
+        Cognome
+      </ion-card-content>
+      <ion-card-content>
+        Partite giocate
+      </ion-card-content>
+      <ion-card-content>
+        Superficie preferita
+      </ion-card-content>
+      <ion-card-content>
+        <ion-button color="primary" expand="block" href="modprofile"> Modifica </ion-button>
+      </ion-card-content>
+      <ion-card-content>
+        <div class="ion-text-center">
+          <a color="primary" expand="block" (click)="logout()"><b>Logout</b></a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  <ng-template #notTab>
     <ion-card>
       <img src="./default.jpg" />
       <ion-card-header>
@@ -55,8 +69,7 @@
         </div>
       </ion-card-content>
     </ion-card>
-  </ion-content>
-
+  </ng-template>
 
 </ion-content>
 

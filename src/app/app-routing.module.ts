@@ -97,7 +97,10 @@ const routes: Routes = [
     path: 'searchclub',
     loadChildren: () => import('./pages/search/searchclub/searchclub.module').then(m => m.SearchclubPageModule)
   },
-
+  {
+    path: 'payments',
+    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
+  },
 
 
 
