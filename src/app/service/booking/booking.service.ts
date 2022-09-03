@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {collection, getFirestore, query, where} from "firebase/firestore";
 import {Booking} from "../../model/Booking";
+import {Club} from "../../model/Club";
+import {Court} from "../../model/Court";
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +19,12 @@ export class BookingService {
 
   constructor() { }
 
-  bookingCheck(){
+  bookingCheck(club: Club, court: Court, time: Number){
+    /*
     const db = getFirestore();
     const colcourt = collection(db, 'court')
     const colclub = collection(db, 'club')
     const coltime = collection(db, 'time')
-
-    // @ts-ignore
-    this.reservation.club=this.myInput.getInput().reservation.club
     this.courts.forEach(function (court){
       this.times.forEach(function(time){
         this.arrayTimes[time]
@@ -32,6 +32,8 @@ export class BookingService {
       this.arrayCourts[court]=(this.arrayTimes)
       this.arrayTimes = []
     })
+     */
+    return true
   }
 
 }

@@ -8,51 +8,26 @@
 </ion-header>
 
 <ion-content>
-  <div class="main_content_div">
-    <ion-label>Seleziona il metodo di pagamento</ion-label>
-    <ion-row style="margin-top: 20px">
-       <ion-col>
-         <div class="square-div" (click)="changeMetod(1)">
-           <img class="gray_img" *ngIf="idPayment!=1" src="#">
-           <img class="gray_img" *ngIf="idPayment==1" src="#">
-         </div>
-       </ion-col>
-
-      <ion-col>
-        <div class="square-div" (click)="changeMetod(2)">
-          <img class="gray_img" *ngIf="idPayment!=2" src="#">
-          <img class="gray_img" *ngIf="idPayment==2" src="#">
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-label>Dettagli della carta</ion-label>
-
-    <ion-label>Numero della carta</ion-label>
-    <ion-input type="text" placeholder="XXXX-XXXX-XXXX-1212"></ion-input>
-
-    <ion-row>
-      <ion-col size="4">
-        <ion-datetime display-format="MM" placeholder="MM"></ion-datetime>
-      </ion-col>
-
-      <ion-col size="4">
-        <ion-datetime display-format="YYYY" placeholder="YYYY"></ion-datetime>
-      </ion-col>
-
-      <ion-col size="4">
-        <ion-input type="text" placeholder="CVV"></ion-input>
-      </ion-col>
-    </ion-row>
-    <ion-button expand="block">Conferma</ion-button>
-  </div>
+  <ion-card class="welcome-card">
+    <ion-item >
+      <ion-img src="/assets/icon/ticket.jpg" ></ion-img></ion-item>
+    <ion-card-header>
+      <ion-card-title>Pagamento campi</ion-card-title>
+      <ion-icon slot="end" name="ticket-outline"></ion-icon>
+      <ion-row>
+        <ion-col>
+          10 $
+        </ion-col>
+        <ion-col>
+          eheheheheh
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <div id="paypal-button-container"></div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
 
-<ion-footer>
-  <ion-row>
-    <ion-col size="7">
-      <ion-text>
-        <h4>Total: 12.00</h4>
-      </ion-text>
-    </ion-col>
-  </ion-row>
-</ion-footer>
+
+

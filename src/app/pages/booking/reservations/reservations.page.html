@@ -17,24 +17,15 @@
 <ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
 </ion-datetime>
 <br>
-<div *ngFor="let court of courts">
+<div *ngFor="let court of club.courts">
   <p><b>CAMPO {{court.number}}</b></p>
   <div class="scrolling-wrapper">
-    <ion-button size="small" value="9" color="green" *ngIf="reservations.reservated==false">9:00-10:00</ion-button>
-    <ion-button size="small" value="9" color="red" *ngIf="reservations.reservated==true">9:00-10:00</ion-button>
-    <ion-button size="small" value="9"  color="green">9:00-10:00</ion-button>
-    <ion-button size="small" value="10">10:00-11:00</ion-button>
-    <ion-button size="small" value="11">11:00-12:00</ion-button>
-    <ion-button size="small" value="12">12:00-13:00</ion-button>
-    <ion-button size="small" value="13">13:00-14:00</ion-button>
-    <ion-button size="small" value="14">14:00-15:00</ion-button>
-    <ion-button size="small" value="15">15:00-16:00</ion-button>
-    <ion-button size="small" value="16">16:00-17:00</ion-button>
-    <ion-button size="small" value="17">17:00-18:00</ion-button>
-    <ion-button size="small" value="18">18:00-19:00</ion-button>
-    <ion-button size="small" value="19">19:00-20:00</ion-button>
-    <ion-button size="small" value="20">20:00-21:00</ion-button>
-    <ion-button size="small" value="21">21:00-22:00</ion-button>
+    <ion-col *ngFor="let time of club.times">
+      <ion-button size="small" value="{{time}}" color="success" *ngIf="bookingCheck(court, time)" (click)="setSelected(time, court.number)" [disabled]="setDisableHour(time, court.number)" ]>{{time}}:00-{{time+1}}:00</ion-button>
+      <ion-button size="small" value="{{time}}" color="danger" *ngIf="!bookingCheck(court, time)" disabled="true">{{time}}:00-{{time+1}}:00</ion-button>
+    </ion-col>
   </div>
+  <br>
+  <ion-button href="payments">Vai al pagamento</ion-button>
 </div>
 

@@ -4,6 +4,9 @@ import {Booking} from "../../../model/Booking";
 import {MyinputService} from "../../../service/input/myinput.service";
 import{getFirestore, collection, query, where} from 'firebase/firestore'
 import {Router} from "@angular/router";
+import {Court} from "../../../model/Court";
+import {BookingService} from "../../../service/booking/booking.service";
+import {Club} from "../../../model/Club";
 
 
 @Component({
@@ -16,12 +19,29 @@ export class ReservationsPage implements OnInit {
   date: Date
   labelDate: string
   showCal =false
-  private timeClicked: number
-  private color: String
-  private selected: Booking;
+  private club: Club;
+  private selected: boolean;
+  private timeClicked: number;
+  private courtSelected: number;
+  private booking: Booking;
 
-  constructor(private myInput: MyinputService) {
+  constructor(private myInput: MyinputService, private bookingservice: BookingService) {
     this.labelDate = formatDate(new Date(), 'yyy/MM/dd', 'en');
+    this.selected = false
+  }
+
+  ngOnInit() {
+    this.date=new Date()
+    let  day= <unknown>this.date.getUTCDate()
+    let month= <unknown>(this.date.getMonth()+1)
+    let year= <unknown>this.date.getFullYear()
+    this.labelDate= day+"/"+month+"/"+year;
+    let court = new Court()
+    court.number = 1
+    this.club = new Club()
+    this.club.courts = [court]
+    this.club.times = [9, 10, 11, 12, 13]
+    this.booking = new Booking()
   }
 
   showCalendar(){
@@ -55,17 +75,29 @@ export class ReservationsPage implements OnInit {
     return new Date().toISOString()
   }
 
-  ngOnInit() {
-    let  day= <unknown>this.date.getUTCDate()
-    let month= <unknown>(this.date.getMonth()+1)
-    let year= <unknown>this.date.getFullYear()
-    this.labelDate= day+"/"+month+"/"+year;
-    // @ts-ignore
-    this.reservation.club=this.myInput.getInput().reservation.club
-    const db = getFirestore();
-    const col = collection(db, 'court')
-    //this.courts = query(col, where('club','==',this.reservation.club));
-    //this.bookingCheck();
+  bookingCheck(court: Court, time: number){
+    return this.bookingservice.bookingCheck(this.club, court, time)
+  }
+
+  setSelected(time: number, court: number){
+    if(!this.selected){
+      this.selected = true
+      this.timeClicked = time
+      this.courtSelected = court
+      this.booking.startHour = time
+      this.booking.numberHour = 1
+    }
+    else if(this.timeClicked == time && this.courtSelected == court){
+      this.selected = false
+    }
+    else if(this.courtSelected == court){
+      this.booking.numberHour  = 1 + time-this.booking.startHour
+    }
+  }
+
+  setDisableHour(time: number, court: number){
+    if(court!=this.courtSelected) return true
+    else if (time < this.timeClicked || time>this.timeClicked+1) return true
   }
 
 }
