@@ -40,7 +40,7 @@ export class SearchplayerPage implements OnInit {
   }
 
   sendFrom() {
-    this.data.changeFromTabs(false)//fare la stessa cosa nella ricerca (impostando fromTabs su false) e usare la pagina dell'utente come padre
+    this.data.changeFromTabs(false)
   }
 
 
