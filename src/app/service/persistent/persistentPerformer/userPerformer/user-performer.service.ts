@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {User} from "../../../../model/User";
 import {collection} from "firebase/firestore";
@@ -8,6 +8,11 @@ import {refCount} from "rxjs/operators";
 import {exists} from "fs";
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
+import {Notification} from "../../../../model/Notification";
+import {Club} from "../../../../model/Club";
+import {Match} from "../../../../model/Match";
+import {Comment} from "../../../../model/Comment";
+import {setDoc} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +20,16 @@ import WhereFilterOp = firebase.firestore.WhereFilterOp;
 export class UserPerformerService {
 
   constructor(private persistent:AngularFirestore ) { }
+
+
+  public eval(className:string,json){
+    switch (className) {
+      case User.name :
+        return this.JsonToClassObject(<object>json)
+      case Notification.name:
+        return this.JsonToNotification(<object>json)
+    }
+  }
 
   public JsonToClassObject(json: object):User{
     let obj=<object>json;
@@ -35,7 +50,8 @@ export class UserPerformerService {
       id: user.id,
       name: user.name,
       surname: user.surname,
-      birthdate: user.birthdate.getTime()
+      birthdate: user.birthdate.getTime(),
+      imgUrl: '',
     }
   }
 
@@ -90,5 +106,83 @@ export class UserPerformerService {
     this.persistent.doc(User.name + "/" + id).delete().catch(
       (error) => console.log(error)
     )
+  }
+
+  public async addImg(id:string,url:string){
+    let doc=this.persistent.collection(User.name).doc(id).update({imgUrl: url})
+  }
+
+  public getImg(id:string){
+    let imgUrl=''
+    this.loadOne(id).subscribe(
+      // @ts-ignore
+      (objs)=>imgUrl=objs[0].imgUrl
+    )
+    return imgUrl
+  }
+
+  public NotificationToJson(notification: Notification , user: User){
+    return{
+      UID : user.id,
+      id : notification.id,
+      text :notification.text,
+      reference : notification.reference.id,
+    }
+  }
+
+  public JsonToNotification(json:object){
+    let notification = new Notification()
+    // @ts-ignore
+    notification.id=json.id
+    // @ts-ignore
+    notification.text=json.text
+    // @ts-ignore
+    this.userPerformer.loadOne(json.reference).subscribe(
+      (result)=>notification.reference=this.JsonToClassObject(<object>result[0])
+    )
+
+    return notification
+  }
+
+  public async addNotification( notification:Notification ,user: User ){
+    await this.persistent.collection(notification.constructor.name).add(this.NotificationToJson(notification,user));
+  }
+
+  public async deleteNotification(id: string){
+    this.persistent.doc(Notification.name + "/" + id).delete().catch(
+      (error) => console.log(error)
+    )
+  }
+
+  public searchNotification(id:string=null,idUser:string=null,referenceId:string=null) {
+    let result=[]
+    let whereClauses=[]
+
+    if(id) whereClauses.push({field: 'id', op:<WhereFilterOp>'==', value: id})
+    if(idUser)whereClauses.push({field: 'UID', op:<WhereFilterOp>'==', value: idUser})
+    if(referenceId)whereClauses.push({field: 'reference', op:<WhereFilterOp>'==', value: referenceId})
+
+    let q: AngularFirestoreCollection<object>
+    if(whereClauses.length>0){
+      q=this.persistent.collection(Notification.name, ref =>{
+        let where=ref.where(whereClauses[0].field,whereClauses[0].op,whereClauses[0].value)
+        for (let i = 1; i < whereClauses.length; i++) {
+          where=where.where(whereClauses[i].field,whereClauses[i].op,whereClauses[i].value)
+        }
+        return where
+      })
+    }
+    else{
+      q=this.persistent.collection(Notification.name)
+    }
+    return q.valueChanges()
+  }
+
+  public existNotification(id:string=null,idUser:string=null,referenceId:string=null) {
+    let exist=false;
+    this.searchNotification(id, idUser, referenceId).subscribe((result) => {
+      if(result.length>0)exist=true;
+    })
+    return exist
   }
 }

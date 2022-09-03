@@ -4,7 +4,7 @@ export class Schedule {
   public daysWeek: number[];
   public openingTime: number;
   public closingTime: number;
-  public fristDate: Date;
+  public firstDate: Date;
   public lastDate: Date;
   constructor() {}
 }

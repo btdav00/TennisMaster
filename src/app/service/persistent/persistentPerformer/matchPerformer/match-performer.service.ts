@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {Match} from "../../../../model/Match";
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
@@ -8,6 +8,7 @@ import {throws} from "assert";
 import {UserPerformerService} from "../userPerformer/user-performer.service";
 import {User} from "../../../../model/User";
 import {Comment} from "../../../../model/Comment";
+import {Notification} from "../../../../model/Notification";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,15 @@ import {Comment} from "../../../../model/Comment";
 export class MatchPerformerService {
 
   constructor(private persistent:AngularFirestore , private userPerformer: UserPerformerService ) { }
+
+  public eval(className:string,json){
+    switch (className) {
+      case Match.name :
+        return this.JsonToClassObject(<object>json)
+      case Comment.name:
+        return this.JsonToComment(<object>json)
+    }
+  }
 
   public JsonToClassObject(json: object): Match {
     let obj = <object>json;
@@ -140,6 +150,74 @@ export class MatchPerformerService {
 
   private getPlayer(idPlayer: string){
     return this.userPerformer.loadOne(idPlayer)
+  }
+
+  public CommentToJson(comment: Comment , match: Match){
+    return{
+      MID : match.id,
+      id : comment.id,
+      text : comment.text,
+      time : comment.time.getTime(),
+      writer : comment.writer.id
+    }
+  }
+
+  public JsonToComment(json:object){
+    let comment = new Comment()
+    // @ts-ignore
+    comment.id=json.id
+    // @ts-ignore
+    comment.text=json.text
+    // @ts-ignore
+    comment.time=new Date(json.time)
+    // @ts-ignore
+    this.userPerformer.loadOne(json.writer).subscribe(
+      (result)=>comment.writer=this.userPerformer.JsonToClassObject(<object>result[0])
+    )
+
+    return comment
+  }
+
+  public async addComment( comment:Comment ,match: Match ){
+    await this.persistent.collection(comment.constructor.name).add(this.CommentToJson(comment,match));
+  }
+
+  public async deleteComment(id: string){
+    this.persistent.doc(Comment.name + "/" + id).delete().catch(
+      (error) => console.log(error)
+    )
+  }
+
+  public searchComment(id:string=null,idMatch:string=null,writerId:string=null) {
+    let result=[]
+    let whereClauses=[]
+
+    if(id) whereClauses.push({field: 'id', op:<WhereFilterOp>'==', value: id})
+    if(idMatch)whereClauses.push({field: 'MID', op:<WhereFilterOp>'==', value: idMatch})
+    if(writerId)whereClauses.push({field: 'writer', op:<WhereFilterOp>'==', value: writerId})
+
+    let q: AngularFirestoreCollection<object>
+    if(whereClauses.length>0){
+      q=this.persistent.collection(Comment.name, ref =>{
+        let where=ref.where(whereClauses[0].field,whereClauses[0].op,whereClauses[0].value)
+        for (let i = 1; i < whereClauses.length; i++) {
+          where=where.where(whereClauses[i].field,whereClauses[i].op,whereClauses[i].value)
+        }
+        return where
+      })
+    }
+    else{
+      q=this.persistent.collection(Comment.name)
+    }
+    return q.valueChanges()
+  }
+
+  public existComment(id:string=null,idMatch:string=null,writerId:string=null) {
+    let exist=false;
+    this.searchComment(id, idMatch, writerId).subscribe((result) => {
+      if(result.length>0)exist=true;
+    })
+    return exist
   }
 
 }
