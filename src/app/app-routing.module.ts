@@ -11,11 +11,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then((m) => m.HomePageModule),
     canActivate:[RedirectIfNotLoggedGuard]
   },
+  /*
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full',
   },
+   */
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
@@ -101,6 +103,11 @@ const routes: Routes = [
     path: 'payments',
     loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
   },
+  {
+    path: 'splash',
+    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+  },
+
 
 
 

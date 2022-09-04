@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {Platform} from "@ionic/angular";
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,13 @@ import {Router} from "@angular/router";
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(public router: Router) {}
+  constructor(public router: Router,private platform : Platform ) {
+    this.inizializeApp()
+  }
+
+  inizializeApp(){
+    this.platform.ready().then(()=>{
+      this.router.navigate(['splash'])
+    })
+  }
 }
