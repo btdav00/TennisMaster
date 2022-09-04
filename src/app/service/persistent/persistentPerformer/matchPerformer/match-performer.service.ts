@@ -92,6 +92,7 @@ export class MatchPerformerService {
       player1: Object.assign({},idPlayer1),
       player2: Object.assign({},match.player2),
       sets: Object.assign({},sets),
+      CID: '',
     }
   }
 
@@ -146,6 +147,19 @@ export class MatchPerformerService {
     this.persistent.doc(Match.name + "/" + id).delete().catch(
       (error) => console.log(error)
     )
+  }
+
+  public async setClubMatch(idMatch:string,idClub:string){
+    await this.persistent.collection(Match.name).doc(idMatch).update({CID: idClub})
+  }
+
+  public getClubMatch(idMatch:string){
+    let idClub=''
+    this.loadOne(idMatch).subscribe(
+      // @ts-ignore
+      (objs)=>idClub=objs[0].CID
+    )
+    return idClub
   }
 
   private getPlayer(idPlayer: string){
@@ -219,5 +233,7 @@ export class MatchPerformerService {
     })
     return exist
   }
+
+
 
 }

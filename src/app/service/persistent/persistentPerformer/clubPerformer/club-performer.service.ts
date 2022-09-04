@@ -13,7 +13,6 @@ import {Firestore, onSnapshot} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 import {Review} from "../../../../model/Review";
 import {UserPerformerService} from "../userPerformer/user-performer.service";
-import {Schedule} from "../../../../model/Schedule";
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +27,6 @@ export class ClubPerformerService {
         return this.JsonToClassObject(<object>json)
       case Review.name:
         return this.JsonToReview(<object>json)
-      case Schedule.name:
-        return this.JsonToSchedule(<object>json)
       case Booking.name:
         return this.JsonToBooking(<object>json)
     }
@@ -45,6 +42,8 @@ export class ClubPerformerService {
     // @ts-ignore
     club.place=this.JsonToPlace(obj.place)
     // @ts-ignore
+    club.times=<number[]>Object.assign([],obj.times)
+    // @ts-ignore
     club.courts=this.JsonToCourts(obj.courts)
     return club
   }
@@ -54,6 +53,7 @@ export class ClubPerformerService {
       id: club.id,
       name: club.name,
       place: this.JsonToPlace(club.place),
+      times: Object.assign({},club.times),
       courts: this.JsonToCourts(club.courts)
     }
   }
@@ -296,78 +296,6 @@ export class ClubPerformerService {
   public existReview(id:string=null,idUser:string=null,mark:number=null) {
     let exist=false;
     this.searchReview(id, idUser, mark).subscribe((result) => {
-      if(result.length>0)exist=true;
-    })
-    return exist
-  }
-
-  public ScheduleToJson(schedule: Schedule , club: Club){
-    return{
-      CID : club.id,
-      id : schedule.id,
-      daysWeek : Object.assign({},schedule.daysWeek),
-      openingTime : schedule.openingTime,
-      closingTime : schedule.closingTime,
-      firstDate : schedule.firstDate.getTime(),
-      lastDate : schedule.lastDate.getTime()
-    }
-  }
-
-  public JsonToSchedule(json:object){
-    let schedule = new Schedule()
-    // @ts-ignore
-    schedule.id=json.id
-    // @ts-ignore
-    schedule.daysWeek=Object.assign([],json.daysWeek)
-    // @ts-ignore
-    schedule.openingTime=<number>json.openingTime
-    // @ts-ignore
-    schedule.closingTime=<number>json.closingTime
-    // @ts-ignore
-    schedule.firstDate=new Date(json.firstDate)
-    // @ts-ignore
-    schedule.lastDate=new Date(json.lastDate)
-    return schedule
-  }
-
-  public async addSchedule( schedule:Schedule ,club: Club ){
-    await this.persistent.collection(schedule.constructor.name).add(this.ScheduleToJson(schedule,club));
-  }
-
-  public async deleteSchedule(id: string){
-    this.persistent.doc(Schedule.name + "/" + id).delete().catch(
-      (error) => console.log(error)
-    )
-  }
-
-  public searchSchedule(id:string=null,idClub:string=null,minDate:Date=null,maxDate:Date=null) {
-    let result=[]
-    let whereClauses=[]
-
-    if(id) whereClauses.push({field: 'id', op:<WhereFilterOp>'==', value: id})
-    if(idClub)whereClauses.push({field: 'CID', op:<WhereFilterOp>'==', value: idClub})
-    if(minDate)whereClauses.push({field: 'firstDate', op:<WhereFilterOp>'<=', value: minDate.getTime()})
-    if(maxDate)whereClauses.push({field: 'lastDate', op:<WhereFilterOp>'>=', value: maxDate.getTime()})
-
-    let q: AngularFirestoreCollection<object>
-    if(whereClauses.length>0){
-      q=this.persistent.collection(Schedule.name, ref =>{
-        let where=ref.where(whereClauses[0].field,whereClauses[0].op,whereClauses[0].value)
-        for (let i = 1; i < whereClauses.length; i++) {
-          where=where.where(whereClauses[i].field,whereClauses[i].op,whereClauses[i].value)
-        }
-        return where
-      })
-    }
-    else{
-      q=this.persistent.collection(Schedule.name)
-    }
-    return q.valueChanges()
-  }
-
-  public existSchedule(id:string=null,idClub:string=null,minDate:Date=null,maxDate:Date=null) {
-    let exist=false;
-    this.searchSchedule(id, idClub, minDate, maxDate).subscribe((result) => {
       if(result.length>0)exist=true;
     })
     return exist

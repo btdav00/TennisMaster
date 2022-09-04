@@ -19,7 +19,7 @@ import {setDoc} from "@angular/fire/firestore";
 })
 export class UserPerformerService {
 
-  constructor(private persistent:AngularFirestore ) { }
+  constructor(private persistent:AngularFirestore) { }
 
 
   public eval(className:string,json){
@@ -52,6 +52,7 @@ export class UserPerformerService {
       surname: user.surname,
       birthdate: user.birthdate.getTime(),
       imgUrl: '',
+      IDC:'',
     }
   }
 
@@ -109,7 +110,7 @@ export class UserPerformerService {
   }
 
   public async addImg(id:string,url:string){
-    let doc=this.persistent.collection(User.name).doc(id).update({imgUrl: url})
+    await this.persistent.collection(User.name).doc(id).update({imgUrl: url})
   }
 
   public getImg(id:string){
@@ -119,6 +120,45 @@ export class UserPerformerService {
       (objs)=>imgUrl=objs[0].imgUrl
     )
     return imgUrl
+  }
+
+  addUserToClub(id:string , idClub:string){
+    let doc=this.persistent.collection(User.name).doc(id).update({IDC: idClub})
+  }
+
+  getUserClubId(id:string){
+    let idClub=''
+    this.loadOne(id).subscribe(
+      // @ts-ignore
+      (objs)=>idClub=objs[0].IDC
+    )
+    return idClub
+  }
+
+  async addFollower(idFollowed:string,idFollower:string){
+    await this.persistent.collection('Follower').doc(idFollower).set({idFollower:idFollower,idFollowed:idFollowed})
+  }
+
+  getFolloweds(idFollower:string){
+    return this.persistent.collection('Follower',ref=>ref.where('idFollower','==',idFollower)).valueChanges()
+  }
+
+  getFollowers(idFollowed:string){
+    return this.persistent.collection('Follower',ref=>ref.where('idFollowed','==',idFollowed)).valueChanges()
+  }
+
+  deleteFollowed(idFollower:string){
+    this.persistent.doc('Follower' + "/" + idFollower).delete().catch(
+      (error) => console.log(error)
+    )
+  }
+
+  existFollower(idFollowed:string,idFollower:string){
+    let result=false
+    this.persistent.collection('Follower',ref=>ref.where('idFollowed','==',idFollowed)).valueChanges().subscribe(
+      (resultQ)=>{if(resultQ.length>0)result=true}
+    )
+    return result
   }
 
   public NotificationToJson(notification: Notification , user: User){

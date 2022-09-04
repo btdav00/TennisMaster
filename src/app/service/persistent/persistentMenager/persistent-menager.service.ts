@@ -10,7 +10,6 @@ import {Match} from "../../../model/Match";
 import {Notification} from "../../../model/Notification";
 import {Place} from "../../../model/Place";
 import {Review} from "../../../model/Review";
-import {Schedule} from "../../../model/Schedule";
 import {UserPerformerService} from "../persistentPerformer/userPerformer/user-performer.service";
 import {Observable} from "rxjs";
 import {MatchPerformerService} from "../persistentPerformer/matchPerformer/match-performer.service";
@@ -36,9 +35,6 @@ export class PersistentMenagerService {
         result=this.clubPerformer
         break;
       case Review.name:
-        result=this.clubPerformer
-        break;
-      case Schedule.name:
         result=this.clubPerformer
         break;
       case Booking.name:
@@ -76,6 +72,35 @@ export class PersistentMenagerService {
     return this.getPersistentPerformer(className).loadAll()
   }
 
+  public async setClubMatch(idMatch:string,idClub:string){
+    await this.matchPerformer.setClubMatch(idMatch, idClub)
+  }
+
+  public getClubMatch(idMatch:string){
+    let club=new Club()
+    return this.clubPerformer.loadOne(this.matchPerformer.getClubMatch(idMatch))
+  }
+
+  async addFollower(idFollowed:string,idFollower:string){
+    await this.userPerformer.addFollower(idFollowed,idFollower)
+  }
+
+  getFolloweds(idFollower:string){
+    return this.userPerformer.getFolloweds(idFollower)
+  }
+
+  getFollowers(idFollowed:string){
+    return this.userPerformer.getFollowers(idFollowed)
+  }
+
+  deleteFollowed(idFollower:string){
+    this.userPerformer.deleteFollowed(idFollower)
+  }
+
+  existFollower(idFollowed:string,idFollower:string){
+    return this.userPerformer.existFollower(idFollowed, idFollower)
+  }
+
   public async addBooking(user: User,booking: Booking , club: Club , court: Court){
     await this.clubPerformer.addBooking(user,booking,club,court)
   }
@@ -90,6 +115,15 @@ export class PersistentMenagerService {
 
   public getImg(className:string,id:string):string{
     return  this.getPersistentPerformer(className).getImg(id)
+  }
+
+  public addUserToClub(idUser:string,idClub:string){
+    this.userPerformer.addUserToClub(idUser, idClub)
+  }
+
+  public getUserClub(idUser:string){
+    let idClub=this.userPerformer.getUserClubId(idUser)
+    return this.clubPerformer.loadOne(idClub)
   }
 
   public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {
@@ -114,22 +148,6 @@ export class PersistentMenagerService {
 
   public existReview(id:string=null,idUser:string=null,mark:number=null) {
     return this.clubPerformer.existReview(id, idUser, mark)
-  }
-
-  public async addSchedule( schedule:Schedule ,club: Club ){
-    await this.clubPerformer.addSchedule(schedule,club)
-  }
-
-  public async deleteSchedule(id: string){
-    await this.clubPerformer.deleteSchedule(id)
-  }
-
-  public searchSchedule(id:string=null,idClub:string=null,minDate:Date=null,maxDate:Date=null) {
-    return this.clubPerformer.searchSchedule(id,idClub,minDate,maxDate)
-  }
-
-  public existSchedule(id:string=null,idClub:string=null,minDate:Date=null,maxDate:Date=null) {
-    return this.clubPerformer.existSchedule(id,idClub,minDate,maxDate)
   }
 
   public async addComment( comment:Comment ,match: Match ){
