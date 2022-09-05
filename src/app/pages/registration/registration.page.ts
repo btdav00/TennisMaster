@@ -58,6 +58,20 @@ export class RegistrationPage implements OnInit {
   ngOnInit() {
   }
 
+  public check() : boolean{
+    const rgolarExpressEmail = /^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$/;
+    const rgolarExpressPassword=/\.{6,}/
+    if (!this.credential.value.email || !rgolarExpressEmail.test(this.credential.value.email)) return false
+    else if(!this.credential.value.password||!rgolarExpressPassword.test(this.credential.value.password))return false
+    else if(!this.credential.value.confirmPassword)return false
+    else if (this.credential.value.confirmPassword != this.credential.value.password) return false
+    else if(!this.personalData.value.name || this.personalData.value.name=='')return false
+    else if(!this.personalData.value.surname || this.personalData.value.surname=='')return false
+    else if(!this.personalData.value.date)return false
+    else return true
+  }
+
+
   showCalendar(){
     this.showCal = !this.showCal;
   }
@@ -90,27 +104,28 @@ export class RegistrationPage implements OnInit {
   }
 
   async submit(){
-    let user=new User()
-    user.name=this.personalData.value.name
-    user.surname=this.personalData.value.surname
-    user.birthdate=this.date
-    let email=this.credential.value.email
-    let password=this.credential.value.password
+    if(this.check()){
+      let user=new User()
+      user.name=this.personalData.value.name
+      user.surname=this.personalData.value.surname
+      user.birthdate=this.date
+      let email=this.credential.value.email
+      let password=this.credential.value.password
 
-    const loading= await this.loadingController.create()
-    await loading.present()
+      const loading= await this.loadingController.create()
+      await loading.present()
 
-    this.authService.register(email,password,user).then(
-      (result) => {
-        if(result)this.route.navigateByUrl('/login', {replaceUrl: true});
-        else console.log('register do not success')
-        loading.dismiss();
+      this.authService.register(email,password,user).then(
+        (result) => {
+          if(result)this.route.navigateByUrl('/login', {replaceUrl: true});
+          else console.log('register do not success')
+          loading.dismiss();
         },
-      (err) => {
-        console.log(err)
-        loading.dismiss();
-      })
-
+        (err) => {
+          console.log(err)
+          loading.dismiss();
+        })
+    }
   }
 
 }

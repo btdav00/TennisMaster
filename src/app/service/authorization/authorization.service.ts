@@ -66,6 +66,22 @@ export class AuthorizationService {
     else return false
   }
 
+  async updateProfile(email:string=null,password:string=null){
+    let user=this.auth.currentUser
+    if(email){
+      user.then(
+        (result)=>result.updateEmail(email),
+        (e)=>{throw new Error('update user error : '+e)}
+      )
+    }
+    if(password){
+      user.then(
+        (result)=>result.updatePassword(password),
+        (e)=>{throw new Error('update user error : '+e)}
+      )
+    }
+  }
+
   async logout(){
     await this.auth.signOut()
   }

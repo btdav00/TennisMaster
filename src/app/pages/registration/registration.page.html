@@ -69,7 +69,8 @@
   <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
   <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
   </ion-datetime>
-  <ion-button color="primary" expand="block" (click)="submit()" > Registrati </ion-button>
+  <ion-text *ngIf="!check()" color="danger"> controlla di aver compilato tutti i campi correttamente</ion-text>
+  <ion-button class="error-size" color="primary" expand="block" [disabled]="!check()" (click)="submit()" > Registrati </ion-button>
 
   <div class="ion-text-center">
     <a href="login"><p class="text-center">annulla</p></a>
