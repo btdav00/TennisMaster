@@ -33,15 +33,6 @@ export class RegistrationPage implements OnInit {
   public showCal =false;
 
 
-
-
-
-
-
-
-
-
-
   constructor(private authService: AuthorizationService,private route: Router,private loadingController: LoadingController) {
     this.credential = new FormGroup({
       email: new FormControl(''),

@@ -11,7 +11,7 @@
     </ion-avatar>
     <ion-label>
       <h2>Utente</h2>
-      <h3>Stelle</h3>
+      <h3>Titolo</h3>
       <p>Commento...</p>
     </ion-label>
   </ion-item>
@@ -26,6 +26,19 @@
       <p>Commento...</p>
     </ion-label>
   </ion-item>
+  <br>
+  <h3>Aggiungi un commento</h3>
+  <form [formGroup]="reviews">
+    <ion-item>
+      <ion-label>Titolo</ion-label>
+      <ion-input formControlName="title" placeholder="placeholder" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">commento</ion-label>
+      <ion-textarea formControlName="review" placeholder="placeholder"></ion-textarea>
+    </ion-item>
+  </form>
+  <ion-button class="error-size" color="primary" expand="block" (click)="submit()" > Invia </ion-button>
   <br>
   <ion-button size="small" href="tabs">Back</ion-button>
 </ion-content>

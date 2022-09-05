@@ -6,6 +6,9 @@ import {
   FormControl,
   AbstractControl,
 } from '@angular/forms';
+import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {User} from "../../model/User";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-modprofile',
@@ -18,7 +21,7 @@ export class ModprofilePage implements OnInit {
   personalData: FormGroup;
   auth: FormGroup;
 
-  constructor() {
+  constructor( private authorization: AuthorizationService, private persistent: PersistentMenagerService) {
     this.credential = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
@@ -34,10 +37,18 @@ export class ModprofilePage implements OnInit {
     })
   }
 
-  submit() {
+  ngOnInit() {
   }
 
-  ngOnInit() {
+  submit() {
+    let updated=new User()
+    updated.name = this.personalData.value.name
+    updated.surname = this.personalData.value.surname
+    if(this.credential.value.password = this.credential.value.confirmPassword){
+      updated.password = this.credential.value.password
+    }
+    updated.id = this.authorization.getCurrentUId()
+    this.persistent.updateUser(updated)
   }
 
 }

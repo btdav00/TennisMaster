@@ -4,6 +4,8 @@ import {MyinputService} from "../../service/input/myinput.service";
 import {User} from "../../model/User";
 import {collection, getFirestore, query, where} from "firebase/firestore";
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-clubprofile',
@@ -16,7 +18,7 @@ export class ClubprofilePage implements OnInit {
   private club: any
   private currentUser: User
 
-  constructor(private myInput: MyinputService) {
+  constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService) {
     this.page='profilo'
   }
 
@@ -25,9 +27,13 @@ export class ClubprofilePage implements OnInit {
   }
 
   ngOnInit() {
-    const db = getFirestore();
-    const col = collection(db, 'user')
-    this.club = query(col, where('club','==',this.currentUser));
+    let userId = this.authorization.getCurrentUId()
+    this.persistent.loadOne(User.name, userId).subscribe(
+      (users)=>{
+        this.currentUser = this.persistent.eval(User.name, users, true)
+      }
+    )
+    this.club = this.persistent.getUserClub(userId)
   }
 
 }

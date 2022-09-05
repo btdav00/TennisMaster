@@ -14,7 +14,6 @@ export class AppComponent {
 
   inizializeApp(){
     this.platform.ready().then(()=>{
-      this.router.navigate(['splash'])
     })
   }
 }

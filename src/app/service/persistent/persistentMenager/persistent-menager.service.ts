@@ -63,6 +63,9 @@ export class PersistentMenagerService {
     await this.getPersistentPerformer(toBeStored.constructor.name).store(toBeStored,id)
   }
 
+  async updateUser(toBeStored: User){
+    await this.userPerformer.update(toBeStored)
+  }
 
   public loadOne(className : string , id: string): Observable<any>{
     return this.getPersistentPerformer(className).load(id)

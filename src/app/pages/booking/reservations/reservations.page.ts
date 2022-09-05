@@ -40,7 +40,7 @@ export class ReservationsPage implements OnInit {
     court.number = 1
     this.club = new Club()
     this.club.courts = [court]
-    this.club.times = [9, 10, 11, 12, 13]
+    this.club.times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     this.booking = new Booking()
   }
 
