@@ -51,14 +51,35 @@ export class RegistrationPage implements OnInit {
 
   public check() : boolean{
     const rgolarExpressEmail = /^[A-z0-9\.\+_-]+@[A-z0-9\._-]+\.[A-z]{2,6}$/;
-    const rgolarExpressPassword=/\.{6,}/
-    if (!this.credential.value.email || !rgolarExpressEmail.test(this.credential.value.email)) return false
-    else if(!this.credential.value.password||!rgolarExpressPassword.test(this.credential.value.password))return false
-    else if(!this.credential.value.confirmPassword)return false
-    else if (this.credential.value.confirmPassword != this.credential.value.password) return false
-    else if(!this.personalData.value.name || this.personalData.value.name=='')return false
-    else if(!this.personalData.value.surname || this.personalData.value.surname=='')return false
-    else if(!this.personalData.value.date)return false
+    const rgolarExpressPassword=/.{6,}/
+    if (!this.credential.value.email || !rgolarExpressEmail.test(this.credential.value.email)){
+      console.log("email don't setted or pattern don't check")
+      return false
+    }
+    else if(!this.credential.value.password||!rgolarExpressPassword.test(this.credential.value.password)){
+      console.log("password don't setted or pattern don't check")
+      return false
+    }
+    else if(!this.credential.value.confirmPassword){
+      console.log("confirm password don't setted")
+      return false
+    }
+    else if (this.credential.value.confirmPassword != this.credential.value.password){
+      console.log('password and confirm password are not equal')
+      return false
+    }
+    else if(!this.personalData.value.name || this.personalData.value.name==''){
+      console.log("name don't setted or pattern don't check")
+      return false
+    }
+    else if(!this.personalData.value.surname || this.personalData.value.surname==''){
+      console.log("surname don't setted or pattern don't check")
+      return false
+    }
+    else if(!this.date){
+      console.log("date don't setted or pattern don't check")
+      return false
+    }
     else return true
   }
 
