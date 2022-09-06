@@ -49,10 +49,8 @@ export class ShowsummaryPage implements OnInit {
 
   submit(){
     if(this.validation()){
-      this.persistent.store(this.club).then(
-        (idClub)=>this.persistent.store(this.match).then(
-          (idMatch)=>this.persistent.setClubMatch(idMatch,idClub)
-        )
+      this.persistent.store(this.match).then(
+        (idMatch)=>this.persistent.setClubMatch(idMatch,this.club.id)
       )
       this.router.navigate(['tabs'])
     }

@@ -246,6 +246,7 @@ export class ClubPerformerService {
       id : review.id,
       comment : review.comment,
       mark : review.mark,
+      title: review.title
     }
   }
 
@@ -261,6 +262,8 @@ export class ClubPerformerService {
     this.userPerformer.loadOne(json.UID).subscribe((obj)=>
       review.user=this.userPerformer.JsonToClassObject(obj)
     )
+    // @ts-ignore
+    review.title=json.title
     return review
   }
 
