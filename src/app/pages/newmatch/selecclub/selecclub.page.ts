@@ -1,6 +1,7 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {Club} from "../../../model/Club";
 import {Place} from "../../../model/Place";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
 
 @Component({
@@ -10,42 +11,21 @@ import {Place} from "../../../model/Place";
 })
 export class SelecclubPage implements OnInit {
 
-  public list: Array<Object>=[];
+  public list: Array<Club>=[];
   public searchedItem: any;
   @Input() selectedItem: Club;
   @Output() selected=new EventEmitter<Club>();
 
 
 
-  constructor() {
-    let Avezzano=new Club()
-    Avezzano.name="Circolo di Avezzano"
-    Avezzano.place=new Place()
-    let Aquila=new Club()
-    Aquila.name="Circolo di L'Aquila"
-    Aquila.place=new Place()
-    let Celano=new Club()
-    Celano.name="Circolo di Celano"
-    Celano.place=new Place()
-    let Chieti=new Club()
-    Chieti.name="Circolo di Chieti"
-    Chieti.place=new Place()
-    let Pescara=new Club()
-    Pescara.name="Circolo di Pescara"
-    Pescara.place=new Place()
+  constructor(private persistent:PersistentMenagerService) {}
 
-    this.list=[
-      Avezzano,
-      Aquila,
-      Celano,
-      Chieti,
-      Pescara
-    ]
-
+  ngOnInit() {
+    this.persistent.loadAll(Club.name).subscribe(
+      (obj)=>this.list=this.persistent.eval(Club.name,<object[]>obj)
+    )
     this.searchedItem=this.list
   }
-
-  ngOnInit() {}
 
 
   _ionChange(event){

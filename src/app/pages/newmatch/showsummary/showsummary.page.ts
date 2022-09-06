@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Match} from "../../../model/Match";
 import {Club} from "../../../model/Club";
 import {Router} from "@angular/router";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-showsummary',
@@ -14,7 +15,7 @@ export class ShowsummaryPage implements OnInit {
   @Input() club : Club
   public allertMessage : String
 
-  constructor(private router : Router) { }
+  constructor(private router : Router,private persistent:PersistentMenagerService) { }
 
   ngOnInit() {
     this.allertMessage="Non selezionato"
@@ -47,7 +48,14 @@ export class ShowsummaryPage implements OnInit {
   }
 
   submit(){
-    this.router.navigate(['tabs'])
+    if(this.validation()){
+      this.persistent.store(this.club).then(
+        (idClub)=>this.persistent.store(this.match).then(
+          (idMatch)=>this.persistent.setClubMatch(idMatch,idClub)
+        )
+      )
+      this.router.navigate(['tabs'])
+    }
   }
 
 }

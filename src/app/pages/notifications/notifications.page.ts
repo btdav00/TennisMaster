@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Notification} from 'src/app/model/Notification';
 import {User} from "../../model/User";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-notifications',
@@ -11,19 +13,12 @@ export class NotificationsPage implements OnInit {
 
   notifications : Notification[]
 
-  constructor() { }
+  constructor(private persistent:PersistentMenagerService,private auth:AuthorizationService) { }
 
   ngOnInit() {
-    this.notifications=[]
-    for (let i = 0; i < 10; i++) {
-      let n1=new Notification();
-      let u1=new User()
-      u1.name='Roberto'
-      u1.surname='Di Stefano'
-      n1.text='ha aggiunto una nuova partita in cui hai partecipato'
-      n1.reference=u1
-      this.notifications.push(n1)
-    }
+    this.persistent.searchNotification(null,this.auth.getCurrentUId()).subscribe(
+      (obj)=>this.notifications=this.persistent.eval(Notification.name,obj)
+    )
   }
 
 }

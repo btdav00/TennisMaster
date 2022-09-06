@@ -7,6 +7,8 @@ import {Club} from "../../model/Club";
 import {Place} from "../../model/Place";
 import {Router} from "@angular/router";
 import {MyinputService} from "../../service/input/myinput.service";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-postsmatch',
@@ -22,27 +24,17 @@ export class PostsmatchPage implements OnInit {
 
   @ViewChild(IonContent) content: IonContent
 
-  constructor(private router : Router , private input : MyinputService) {
+  constructor(private router : Router , private input : MyinputService,private persistent:PersistentMenagerService,private auth:AuthorizationService) {
 
   }
 
   ngOnInit() {
-    this.newMsg=''
-    this.msgs=[]
-    for (let i = 0; i <10; i++) {
-      let c1=new Comment()
-      let u1=new User()
-      u1.name="Roberto"
-      u1.surname="Di Stefano"
-      c1.text="testo bello ..."
-      c1.writer=u1
-      c1.time=new Date()
-      this.msgs.push(c1)
-    }
     // @ts-ignore
     this.match=this.input.getInput().match
     // @ts-ignore
     this.club=this.input.getInput().club
+
+    this.persistent.searchComment(null,this.match.id)
   }
 
   resultMatch(match: Match,required=null , mood='number') {
@@ -62,7 +54,6 @@ export class PostsmatchPage implements OnInit {
   }
 
   goToMatchDetail(){
-    if(this.club==null)console.log('mannaggiaaaaaaaaa')
 
     this.input.addInput({
       match : this.match,
@@ -75,9 +66,10 @@ export class PostsmatchPage implements OnInit {
 
   sendPost(){
     //create
-    let user=new User()
-    user.name="Roberto"
-    user.surname="Di Stefano"
+    let user:User
+    this.persistent.loadOne(User.name,this.auth.getCurrentUId()).subscribe(
+      (obj)=>user=this.persistent.eval(User.name,<object[]>obj,true)
+    )
     let post=new Comment()
     post.text=this.newMsg
     post.writer=user

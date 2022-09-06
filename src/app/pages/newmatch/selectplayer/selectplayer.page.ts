@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../../../model/User";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-selectplayer',
@@ -17,42 +18,13 @@ export class SelectplayerPage implements OnInit {
   @Output() outputTeams= new EventEmitter<object>();
 
 
-  constructor() {
-    let Roberto=new User()
-    Roberto.name="Roberto"
-    Roberto.surname="Di Stefano"
-    Roberto.id="0"
-    let Davide=new User()
-    Davide.name="Davide"
-    Davide.surname="Battistone"
-    Davide.id="1"
-    let Carla=new User()
-    Carla.name="Carla"
-    Carla.surname="Di Stefano"
-    Carla.id="2"
-    let Gloria=new User()
-    Gloria.name="Gloria"
-    Gloria.surname="Marinelli"
-    Gloria.id="3"
-    let Lorenzo=new User()
-    Lorenzo.name="Lorenzo"
-    Lorenzo.surname="Di Stefano"
-    Lorenzo.id="4"
-
-    this.list=[
-      Roberto,
-      Carla,
-      Davide,
-      Gloria,
-      Lorenzo
-    ]
-
-
-
-    this.searchedItem=this.list
-  }
+  constructor(private persistent:PersistentMenagerService) {}
 
   ngOnInit() {
+    this.persistent.loadAll(User.name).subscribe(
+      (users)=>this.list=this.persistent.eval(User.name,<object[]>users)
+    )
+    this.searchedItem=this.list
     this.teamNumber=1
   }
 

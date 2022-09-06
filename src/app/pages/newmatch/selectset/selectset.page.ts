@@ -21,10 +21,7 @@ export class SelectsetPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-
-
-  }
+  ngOnInit() {}
 
   deleteSet(index){
     this.sets.splice(index,1)

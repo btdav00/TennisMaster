@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  Validators,
-  FormBuilder,
-  FormControl,
-  AbstractControl,
-} from '@angular/forms';
+import {FormGroup, Validators, FormBuilder, FormControl, AbstractControl,} from '@angular/forms';
 import {AuthorizationService} from "../../service/authorization/authorization.service";
 import {User} from "../../model/User";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
@@ -44,11 +38,11 @@ export class ModprofilePage implements OnInit {
     let updated=new User()
     updated.name = this.personalData.value.name
     updated.surname = this.personalData.value.surname
-    if(this.credential.value.password = this.credential.value.confirmPassword){
-      updated.password = this.credential.value.password
+    if(this.credential.value.password == this.credential.value.confirmPassword){
+      this.authorization.updateProfile(null,this.credential.value.password)
     }
     updated.id = this.authorization.getCurrentUId()
-    this.persistent.updateUser(updated)
+    this.persistent.update(updated)
   }
 
 }

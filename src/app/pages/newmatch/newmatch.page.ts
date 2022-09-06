@@ -37,15 +37,6 @@ export class NewmatchPage implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-
   setMood(mood:String){
     if(this.mood!=mood)this.mood=mood
     else this.mood=''

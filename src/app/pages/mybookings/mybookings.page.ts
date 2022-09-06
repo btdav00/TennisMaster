@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Booking} from "../../model/Booking";
 import {Club} from "../../model/Club";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-mybookings',
@@ -11,17 +13,12 @@ export class MybookingsPage implements OnInit {
 
   public bookings : Booking[]
 
-  constructor() {}
+  constructor(private persistent:PersistentMenagerService,private auth:AuthorizationService) {}
 
   ngOnInit() {
-    let club=new Club()
-    let date=new Date()
-    this.bookings=[]
-    for (let i = 0; i < 10; i++) {
-      let b1=new Booking()
-      b1.date=date
-      this.bookings.push(b1)
-    }
+    this.persistent.searchBooking(null,this.auth.getCurrentUId()).subscribe(
+      (result)=>this.bookings=this.persistent.eval(Booking.name,result)
+    )
   }
 
 }

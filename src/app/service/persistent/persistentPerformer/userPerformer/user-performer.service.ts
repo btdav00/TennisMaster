@@ -57,13 +57,18 @@ export class UserPerformerService {
   }
 
   async store(toBeStored : User,id: string){
+    let result:string
     if(id!=null){
+      result=id
       await this.persistent.collection(toBeStored.constructor.name).doc(id).set(this.ClassObjectToJson(toBeStored)).then(
-        ()=> toBeStored.id=id,
+        ()=>toBeStored.id=id,
         (e)=>{throw new Error(e)}
       )
     }
-    else await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored));
+    else await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
+      (doc)=>{result=doc.id}
+    );
+    return result
   }
 
   public loadOne(id: string){

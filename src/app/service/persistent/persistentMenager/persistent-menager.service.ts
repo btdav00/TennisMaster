@@ -59,12 +59,16 @@ export class PersistentMenagerService {
     else return result
   }
 
-  async store(toBeStored : User,id: string) {
-    await this.getPersistentPerformer(toBeStored.constructor.name).store(toBeStored,id)
+  async store(toBeStored ,id: string=null) {
+    let result:string
+    await this.getPersistentPerformer(toBeStored.constructor.name).store(toBeStored,id).then(
+      (id)=>result=id
+    )
+    return result
   }
 
-  async updateUser(toBeStored: User){
-    await this.userPerformer.update(toBeStored)
+  async update(toBeStored){
+    await this.getPersistentPerformer(toBeStored.constructor.name).update(toBeStored)
   }
 
   public loadOne(className : string , id: string): Observable<any>{
