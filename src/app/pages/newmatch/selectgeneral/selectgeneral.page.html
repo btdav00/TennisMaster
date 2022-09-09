@@ -1,9 +1,9 @@
 <ion-list>
   <ion-item>
     <ion-label>Tipo Partita : </ion-label>
-    <ion-select [(ngModel)]="type" (change)="sendType()" class="ion-text-center" interface="action-sheet" placeholder="Seleziona tipo partita" >
+    <ion-select [(ngModel)]="type" (ionChange)="sendType()" class="ion-text-center" interface="action-sheet" placeholder="Seleziona tipo partita" >
       <ion-select-option  value="singolo">Singolo</ion-select-option>
-      <ion-select-option value="doppio">Doppio</ion-select-option>
+      <ion-select-option  value="doppio">Doppio</ion-select-option>
     </ion-select>
   </ion-item>
 </ion-list>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {collection, getFirestore, query, where} from "firebase/firestore";
-import {Booking} from "../../model/Booking";
-import {Club} from "../../model/Club";
-import {Court} from "../../model/Court";
+import {Booking} from "../../../model/Booking";
+import {Club} from "../../../model/Club";
+import {Court} from "../../../model/Court";
 
 @Injectable({
   providedIn: 'root'

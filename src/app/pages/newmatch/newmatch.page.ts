@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {Match} from "../../model/Match";
 import {Club} from "../../model/Club";
+import {User} from "../../model/User";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {AuthorizationService} from "../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-newmatch',
@@ -23,18 +26,25 @@ export class NewmatchPage implements OnInit {
 
 
 
-  constructor() {
+  constructor(private persistent:PersistentMenagerService,private auth:AuthorizationService) {
 
   }
 
   ngOnInit() {
-    this.mood=''
-    this.match=new Match()
-    this.match.player1=[]
-    this.match.player2=[]
-    this.match.sets=[]
-    this.match.type='doppio'
-
+    if(!this.mood)this.mood=''
+    if(!this.match)this.match=new Match()
+    if(!this.match.player1)this.match.player1=[]
+    if(!this.match.player2)this.match.player2=[]
+    if(!this.match.sets)this.match.sets=[]
+    if(!this.match.type)this.match.type='doppio'
+    /*
+    if(!this.match.publisher){
+      const currentId=this.auth.getCurrentUId()
+      this.persistent.loadOne(User.name,currentId).subscribe(
+        (obj)=>this.match.publisher=this.persistent.eval(User.name,obj,true)
+      )
+    }
+     */
   }
 
   setMood(mood:String){

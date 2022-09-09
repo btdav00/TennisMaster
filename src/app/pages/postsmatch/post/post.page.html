@@ -1,12 +1,20 @@
-<ion-grid>
+<ion-grid *ngIf="post && post.writer">
   <ion-row>
-    <ion-col size="12" class="message other-message">
-      <b>{{post.writer.name}} {{post.writer.surname}}</b>
+    <ion-col *ngIf="post.writer.id==auth.getCurrentUId();else _else" size="12" class="message my-message">
+      <b >{{post.writer.name}} {{post.writer.surname}}</b>
       <br>
       <span>{{post.text}}</span>
       <br>
       <div class="time"> {{stringDate(post.time)}} </div>
-
     </ion-col>
+    <ng-template #_else>
+      <ion-col size="12" class="message other-message">
+        <b >{{post.writer.name}} {{post.writer.surname}}</b>
+        <br>
+        <span>{{post.text}}</span>
+        <br>
+        <div class="time"> {{stringDate(post.time)}} </div>
+      </ion-col>
+    </ng-template>
   </ion-row>
 </ion-grid>

@@ -13,6 +13,10 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {Club} from "../../model/Club";
+import {Place} from "../../model/Place";
+import {Court} from "../../model/Court";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +32,7 @@ export class LoginPage implements OnInit {
 
 
 
-  constructor(private route: Router,private authService: AuthorizationService,private loadingController: LoadingController) {
+  constructor(private route: Router,private authService: AuthorizationService,private persistent: PersistentMenagerService,private loadingController: LoadingController) {
     this.credential = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
@@ -38,6 +42,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
   }
+
+
 
   reset(){
     this.credential.reset()

@@ -30,7 +30,7 @@
           <ion-img  [src]="" style="display: block ; margin: 0px auto ; text-align: center; width: 50px ; height: 50px;"></ion-img>
         </ion-col>
 
-        <ion-col class="col-separator ion-align-self-center ion-text-center"><div class="clickable" (click)="goToMatchDetail()"> {{resultMatch(match,null,'string')}} </div>  </ion-col>
+        <ion-col class="col-separator ion-align-self-center ion-text-center"><div class="clickable" (click)="goToMatchDetail()"> {{matchService.resultMatch(match,null,'string')}} </div>  </ion-col>
 
         <ion-col  class="ion-align-self-center">
           <ion-img [src]="" style="display: block ; margin: 0px auto ; text-align: center; width: 50px ; height: 50px;"></ion-img>

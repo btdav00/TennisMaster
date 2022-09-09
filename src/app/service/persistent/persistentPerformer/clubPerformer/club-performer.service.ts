@@ -33,6 +33,7 @@ export class ClubPerformerService {
   }
 
   public JsonToClassObject(json: object):Club{
+    console.log(json)
     let obj=<object>json;
     let club= new Club()
     // @ts-ignore
@@ -49,16 +50,19 @@ export class ClubPerformerService {
   }
 
   public ClassObjectToJson(club : Club):object{
+    let id=''
+    if(club.id)id=club.id
     return {
-      id: club.id,
+      id: id,
       name: club.name,
-      place: this.JsonToPlace(club.place),
+      place: this.PlaceToJson(club.place),
       times: Object.assign({},club.times),
-      courts: this.JsonToCourts(club.courts)
+      courts: this.CourtsToJson(club.courts)
     }
   }
 
   private JsonToPlace(json:object){
+    console.log(json)
     let place=new Place()
     // @ts-ignore
     place.street=json.street
@@ -101,7 +105,7 @@ export class ClubPerformerService {
         indoor: court.indoor,
         surface: court.surface
       }
-      courtsObj.push(courtsObj)
+      courtsObj.push(courtObj)
     }
     return Object.assign({},courtsObj)
   }
@@ -115,32 +119,37 @@ export class ClubPerformerService {
         (e)=>{throw new Error(e)}
       )
     }
-    else await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
-      (doc)=>{result=doc.id}
-    );
+    else{
+      console.log(this.ClassObjectToJson(toBeStored))
+      await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
+        (doc)=>{
+          this.persistent.doc(toBeStored.constructor.name + "/" + doc.id).update({id:doc.id})
+          result=doc.id}
+      );
+    }
     return result
   }
 
   public loadOne(id: string){
-    return this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges()
+    return this.persistent.collection(Club.name,ref => ref.where('id','==',id)).valueChanges()
   }
 
   public loadAll(){
-    return this.persistent.collection(User.name).valueChanges()
+    return this.persistent.collection(Club.name).valueChanges()
   }
 
   public load(whereField: string,whereOp: WhereFilterOp,whereValue: string){
-    return this.persistent.collection(User.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges()
+    return this.persistent.collection(Club.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges()
   }
 
   public update(toBeStored : Club) {
-    this.persistent.doc(User.name + "/" + toBeStored.id).update(this.ClassObjectToJson(toBeStored)).catch(
-      (error) => console.log('update ' + User.name + ' error : ' + error))
+    this.persistent.doc(Club.name + "/" + toBeStored.id).update(this.ClassObjectToJson(toBeStored)).catch(
+      (error) => console.log('update ' + Club.name + ' error : ' + error))
   }
 
   public async existOne(id:string){
     let result=false
-    await this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges().subscribe(
+    await this.persistent.collection(Club.name,ref => ref.where('id','==',id)).valueChanges().subscribe(
       res=>{
         if(res.length>0) result=true
       }
@@ -150,7 +159,7 @@ export class ClubPerformerService {
 
   public async exist(whereField: string,whereOp: WhereFilterOp,whereValue: string){
     let result=false
-    await this.persistent.collection(User.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges().subscribe(
+    await this.persistent.collection(Club.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges().subscribe(
       res=>{
         if(res.length>0) result=true
       }
@@ -159,7 +168,7 @@ export class ClubPerformerService {
   }
 
   public deleteOne(id:string) {
-    this.persistent.doc(User.name + "/" + id).delete().catch(
+    this.persistent.doc(Club.name + "/" + id).delete().catch(
       (error) => console.log(error)
     )
   }

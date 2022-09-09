@@ -14,34 +14,28 @@ import {PersistentMenagerService} from "../../../service/persistent/persistentMe
 export class MatchPage implements OnInit {
 
   @Input() match : Match
+  private club : Club
 
   constructor(private router : Router, private input : MyinputService , private persistent:PersistentMenagerService) { }
 
   ngOnInit() {
+    this.persistent.getClubMatch(this.match.id).subscribe(
+      (obj)=>this.club=this.persistent.eval(Club.name,<object[]>obj,true)
+    )
   }
 
   goToMatchDetail(){
-    let club=null
-    this.persistent.getClubMatch(this.match.id).subscribe(
-      (obj)=>club=this.persistent.eval(Club.name,<object[]>obj,true)
-    )
-
     this.input.addInput({
       match : this.match,
-      club : club
+      club : this.club,
     })
     this.router.navigate(['matchdetails'])
   }
 
   goToPostMatch(){
-    let club=null
-    this.persistent.getClubMatch(this.match.id).subscribe(
-      (obj)=>club=this.persistent.eval(Club.name,<object[]>obj,true)
-    )
-
     this.input.addInput({
       match : this.match,
-      club : club
+      club : this.club,
     })
     this.router.navigate(['postsmatch'])
   }

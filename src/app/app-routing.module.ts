@@ -101,7 +101,7 @@ const routes: Routes = [
   },
   {
     path: 'payments',
-    loadChildren: () => import('./payments/payments.module').then( m => m.PaymentsPageModule)
+    loadChildren: () => import('./pages/payments/payments.module').then(m => m.PaymentsPageModule)
   },
   {
     path: 'splash',

@@ -22,9 +22,11 @@ export class SelecclubPage implements OnInit {
 
   ngOnInit() {
     this.persistent.loadAll(Club.name).subscribe(
-      (obj)=>this.list=this.persistent.eval(Club.name,<object[]>obj)
+      (obj)=>{
+        this.list=this.persistent.eval(Club.name,<object[]>obj)
+        this.searchedItem=this.list
+      }
     )
-    this.searchedItem=this.list
   }
 
 

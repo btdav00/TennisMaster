@@ -14,6 +14,7 @@ import {UserPerformerService} from "../persistentPerformer/userPerformer/user-pe
 import {Observable} from "rxjs";
 import {MatchPerformerService} from "../persistentPerformer/matchPerformer/match-performer.service";
 import {ClubPerformerService} from "../persistentPerformer/clubPerformer/club-performer.service";
+import {switchMap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -84,8 +85,9 @@ export class PersistentMenagerService {
   }
 
   public getClubMatch(idMatch:string){
-    let club=new Club()
-    return this.clubPerformer.loadOne(this.matchPerformer.getClubMatch(idMatch))
+    return this.matchPerformer.getClubMatchId(idMatch).pipe(switchMap(
+      (idClub)=>this.clubPerformer.loadOne(idClub)
+    ))
   }
 
   async addFollower(idFollowed:string,idFollower:string){
@@ -124,6 +126,10 @@ export class PersistentMenagerService {
     return  this.getPersistentPerformer(className).getImg(id)
   }
 
+  public getMatchOfFollowee(idUser){
+    this.matchPerformer.getMatchOfFollowee(idUser)
+  }
+
   public addUserToClub(idUser:string,idClub:string){
     this.userPerformer.addUserToClub(idUser, idClub)
   }
@@ -157,16 +163,16 @@ export class PersistentMenagerService {
     return this.clubPerformer.existReview(id, idUser, mark)
   }
 
-  public async addComment( comment:Comment ,match: Match ){
-    await this.matchPerformer.addComment(comment, match)
+  public async addComment( comment:Comment ,match: Match ,idUser: string=null){
+    await this.matchPerformer.addComment(comment, match,idUser)
   }
 
   public async deleteComment(id: string){
     await this.matchPerformer.deleteComment(id)
   }
 
-  public searchComment(id:string=null,idMatch:string=null,writerId:string=null) {
-    return this.matchPerformer.searchComment(id, idMatch, writerId)
+  public searchComment(id:string=null,idMatch:string=null,writerId:string=null,orderByField:string[]=null,orderByAscending:boolean[]=null) {
+    return this.matchPerformer.searchComment(id, idMatch, writerId,orderByField,orderByAscending)
   }
 
   public existComment(id:string=null,idMatch:string=null,writerId:string=null) {

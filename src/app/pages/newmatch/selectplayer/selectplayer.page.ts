@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../../../model/User";
 import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
+import {AuthorizationService} from "../../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-selectplayer',
@@ -18,13 +19,19 @@ export class SelectplayerPage implements OnInit {
   @Output() outputTeams= new EventEmitter<object>();
 
 
-  constructor(private persistent:PersistentMenagerService) {}
+  constructor(private persistent:PersistentMenagerService, private auth: AuthorizationService) {}
 
   ngOnInit() {
     this.persistent.loadAll(User.name).subscribe(
-      (users)=>this.list=this.persistent.eval(User.name,<object[]>users)
+      (users)=>{
+        this.list=this.persistent.eval(User.name,<object[]>users)
+        console.log(this.list)
+        this.searchedItem=this.list
+      }
     )
-    this.searchedItem=this.list
+    this.persistent.loadOne(User.name,this.auth.getCurrentUId()).subscribe(
+      (obj)=>this.team1.push(this.persistent.eval(User.name,obj,true))
+    )
     this.teamNumber=1
   }
 
@@ -59,8 +66,11 @@ export class SelectplayerPage implements OnInit {
             this.team1.push(player)
           }
           else {
-            this.team1[1] = this.team1[0]
-            this.team1[0] = player
+            if(this.team1[1].id!=this.auth.getCurrentUId())this.team1[1] = player
+            else{
+              this.team1[0]=this.team1[1]
+              this.team1[1] = player
+            }
           }
         }
         else{
@@ -73,26 +83,18 @@ export class SelectplayerPage implements OnInit {
           }
         }
       }
-      else{
-        if(this.teamNumber==1){
-          this.team1=[player]
-        }
-        else{
-          this.team2=[player]
-        }
+      else if(this.teamNumber==2){
+        this.team2=[player]
       }
       this.send()
     }
     else this.popPlayer(player)
-
-
-
   }
 
   private popPlayer(player:User){
     if(this.teamNumber==1){
       for (let i = 0; i < this.team1.length; i++) {
-        if(this.team1[i].id==player.id)this.team1.splice(i,1)
+        if(this.team1[i].id==player.id && this.team1[i].id!=this.auth.getCurrentUId())this.team1.splice(i,1)
       }
     }
     else{

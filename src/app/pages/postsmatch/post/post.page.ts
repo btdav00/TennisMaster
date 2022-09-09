@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from "../../../model/Comment";
+import {AuthorizationService} from "../../../service/authorization/authorization.service";
+import {DateService} from "../../../service/manageObject/date/date.service";
 
 @Component({
   selector: 'app-post',
@@ -12,27 +14,14 @@ export class PostPage implements OnInit {
 
 
 
-  constructor() { }
+  constructor(public auth:AuthorizationService,public dateService:DateService) { }
 
   ngOnInit() {
   }
 
   stringDate(date : Date ){
-
     date= new Date(date.toISOString());
-    let  day= <unknown>date.getUTCDate()
-    let month= <unknown>(date.getMonth()+1)
-    let year= <unknown>date.getFullYear()
-    let hours=date.getUTCHours()
-    let minutes=date.getUTCMinutes()
-    let seconds=date.getUTCSeconds()
-    if(day<10){
-      day= "0"+day
-    }
-    if(month<10){
-      month= "0"+month
-    }
-    return day+"/"+month+"/"+year+"  "+hours+":"+minutes+":"+seconds;
+    return this.dateService.getStringDate(date)+"  "+this.dateService.getStringTime(date,2);
   }
 
 }

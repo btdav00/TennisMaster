@@ -19,6 +19,7 @@ export class SelectgeneralPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.type)
     if(this.date!=null){
       let  day= <unknown>this.date.getUTCDate()
       let month= <unknown>(this.date.getMonth()+1)
@@ -66,6 +67,7 @@ export class SelectgeneralPage implements OnInit {
   }
 
   sendType(){
+    console.log(this.type)
     this.outputType.emit(this.type)
   }
 

@@ -46,8 +46,10 @@ export class UserPerformerService {
   }
 
   public ClassObjectToJson(user : User):object{
+    let id=''
+    if(user.id)id=user.id
     return {
-      id: user.id,
+      id: id,
       name: user.name,
       surname: user.surname,
       birthdate: user.birthdate.getTime(),
@@ -65,13 +67,19 @@ export class UserPerformerService {
         (e)=>{throw new Error(e)}
       )
     }
-    else await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
-      (doc)=>{result=doc.id}
-    );
+    else{
+      console.log(this.ClassObjectToJson(toBeStored))
+      await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
+        (doc)=>{
+          this.persistent.doc(toBeStored.constructor.name + "/" + doc.id).update({id:doc.id})
+          result=doc.id}
+      );
+    }
     return result
   }
 
   public loadOne(id: string){
+    console.log('questo è : '+id)
     return this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges()
   }
 
@@ -167,8 +175,10 @@ export class UserPerformerService {
   }
 
   public NotificationToJson(notification: Notification , user: User){
+    let id=''
+    if(notification.id)id=notification.id
     return{
-      UID : user.id,
+      UID : id,
       id : notification.id,
       text :notification.text,
       reference : notification.reference.id,
@@ -190,7 +200,9 @@ export class UserPerformerService {
   }
 
   public async addNotification( notification:Notification ,user: User ){
-    await this.persistent.collection(notification.constructor.name).add(this.NotificationToJson(notification,user));
+    await this.persistent.collection(notification.constructor.name).add(this.NotificationToJson(notification,user)).then(
+      (doc)=>this.persistent.doc(notification.constructor.name + "/" + doc.id).update({id:doc.id})
+    );
   }
 
   public async deleteNotification(id: string){

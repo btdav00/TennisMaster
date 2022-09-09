@@ -5,7 +5,7 @@ import {MyinputService} from "../../../service/input/myinput.service";
 import{getFirestore, collection, query, where} from 'firebase/firestore'
 import {Router} from "@angular/router";
 import {Court} from "../../../model/Court";
-import {BookingService} from "../../../service/booking/booking.service";
+import {BookingService} from "../../../service/manageObject/booking/booking.service";
 import {Club} from "../../../model/Club";
 
 

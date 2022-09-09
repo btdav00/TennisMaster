@@ -9,6 +9,8 @@ import {UserPerformerService} from "../userPerformer/user-performer.service";
 import {User} from "../../../../model/User";
 import {Comment} from "../../../../model/Comment";
 import {Notification} from "../../../../model/Notification";
+import {map, switchMap} from "rxjs/operators";
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +39,7 @@ export class MatchPerformerService {
     match.date = new Date(<number>obj.date)
     match.sets = []
     // @ts-ignore
-    for (const setItem of Object.assign([], obj.set)) {
+    for (const setItem of Object.assign([], obj.sets)) {
       let set=new Set();
       set.gamesPlayer1=setItem.gamesPlayer1
       set.gamesPlayer2=setItem.gamesPlayer2
@@ -46,8 +48,8 @@ export class MatchPerformerService {
     match.player1 = []
     // @ts-ignore
     for (const playerId of Object.assign([], obj.player1)) {
-      this.getPlayer(playerId).subscribe(
-        (res) =>match.player1.push(<User>res[0]),
+      this.userPerformer.loadOne(playerId).subscribe(
+        (res) =>match.player1.push(this.JsonToPlayer(<object>res[0])),
         (error) => {
           throw new Error('error Player1' + ": " + error)
         }
@@ -56,26 +58,42 @@ export class MatchPerformerService {
     match.player2 = []
     // @ts-ignore
     for (const playerId of Object.assign([], obj.player2)) {
-      this.getPlayer(playerId).subscribe(
-        (res) =>match.player2.push(<User>res[0]),
+      this.userPerformer.loadOne(playerId).subscribe(
+        (res) =>match.player2.push(this.JsonToPlayer(<object>res[0])),
         (error) => {
           throw new Error('error Player2' + ": " + error)
         }
       )
     }
+    // @ts-ignore
+    this.userPerformer.loadOne(obj.publisher).subscribe(
+      (res)=>match.publisher=this.userPerformer.JsonToClassObject(res)
+    )
     return match
+  }
+
+  private JsonToPlayer(json: object):User{
+    let obj=<object>json;
+    let user= new User()
+    // @ts-ignore
+    user.id=obj.id
+    // @ts-ignore
+    user.name=obj.name
+    // @ts-ignore
+    user.surname=obj.surname
+    // @ts-ignore
+    user.birthdate=new Date(<number>obj.birthdate)
+    return user
   }
 
   public ClassObjectToJson(match : Match):object{
     let idPlayer1 = [];
     for (const obj of match.player1) {
-      if(this.userPerformer.existOne(obj.id)) idPlayer1.push(obj.id)
-      else throw new Error("player don't exist")
+     idPlayer1.push(obj.id)
     }
     let idPlayer2 = [];
     for (const obj of match.player2) {
-      if(this.userPerformer.existOne(obj.id))idPlayer2.push(obj.id)
-      else throw new Error("player don't exist")
+      idPlayer2.push(obj.id)
     }
     let sets=[]
     for(const obj of match.sets){
@@ -85,29 +103,40 @@ export class MatchPerformerService {
       })
     }
 
+    let id=''
+    if(match.id)id=match.id
     return {
-      id: match.id,
+      id: id,
       type: match.type,
       date: match.date.getTime(),
       player1: Object.assign({},idPlayer1),
-      player2: Object.assign({},match.player2),
+      player2: Object.assign({},idPlayer2),
       sets: Object.assign({},sets),
+      publisher:match.publisher.id,
       CID: '',
     }
   }
 
-  async store(toBeStored : Match,id=null){
-    let result:string
-    if(id!=null){
-      result=id
+  async store(toBeStored : Match,id=null) {
+    let result: string
+    if (id != null) {
+      result = id
+      console.log(this.ClassObjectToJson(toBeStored))
       await this.persistent.collection(toBeStored.constructor.name).doc(id).set(this.ClassObjectToJson(toBeStored)).then(
-        ()=>toBeStored.id=id,
-        (e)=>{throw new Error(e)}
+        () => toBeStored.id = id,
+        (e) => {
+          throw new Error(e)
+        }
       )
+    } else {
+      console.log(this.ClassObjectToJson(toBeStored))
+      await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
+        (doc) => {
+          this.persistent.doc(toBeStored.constructor.name + "/" + doc.id).update({id: doc.id})
+          result = doc.id
+        }
+      );
     }
-    else await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
-      (doc)=>{result=doc.id}
-    );
     return result
   }
 
@@ -154,30 +183,45 @@ export class MatchPerformerService {
     )
   }
 
+  public getMatchOfFollowee(idUser){
+    this.userPerformer.getFolloweds(idUser).pipe(switchMap(
+      (obj)=>{
+        let followee=[]
+        for (const item of <object[]>obj) {
+          // @ts-ignore
+          followee.push(obj.followed)
+        }
+        return this.persistent.collection(Match.name,ref => ref.where('publisher','array-contains-any',followee).orderBy('date','desc')).valueChanges()
+      }
+    ))
+  }
+
   public async setClubMatch(idMatch:string,idClub:string){
     await this.persistent.collection(Match.name).doc(idMatch).update({CID: idClub})
   }
 
-  public getClubMatch(idMatch:string){
-    let idClub=''
-    this.loadOne(idMatch).subscribe(
-      // @ts-ignore
-      (objs)=>idClub=objs[0].CID
-    )
-    return idClub
+  public getClubMatchId(idMatch:string){
+    return this.loadOne(idMatch).pipe(map(
+      data=>{
+        // @ts-ignore
+        if(data.length>0)return data[0].CID
+        else throw new Error('match do not have club')
+      }
+    ))
   }
 
-  private getPlayer(idPlayer: string){
-    return this.userPerformer.loadOne(idPlayer)
-  }
-
-  public CommentToJson(comment: Comment , match: Match){
+  public CommentToJson(comment: Comment , match: Match,idUser: string=null){
+    let writerId=comment.id
+    let id=''
+    if(comment.id)id=comment.id
+    if(idUser && !comment.writer)writerId=idUser
+    else if((comment.writer && comment.writer.id!=idUser)||(!comment.writer && !idUser)) throw new Error('invalid id')
     return{
       MID : match.id,
-      id : comment.id,
+      id : id,
       text : comment.text,
       time : comment.time.getTime(),
-      writer : comment.writer.id
+      writer : writerId
     }
   }
 
@@ -197,8 +241,10 @@ export class MatchPerformerService {
     return comment
   }
 
-  public async addComment( comment:Comment ,match: Match ){
-    await this.persistent.collection(comment.constructor.name).add(this.CommentToJson(comment,match));
+  public async addComment( comment:Comment ,match: Match,idUser: string=null ){
+    await this.persistent.collection(comment.constructor.name).add(this.CommentToJson(comment,match,idUser)).then(
+      (doc)=> this.persistent.doc(Comment.name + "/" + doc.id).update({id:doc.id})
+    );
   }
 
   public async deleteComment(id: string){
@@ -207,7 +253,7 @@ export class MatchPerformerService {
     )
   }
 
-  public searchComment(id:string=null,idMatch:string=null,writerId:string=null) {
+  public searchComment(id:string=null,idMatch:string=null,writerId:string=null,orderByField:string[]=null,orderByAscending:boolean[]=null) {
     let result=[]
     let whereClauses=[]
 
@@ -221,6 +267,11 @@ export class MatchPerformerService {
         let where=ref.where(whereClauses[0].field,whereClauses[0].op,whereClauses[0].value)
         for (let i = 1; i < whereClauses.length; i++) {
           where=where.where(whereClauses[i].field,whereClauses[i].op,whereClauses[i].value)
+        }
+        for (let i=0;i<orderByField.length;i++){
+          let order='desc'
+          if(orderByAscending[i]) order='asc'
+          where=where.orderBy(orderByField[i],<OrderByDirection>order)
         }
         return where
       })

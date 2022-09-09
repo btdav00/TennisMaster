@@ -3,6 +3,7 @@ import {Match} from "../../model/Match";
 import {Club} from "../../model/Club";
 import {Router} from "@angular/router";
 import {MyinputService} from "../../service/input/myinput.service";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-matchdetails',
@@ -14,13 +15,15 @@ export class MatchdetailsPage implements OnInit {
   public match: Match
   public club: Club
 
-  constructor(private router : Router , private input : MyinputService) { }
-
-  ngOnInit() {
+  constructor(private router : Router , private input : MyinputService, private persistent : PersistentMenagerService) {
     // @ts-ignore
     this.match=this.input.getInput().match
     // @ts-ignore
     this.club=this.input.getInput().club
+  }
+
+  ngOnInit() {
+    console.log(this.club)
   }
 
   stringDate(date : Date ){
@@ -44,7 +47,7 @@ export class MatchdetailsPage implements OnInit {
   goToPostMatch(){
     this.input.addInput({
       match : this.match,
-      club : this.club
+      club : this.club,
     })
     this.router.navigate(['postsmatch'])
   }
