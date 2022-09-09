@@ -175,11 +175,13 @@ export class ClubPerformerService {
 
 
   public BookingToJson(user: User,booking: Booking , club: Club,court: Court){
+    let id=''
+    if(booking.id)id=booking.id
     return{
       UID : user.id,
       CID : club.id,
       courtNumber: court.number,
-      id : booking.id,
+      id : id,
       date : booking.date.getTime(),
       numberHour : booking.numberHour,
       payment : booking.payment,
@@ -203,7 +205,9 @@ export class ClubPerformerService {
   }
 
   public async addBooking(user: User,booking: Booking , club: Club , court: Court){
-    await this.persistent.collection(booking.constructor.name).add(this.BookingToJson(user,booking,club,court));
+    await this.persistent.collection(booking.constructor.name).add(this.BookingToJson(user,booking,club,court)).then(
+      (doc)=> this.persistent.doc(Booking.name + "/" + doc.id).update({id: doc.id})
+    )
   }
 
   public async deleteBooking(id: string){
@@ -249,10 +253,12 @@ export class ClubPerformerService {
 
 
   public ReviewToJson(review : Review , club : Club){
+    let id=''
+    if(review.id)id=review.id
     return{
       UID : review.user.id,
       CID : club.id,
-      id : review.id,
+      id : id,
       comment : review.comment,
       mark : review.mark,
       title: review.title
@@ -277,7 +283,9 @@ export class ClubPerformerService {
   }
 
   public async addReview(review: Review, club: Club){
-    await this.persistent.collection(review.constructor.name).add(this.ReviewToJson(review,club));
+    await this.persistent.collection(review.constructor.name).add(this.ReviewToJson(review,club)).then(
+      (doc)=> this.persistent.doc(Review.name + "/" + doc.id).update({id: doc.id})
+    );
   }
 
   public async deleteReview(id: string){

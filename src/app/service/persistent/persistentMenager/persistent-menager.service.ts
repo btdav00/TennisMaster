@@ -73,7 +73,7 @@ export class PersistentMenagerService {
   }
 
   public loadOne(className : string , id: string): Observable<any>{
-    return this.getPersistentPerformer(className).load(id)
+    return this.getPersistentPerformer(className).loadOne(id)
   }
 
   public loadAll(className : string): Observable<any>{

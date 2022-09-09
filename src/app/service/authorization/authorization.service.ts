@@ -20,17 +20,14 @@ import {switchMap, tap} from "rxjs/operators";
 
 
 export class AuthorizationService {
-  private currentId : string
 
   constructor(private auth: AngularFireAuth, private route: Router, private persistentMenager: PersistentMenagerService) {
     this.auth.onAuthStateChanged((user)=>{
       if(user){
         localStorage.setItem('userUid',user.uid)
-        this.currentId=user.uid
       }
       else{
         localStorage.setItem('userUid','')
-        this.currentId=''
       }
     })
   }
@@ -94,7 +91,7 @@ export class AuthorizationService {
   }
 
   public getCurrentUId(){
-    return this.currentId
+    return localStorage.getItem('userUid')
   }
 
 
