@@ -14,4 +14,5 @@ export class DataService {
   changeFromTabs(bool: boolean){
     this.fromTabs.next(bool)
   }
+
 }

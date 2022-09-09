@@ -2,6 +2,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Club} from "../../../model/Club";
 import {BehaviorSubject} from "rxjs";
 import {DataService} from "../data.service";
+import {MyinputService} from "../../../service/input/myinput.service";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
+import {User} from "../../../model/User";
+import {AuthorizationService} from "../../../service/authorization/authorization.service";
 
 @Component({
   selector: 'app-searchclub',
@@ -13,11 +17,14 @@ export class SearchclubPage implements OnInit {
   public list: Array<Object>=[];
   public searchedItem: any;
   fromTabs:boolean;
+  searched: string
+  private clubs: []
 
-  constructor(private data: DataService) { }
+  constructor(private myinput: MyinputService, private persistent: PersistentMenagerService, private authorization: AuthorizationService) { }
 
   ngOnInit() {
-    this.data.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+    this.myinput.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+    this.myinput.currentSearched.subscribe(searched => this.searched = searched)
   }
 
   _ionChange(event){
@@ -33,7 +40,22 @@ export class SearchclubPage implements OnInit {
   }
 
   changeFrom() {
-    this.data.changeFromTabs(false)
+    this.myinput.changeFromTabs(false)
+  }
+
+  changeSearched(){
+    this.myinput.changeSearched("argomento della form")
+  }
+
+  searchedList(){
+    this.persistent.loadAll(Club.name).subscribe(
+      (clubs)=>{
+        this.clubs = this.persistent.eval(Club.name, clubs, true)
+      }
+    )
+    for(this.clubs as club){
+      this.changeSearched().split....
+    }
   }
 
 

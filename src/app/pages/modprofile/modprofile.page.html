@@ -68,9 +68,12 @@
       ></ion-input>
     </ion-item>
   </form>
+  <ion-button color="light" expand="block" (click)="showCalendar()">Data di nascita</ion-button>
+  <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
+  </ion-datetime>
   <br />
   <ion-text class="ion-text-center" color="primary">
-    <h3>Autentiazione</h3>
+    <h3>Autenticazione</h3>
   </ion-text>
   <form [formGroup]="auth">
     <ion-item>

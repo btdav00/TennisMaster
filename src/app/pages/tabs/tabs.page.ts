@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject} from "rxjs";
 import {DataService} from "../search/data.service";
+import {MyinputService} from "../../service/input/myinput.service";
 
 @Component({
   selector: 'app-tabs',
@@ -13,12 +14,12 @@ export class TabsPage implements OnInit {
   selected : String
   fromTabs: boolean
 
-  constructor(private router : Router, private data: DataService) {
+  constructor(private router : Router, private myinput: MyinputService) {
     this.selected='home'
   }
 
   ngOnInit() {
-    this.data.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+    this.myinput.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
   }
 
   showHome(){
@@ -38,7 +39,7 @@ export class TabsPage implements OnInit {
   }
 
   sendFrom() {
-    this.data.changeFromTabs(true)//fare la stessa cosa nella ricerca (impostando fromTabs su false) e usare la pagina dell'utente come padre
+    this.myinput.changeFromTabs(true)//fare la stessa cosa nella ricerca (impostando fromTabs su false) e usare la pagina dell'utente come padre
   }
 
 }

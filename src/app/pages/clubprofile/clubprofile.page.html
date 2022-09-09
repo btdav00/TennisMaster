@@ -19,10 +19,18 @@
   </ion-row>
 </ion-grid>
 <br>
-<p class="ion-text-center">{{this.club.name}}</p>
-<p class="ion-text-center">{{this.club.place}}</p>
-<p class="ion-text-center">{{this.club.courts.length}}</p>
-<p class="ion-text-center">n° membri</p>
+<div *ngIf="this.fromTabs==true">
+  <p class="ion-text-center">{{this.club.name}}</p>
+  <p class="ion-text-center">{{this.club.place}}</p>
+  <p class="ion-text-center">{{this.club.courts.length}}</p>
+  <p class="ion-text-center">n° membri</p>
+</div>
+<div *ngIf="this.fromTabs==false">
+  <p class="ion-text-center">{{this.club.name}}</p>
+  <p class="ion-text-center">{{this.club.place}}</p>
+  <p class="ion-text-center">{{this.club.courts.length}}</p>
+  <p class="ion-text-center">n° membri</p>
+</div>
 <hr>
 <br>
 <ion-button expand="full" href="reviews">recensioni</ion-button>

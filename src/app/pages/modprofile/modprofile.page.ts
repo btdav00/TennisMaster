@@ -14,6 +14,8 @@ export class ModprofilePage implements OnInit {
   credential: FormGroup;
   personalData: FormGroup;
   auth: FormGroup;
+  private date: Date;
+  public showCal =false;
 
   constructor( private authorization: AuthorizationService, private persistent: PersistentMenagerService) {
     this.credential = new FormGroup({
@@ -32,6 +34,23 @@ export class ModprofilePage implements OnInit {
   }
 
   ngOnInit() {
+    let userId = this.authorization.getCurrentUId()
+    //carica l'utente dall'id e caricane l'attuale data di nascita
+  }
+
+  getToday(){
+    return new Date().toISOString()
+  }
+
+  getDateValue(){
+    if (this.date){
+      return this.date.toISOString()
+    }
+    else new Date().toISOString()
+  }
+
+  showCalendar(){
+    this.showCal = !this.showCal;
   }
 
   submit() {
@@ -41,6 +60,7 @@ export class ModprofilePage implements OnInit {
     if(this.credential.value.password == this.credential.value.confirmPassword){
       this.authorization.updateProfile(null,this.credential.value.password)
     }
+    updated.birthdate = this.date
     updated.id = this.authorization.getCurrentUId()
     this.persistent.update(updated)
   }
