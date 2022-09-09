@@ -3,6 +3,10 @@ import {Router} from "@angular/router";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
 import {BehaviorSubject} from "rxjs";
 import {DataService} from "../search/data.service";
+import {MyinputService} from "../../service/input/myinput.service";
+import {Club} from "../../model/Club";
+import {User} from "../../model/User";
+import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 
 
 @Component({
@@ -17,8 +21,10 @@ export class UserprofilePage implements OnInit {
   playedmatch: string
   favouritecourt: string
   fromTabs: boolean
+  private currentUserId: string
+  private user: User
 
-  constructor(private route: Router, private auth: AuthorizationService, private data: DataService) {
+  constructor(private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService) {
     this.name = "nome";
     this.surname = "cognome";
     this.playedmatch = "match giocati";
@@ -26,7 +32,19 @@ export class UserprofilePage implements OnInit {
   }
 
   ngOnInit() {
-    this.data.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+    this.currentUserId = this.auth.getCurrentUId()
+    if(this.myinput.getInput()){
+      // @ts-ignore
+      this.user = this.myinput.getInput().user
+    }
+    else{
+      let userId=this.auth.getCurrentUId()
+      this.persistent.loadOne(User.name, userId).subscribe(
+        (object)=>{
+          this.user = this.persistent.eval(Club.name, <object[]>object, true)
+        }
+      )
+    }
   }
 
   logout(){

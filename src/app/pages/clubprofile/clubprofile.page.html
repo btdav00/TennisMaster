@@ -10,24 +10,29 @@
 
 <ion-grid>
   <ion-row>
-    <ion-col>
-      <img src="./default.jpg" />
-    </ion-col>
-    <ion-col>
-      <ion-button expand="full">unisciti</ion-button>
-    </ion-col>
+    <div *ngIf="this.club!=null">
+      <ion-col>
+        <img src="./default.jpg" />
+      </ion-col>
+      <ion-col>
+        <ion-button expand="full">unisciti</ion-button>
+      </ion-col>
+    </div>
   </ion-row>
 </ion-grid>
 <br>
-<div *ngIf="this.userClub==true">
+<div *ngIf="this.club!=null">
   <p class="ion-text-center">{{this.club.name}}</p>
   <p class="ion-text-center">{{this.club.place.street}} N°{{this.club.place.houseNumber}} ({{this.club.place.city}})</p>
   <p class="ion-text-center">Numero di campi: {{this.club.courts.length}}</p>
 </div>
-<div *ngIf="this.userClub==false">
+<div *ngIf="this.club==null">
   <p class="ion-text-center pagecenter">Attualmente non sei iscritto a nessun circolo, trova quello che fa per te e unisciti!</p>
 </div>
 <hr>
 <br>
-<ion-button expand="full" (click)="inputToReview()">recensioni</ion-button>
+<div *ngIf="club!=null">
+  <ion-button expand="full" (click)="inputToReview()">recensioni</ion-button>
+</div>
+
 

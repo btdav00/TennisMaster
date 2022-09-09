@@ -3,6 +3,9 @@ import {Club} from "../../../model/Club";
 import {BehaviorSubject} from "rxjs";
 import {DataService} from "../data.service";
 import {MyinputService} from "../../../service/input/myinput.service";
+import {Router} from "@angular/router";
+import {User} from "../../../model/User";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-searchplayer',
@@ -11,16 +14,19 @@ import {MyinputService} from "../../../service/input/myinput.service";
 })
 export class SearchplayerPage implements OnInit {
 
-  public list: Array<Object>=[];
+  public list: Array<User>=[];
   public searchedItem: any;
-  @Input() selectedItem: Club;
-  @Output() selected=new EventEmitter<Club>();
   fromTabs: boolean
 
-  constructor(private myinput: MyinputService) { }
+  constructor(private myinput: MyinputService, private route: Router, private persistent: PersistentMenagerService) { }
 
   ngOnInit() {
-
+    this.persistent.loadAll(User.name).subscribe(
+      (users)=>{
+        this.list = this.persistent.eval(User.name, users, false)
+        this.searchedItem = this.list
+      }
+    )
   }
 
   _ionChange(event){
@@ -35,18 +41,11 @@ export class SearchplayerPage implements OnInit {
     else if(val=='')this.searchedItem=this.list
   }
 
-  sendSelected(value:Club){
-    this.selectedItem=value
-    this.selected.emit(value)
+  sendSelected(user: User){
+    this.myinput.addInput({
+      user: user,
+    })
+    this.route.navigate(["userprofile"])
   }
-
-  sendFrom() {
-
-  }
-
-  changeSearched(){
-
-  }
-
 
 }
