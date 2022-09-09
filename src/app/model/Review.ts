@@ -1,4 +1,5 @@
 import { User } from './User';
+import {Club} from "./Club";
 
 export class Review {
   public id: string
@@ -6,5 +7,6 @@ export class Review {
   public user: User;
   public title: string;
   public comment: string;
+  public club: Club
   constructor() {}
 }

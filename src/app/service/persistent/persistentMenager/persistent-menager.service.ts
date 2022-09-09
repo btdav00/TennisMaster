@@ -153,6 +153,10 @@ export class PersistentMenagerService {
     return this.clubPerformer.searchReview(id, idUser, mark)
   }
 
+  public loadReview(whereValue: string){
+    return this.clubPerformer.load("club","==",whereValue)
+  }
+
   public existReview(id:string=null,idUser:string=null,mark:number=null) {
     return this.clubPerformer.existReview(id, idUser, mark)
   }

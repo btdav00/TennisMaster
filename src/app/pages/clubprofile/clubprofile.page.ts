@@ -15,10 +15,11 @@ import {PersistentMenagerService} from "../../service/persistent/persistentMenag
 export class ClubprofilePage implements OnInit {
 
   page: String
-  private club: any
+  private club: Club
   private currentUser: User
+  private fromTabs: any
 
-  constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService) {
+  constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService) {
     this.page='profilo'
   }
 
@@ -34,6 +35,7 @@ export class ClubprofilePage implements OnInit {
       }
     )
     this.club = this.persistent.getUserClub(userId)
+    this.fromTabs = this.myinput.currentFrom
   }
 
 }
