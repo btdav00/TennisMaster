@@ -8,12 +8,6 @@ export class MyinputService {
 
   public input: object
 
-  private fromTabs = new BehaviorSubject<boolean>(true)
-  currentFrom = this.fromTabs.asObservable()
-
-  private searched = new BehaviorSubject<string>("")
-  currentSearched = this.searched.asObservable()
-
   constructor() { }
 
   public addInput(input: object){
@@ -24,11 +18,4 @@ export class MyinputService {
     return this.input
   }
 
-  changeFromTabs(bool: boolean){
-    this.fromTabs.next(bool)
-  }
-
-  changeSearched(string: string){
-    this.searched.next(string)
-  }
 }

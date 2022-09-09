@@ -107,6 +107,10 @@ const routes: Routes = [
     path: 'splash',
     loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },
+  {
+    path: 'homeclub',
+    loadChildren: () => import('./pages/homeclub/homeclub.module').then( m => m.HomeClubPageModule)
+  }
 
 
 

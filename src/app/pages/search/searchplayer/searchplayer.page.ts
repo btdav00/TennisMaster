@@ -20,7 +20,7 @@ export class SearchplayerPage implements OnInit {
   constructor(private myinput: MyinputService) { }
 
   ngOnInit() {
-    this.myinput.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+
   }
 
   _ionChange(event){
@@ -41,7 +41,7 @@ export class SearchplayerPage implements OnInit {
   }
 
   sendFrom() {
-    this.myinput.changeFromTabs(false)
+
   }
 
   changeSearched(){

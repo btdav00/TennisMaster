@@ -6,6 +6,8 @@ import {collection, getFirestore, query, where} from "firebase/firestore";
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {object} from "@angular/fire/database";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-clubprofile',
@@ -17,9 +19,9 @@ export class ClubprofilePage implements OnInit {
   page: String
   private club: Club
   private currentUser: User
-  private fromTabs: any
+  private userClub: boolean
 
-  constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService) {
+  constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, private route: Router) {
     this.page='profilo'
   }
 
@@ -29,13 +31,30 @@ export class ClubprofilePage implements OnInit {
 
   ngOnInit() {
     let userId = this.authorization.getCurrentUId()
-    this.persistent.loadOne(User.name, userId).subscribe(
-      (users)=>{
-        this.currentUser = this.persistent.eval(User.name, users, true)
-      }
-    )
-    this.club = this.persistent.getUserClub(userId)
-    this.fromTabs = this.myinput.currentFrom
+    if(this.myinput.getInput()){
+      // @ts-ignore
+      this.club = this.myinput.getInput().club
+      this.userClub = true
+    }
+    else{
+      let userId=this.authorization.getCurrentUId()
+      this.persistent.getUserClub(userId).subscribe(
+        (object)=>{
+          if(object.length>1){
+            this.club = this.persistent.eval(Club.name, <object[]>object, true)
+            this.userClub = true
+          }
+          else this.userClub=false
+        }
+      )
+    }
+  }
+
+  inputToReview(){
+    this.myinput.addInput({
+      club: this.club
+    })
+    this.route.navigate(["reviews"])
   }
 
 }

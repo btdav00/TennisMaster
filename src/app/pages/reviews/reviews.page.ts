@@ -7,6 +7,8 @@ import firebase from "firebase/compat";
 import {User} from "../../model/User";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 import {Club} from "../../model/Club";
+import {Booking} from "../../model/Booking";
+import {MyinputService} from "../../service/input/myinput.service";
 
 @Component({
   selector: 'app-reviews',
@@ -17,11 +19,11 @@ export class ReviewsPage implements OnInit {
 
   user: User
   currentClub: Club
-  arrayReviews: []
+  arrayReviews: Review[]
 
-  private reviews: FormGroup
+  public reviews: FormGroup
 
-  constructor(private router: Router, private auth: AuthorizationService, private persistentMenager: PersistentMenagerService) {
+  constructor(private router: Router, private auth: AuthorizationService, private persistentMenager: PersistentMenagerService, private myinput: MyinputService) {
     this.reviews = new FormGroup({
       title: new FormControl(''),
       rev: new FormControl('')
@@ -33,17 +35,17 @@ export class ReviewsPage implements OnInit {
   }
 
   ngOnInit() {
-    let userId = this.auth.getCurrentUId()
-    this.persistentMenager.loadOne(User.name, userId).subscribe(
-      (users)=>{
-        this.user = this.persistentMenager.eval(User.name, users, true)
-      }
-    )
-    this.currentClub = this.persistentMenager.getUserClub(userId)
+    //@ts-ignore
+    this.currentClub = this.myinput.getInput().club
+    this.clubReviews()
   }
 
   clubReviews(){
-    this.arrayReviews = this.persistentMenager.loadReview(this.currentClub.name)
+    this.persistentMenager.searchReview(null, null, this.currentClub.id, null).subscribe(
+      (object)=>{
+        this.arrayReviews = this.persistentMenager.eval(Review.name, object, false)
+      }
+    )
   }
 
   submit(){

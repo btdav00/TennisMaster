@@ -6,6 +6,7 @@ import {MyinputService} from "../../../service/input/myinput.service";
 import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 import {User} from "../../../model/User";
 import {AuthorizationService} from "../../../service/authorization/authorization.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-searchclub',
@@ -14,17 +15,20 @@ import {AuthorizationService} from "../../../service/authorization/authorization
 })
 export class SearchclubPage implements OnInit {
 
-  public list: Array<Object>=[];
+  public list: Array<Club>=[];
   public searchedItem: any;
   fromTabs:boolean;
   searched: string
-  private clubs: []
 
-  constructor(private myinput: MyinputService, private persistent: PersistentMenagerService, private authorization: AuthorizationService) { }
+  constructor(private myinput: MyinputService, private persistent: PersistentMenagerService, private authorization: AuthorizationService, private route:Router) { }
 
   ngOnInit() {
-    this.myinput.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
-    this.myinput.currentSearched.subscribe(searched => this.searched = searched)
+    this.persistent.loadAll(Club.name).subscribe(
+      (clubs)=>{
+        this.list = this.persistent.eval(Club.name, clubs, false)
+        this.searchedItem = this.list
+      }
+    )
   }
 
   _ionChange(event){
@@ -39,24 +43,11 @@ export class SearchclubPage implements OnInit {
     else if(val=='')this.searchedItem=this.list
   }
 
-  changeFrom() {
-    this.myinput.changeFromTabs(false)
+  sendSelected(club: Club){
+    this.myinput.addInput({
+      club: club,
+    })
+    this.route.navigate(["homeclub"])
   }
-
-  changeSearched(){
-    this.myinput.changeSearched("argomento della form")
-  }
-
-  searchedList(){
-    this.persistent.loadAll(Club.name).subscribe(
-      (clubs)=>{
-        this.clubs = this.persistent.eval(Club.name, clubs, true)
-      }
-    )
-    for(this.clubs as club){
-      this.changeSearched().split....
-    }
-  }
-
 
 }

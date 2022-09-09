@@ -286,12 +286,13 @@ export class ClubPerformerService {
     )
   }
 
-  public searchReview(id:string=null,idUser:string=null,mark:number=null) {
+  public searchReview(id:string=null,idUser:string=null,idClub:string=null,mark:number=null) {
     let result=[]
     let whereClauses=[]
 
     if(id) whereClauses.push({field: 'id', op:<WhereFilterOp>'==', value: id})
     if(idUser)whereClauses.push({field: 'UID', op:<WhereFilterOp>'==', value: idUser})
+    if(idClub)whereClauses.push({field: 'CID', op:<WhereFilterOp>'==',value: idClub})
     if(mark)whereClauses.push({field: 'mark', op:<WhereFilterOp>'==', value: mark})
 
     let q: AngularFirestoreCollection<object>
@@ -310,9 +311,9 @@ export class ClubPerformerService {
     return q.valueChanges()
   }
 
-  public existReview(id:string=null,idUser:string=null,mark:number=null) {
+  public existReview(id:string=null,idUser:string=null,idClub:string=null,mark:number=null) {
     let exist=false;
-    this.searchReview(id, idUser, mark).subscribe((result) => {
+    this.searchReview(id, idUser, idClub, mark).subscribe((result) => {
       if(result.length>0)exist=true;
     })
     return exist

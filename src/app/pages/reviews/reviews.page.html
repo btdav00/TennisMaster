@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Recensioni</ion-title>
+
+    <ion-buttons slot="secondary">
+      <ion-button href="tabs">
+        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -11,25 +17,24 @@
         <img src="" />
       </ion-avatar>
       <ion-label>
-        <h2>{{review.user}}</h2>
+        <h2>{{review.user.name}} {{review.user.surname}}</h2>
         <h3>{{review.title}}</h3>
         <p>{{review.comment}}</p>
       </ion-label>
     </ion-item>
   </div>
   <br>
-  <h3>Aggiungi un commento</h3>
+  <h4 class="ion-text-center">Aggiungi una recensione</h4>
   <form [formGroup]="reviews">
     <ion-item>
-      <ion-label>Titolo</ion-label>
-      <ion-input formControlName="title" placeholder="placeholder" type="text"></ion-input>
+      <ion-label position="stacked">Titolo</ion-label>
+      <ion-input formControlName="title" placeholder="titolo..." type="text"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="stacked">commento</ion-label>
-      <ion-textarea formControlName="review" placeholder="placeholder"></ion-textarea>
+      <ion-label position="stacked">recensione</ion-label>
+      <ion-textarea formControlName="rev" placeholder="recensione..."></ion-textarea>
     </ion-item>
   </form>
   <ion-button class="error-size" color="primary" expand="block" (click)="submit()" > Invia </ion-button>
   <br>
-  <ion-button size="small" href="tabs">Back</ion-button>
 </ion-content>

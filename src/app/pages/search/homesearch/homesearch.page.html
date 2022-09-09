@@ -1,11 +1,20 @@
 <ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="secondary">
+      <ion-button href="tabs">
+        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
   <ion-toolbar color="light">
     <ion-segment color="secondary" value="players">
       <ion-segment-button style="font-size: 10px" (click)="setPage('players')"  value="players">
         Ricerca giocatore
       </ion-segment-button>
       <ion-segment-button style="font-size: 10px" (click)="setPage('clubs')"  value="clubs">
-        Ricerca Profilo
+        Ricerca circolo
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>

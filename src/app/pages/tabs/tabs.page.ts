@@ -19,7 +19,7 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.myinput.currentFrom.subscribe(fromTabs => this.fromTabs = fromTabs)
+
   }
 
   showHome(){
@@ -36,10 +36,6 @@ export class TabsPage implements OnInit {
   showProfile(){
     this.selected='profile'
     this.router.navigate(['./tabs','userprofile'])
-  }
-
-  sendFrom() {
-    this.myinput.changeFromTabs(true)//fare la stessa cosa nella ricerca (impostando fromTabs su false) e usare la pagina dell'utente come padre
   }
 
 }
