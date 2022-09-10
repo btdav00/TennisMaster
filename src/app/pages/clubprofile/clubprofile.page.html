@@ -22,12 +22,9 @@
 </ion-grid>
 <br>
 <div *ngIf="this.club!=null">
-  <p class="ion-text-center">{{this.club.name}}</p>
-  <p class="ion-text-center">{{this.club.place.street}} N°{{this.club.place.houseNumber}} ({{this.club.place.city}})</p>
+  <p class="ion-text-center">Nome:{{this.club.name}}</p>
+  <p class="ion-text-center">Indirizzo:{{this.club.place.street}} N°{{this.club.place.houseNumber}} ({{this.club.place.city}})</p>
   <p class="ion-text-center">Numero di campi: {{this.club.courts.length}}</p>
-</div>
-<div *ngIf="this.club==null">
-  <p class="ion-text-center pagecenter">Attualmente non sei iscritto a nessun circolo, trova quello che fa per te e unisciti!</p>
 </div>
 <hr>
 <br>

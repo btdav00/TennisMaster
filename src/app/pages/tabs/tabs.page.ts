@@ -27,7 +27,17 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
-
+    let userId = this.auth.getCurrentUId()
+    this.persistent.getUserClub(userId).subscribe(
+      (object)=>{
+        this.club = this.persistent.eval(Club.name, <object[]>object, true)
+      }
+    )
+    this.persistent.loadOne(User.name, userId).subscribe(
+      (object)=>{
+        this.user = this.persistent.eval(User.name, object, true)
+      }
+    )
   }
 
   showHome(){
@@ -36,30 +46,17 @@ export class TabsPage implements OnInit {
   }
 
   showClub(){
-    let userId = this.auth.getCurrentUId()
-    this.persistent.getUserClub(userId).subscribe(
-      (object)=>{
-        if(this.club){
-          this.club = this.persistent.eval(Club.name, <object[]>object, true)
-        }
-        else this.club = null
-      }
-    )
+    if(!this.club){
+      this.club = null
+    }
     this.myinput.addInput({
-      user: this.user
+      club: this.club
     })
     this.selected='club'
     this.router.navigate(['./tabs','homeclub'])
   }
 
   showProfile(){
-    let userId = this.auth.getCurrentUId()
-    this.user = new User()
-    this.persistent.loadOne(User.name, userId).subscribe(
-      (object)=>{
-        this.user = this.persistent.eval(User.name, object, true)
-      }
-    )
     this.myinput.addInput({
       user: this.user
     })

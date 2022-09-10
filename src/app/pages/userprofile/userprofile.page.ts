@@ -7,6 +7,7 @@ import {MyinputService} from "../../service/input/myinput.service";
 import {Club} from "../../model/Club";
 import {User} from "../../model/User";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
+import {DateService} from "../../service/manageObject/date/date.service";
 
 
 @Component({
@@ -24,7 +25,7 @@ export class UserprofilePage implements OnInit {
   private currentUserId: string
   private user: User
 
-  constructor(private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService) {
+  constructor(private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, public dateservice: DateService ) {
     this.name = "nome";
     this.surname = "cognome";
     this.playedmatch = "match giocati";
@@ -41,7 +42,7 @@ export class UserprofilePage implements OnInit {
       let userId=this.auth.getCurrentUId()
       this.persistent.loadOne(User.name, userId).subscribe(
         (object)=>{
-          this.user = this.persistent.eval(Club.name, <object[]>object, true)
+          this.user = this.persistent.eval(User.name, <object[]>object, true)
         }
       )
     }
@@ -52,6 +53,10 @@ export class UserprofilePage implements OnInit {
       console.log('logout success')
       this.route.navigate(['login'])
     }, ()=>console.log("logout do not success"));
+  }
+
+  followUser(){
+
   }
 
 }

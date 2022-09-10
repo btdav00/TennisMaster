@@ -9,7 +9,7 @@
 
   </ion-toolbar>
 
-  <ion-toolbar color="light">
+  <ion-toolbar color="light" *ngIf="club==true">
     <ion-segment color="secondary" value="profilo">
       <ion-segment-button style="font-size: 10px" (click)="setPage('prenotazioni')"  value="prenotazioni">
         Prenotazioni
@@ -23,8 +23,12 @@
 
 <ion-content >
 
-  <app-clubprofile *ngIf="page=='profilo'"></app-clubprofile>
+  <app-clubprofile *ngIf="page=='profilo'&&club==true"></app-clubprofile>
 
-  <app-reservations *ngIf="page=='prenotazioni'"></app-reservations>
+  <app-reservations *ngIf="page=='prenotazioni'&&club==true"></app-reservations>
+
+  <div *ngIf="!club">
+    <p class="ion-text-center pagecenter">Attualmente non sei iscritto a nessun circolo, trova quello che fa per te e unisciti!</p>
+  </div>
 
 </ion-content>

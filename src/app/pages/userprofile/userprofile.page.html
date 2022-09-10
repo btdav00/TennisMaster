@@ -1,79 +1,47 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-
     <ion-buttons slot="secondary">
-      <ion-button href="tabs">
-        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      <ion-button href="homesearch">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-      <ion-buttons slot="start"> </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-
     <ion-card>
-      <img src="./default.jpg" />
-      <ion-card-header>
-        <ion-card-subtitle>Dati personali</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Nome: {{this.user.name}}
-      </ion-card-content>
-      <ion-card-content>
-        Cognome: {{this.user.surname}}
-      </ion-card-content>
-      <ion-card-content>
-        Anno di nascita: {{this.user.birthdate}}
-      </ion-card-content>
-      <ion-card-content>
-        Superficie preferita
-      </ion-card-content>
-      <div *ngIf="this.currentUserId==this.user.id">
+      <div class="ion-text-center">
+        <img src="./default.jpg" style="width: 100px; height: 100px"/>
+      </div>
+      <div class="ion-text-center">
+        <ion-card-header>
+          <ion-card-subtitle>Dati personali</ion-card-subtitle>
+        </ion-card-header>
         <ion-card-content>
-          <ion-button color="primary" expand="block" href="modprofile"> Modifica </ion-button>
+          Nome: {{this.user.name}}
         </ion-card-content>
         <ion-card-content>
-          <div class="ion-text-center">
-            <a color="primary" expand="block" (click)="logout()"><b>Logout</b></a>
-          </div>
+          Cognome: {{this.user.surname}}
         </ion-card-content>
+        <ion-card-content>
+          Anno di nascita: {{this.dateservice.getStringDate(this.user.birthdate)}}
+        </ion-card-content>
+        <div *ngIf="this.currentUserId==this.user.id; else follow">
+          <ion-card-content>
+            <ion-button color="primary" expand="block" href="modprofile"> Modifica </ion-button>
+          </ion-card-content>
+          <ion-card-content>
+            <div class="ion-text-center">
+              <a color="primary" expand="block" (click)="logout()"><b>Logout</b></a>
+            </div>
+          </ion-card-content>
+        </div>
+        <ng-template #follow>
+          <ion-card-content>
+            <ion-button color="primary" expand="block" (click)="followUser()"> Segui </ion-button>
+          </ion-card-content>
+        </ng-template>
       </div>
     </ion-card>
-  <ng-template #notTab>
-    <ion-card>
-      <img src="./default.jpg" />
-      <ion-card-header>
-        <ion-card-subtitle>Dati personali</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        Nome
-      </ion-card-content>
-      <ion-card-content>
-        Cognome
-      </ion-card-content>
-      <ion-card-content>
-        Partite giocate
-      </ion-card-content>
-      <ion-card-content>
-        Superficie preferita
-      </ion-card-content>
-      <ion-card-content>
-        <ion-button color="primary" expand="block" href="modprofile"> Modifica </ion-button>
-      </ion-card-content>
-      <ion-card-content>
-        <div class="ion-text-center">
-          <a color="primary" expand="block" (click)="logout()"><b>Logout</b></a>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
-
 </ion-content>
 

@@ -45,7 +45,7 @@ export class SearchplayerPage implements OnInit {
     this.myinput.addInput({
       user: user,
     })
-    this.route.navigate(["userprofile"])
+    this.route.navigate(['./tabs','userprofile'])
   }
 
 }

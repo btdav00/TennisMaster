@@ -47,7 +47,7 @@ export class SearchclubPage implements OnInit {
     this.myinput.addInput({
       club: club,
     })
-    this.route.navigate(["homeclub"])
+    this.route.navigate(['./tabs','homeclub'])
   }
 
 }
