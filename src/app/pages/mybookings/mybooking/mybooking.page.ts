@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Booking} from "../../../model/Booking";
+import {Club} from "../../../model/Club";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
 @Component({
   selector: 'app-mybooking',
@@ -9,10 +11,14 @@ import {Booking} from "../../../model/Booking";
 export class MybookingPage implements OnInit {
 
   @Input() booking : Booking
+  club : Club
 
-  constructor() { }
+  constructor(private persistent: PersistentMenagerService) { }
 
   ngOnInit() {
+    this.persistent.getClubBooking(this.booking.id).subscribe(
+      (obj)=>this.club=this.persistent.eval(Club.name,<object[]>obj,true)
+    )
   }
 
   stringDate(date : Date ){

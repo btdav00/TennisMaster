@@ -5,5 +5,6 @@ export class User {
   public name: string;
   public surname: string;
   public birthdate: Date
+  public imgUrl: string
   constrctor() {}
 }

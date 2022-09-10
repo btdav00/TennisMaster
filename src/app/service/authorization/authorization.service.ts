@@ -10,6 +10,7 @@ import {onAuthStateChanged} from "@angular/fire/auth";
 import {PersistentMenagerService} from "../persistent/persistentMenager/persistent-menager.service";
 import {Observable} from "rxjs";
 import {switchMap, tap} from "rxjs/operators";
+import EmailAuthProvider = firebase.auth.EmailAuthProvider;
 
 
 
@@ -58,6 +59,20 @@ export class AuthorizationService {
         opsuccess=false;
       })
     return opsuccess
+  }
+
+  public async isAuthorized(email: string, password: string){
+    const credential=EmailAuthProvider.credential(email, password)
+    let result:boolean
+    let currentUser
+    await this.auth.currentUser.then(
+      (currentU) => currentUser=currentU
+    )
+    await currentUser.reauthenticateWithCredential(credential).then(
+      () => result = true,
+      () => result = false
+    )
+    return result
   }
 
 

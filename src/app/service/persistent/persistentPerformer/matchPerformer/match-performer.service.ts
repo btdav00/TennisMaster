@@ -49,7 +49,7 @@ export class MatchPerformerService {
     // @ts-ignore
     for (const playerId of Object.assign([], obj.player1)) {
       this.userPerformer.loadOne(playerId).subscribe(
-        (res) =>match.player1.push(this.JsonToPlayer(<object>res[0])),
+        (res) =>match.player1.push(this.userPerformer.JsonToClassObject(<object>res[0])),
         (error) => {
           throw new Error('error Player1' + ": " + error)
         }
@@ -59,7 +59,7 @@ export class MatchPerformerService {
     // @ts-ignore
     for (const playerId of Object.assign([], obj.player2)) {
       this.userPerformer.loadOne(playerId).subscribe(
-        (res) =>match.player2.push(this.JsonToPlayer(<object>res[0])),
+        (res) =>match.player2.push(this.userPerformer.JsonToClassObject(<object>res[0])),
         (error) => {
           throw new Error('error Player2' + ": " + error)
         }
@@ -72,19 +72,7 @@ export class MatchPerformerService {
     return match
   }
 
-  private JsonToPlayer(json: object):User{
-    let obj=<object>json;
-    let user= new User()
-    // @ts-ignore
-    user.id=obj.id
-    // @ts-ignore
-    user.name=obj.name
-    // @ts-ignore
-    user.surname=obj.surname
-    // @ts-ignore
-    user.birthdate=new Date(<number>obj.birthdate)
-    return user
-  }
+
 
   public ClassObjectToJson(match : Match):object{
     let idPlayer1 = [];

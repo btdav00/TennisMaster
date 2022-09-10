@@ -4,18 +4,26 @@
   <ion-header>
     <ion-toolbar>
       <div>
-        <ion-row>
+        <ion-row *ngIf="selectedItem!=null;else _else_club">
           <ion-col offset="0.2" class="ion-align-self-center">
-            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+            <ion-img [src]="selectedItem.imgUrl" style="width: 50px ; height: 50px"></ion-img>
           </ion-col >
           <ion-col size="8" class="ion-align-self-center">
-            <ion-text *ngIf="selectedItem!=null;else _else_club" class="ion-text-center">{{selectedItem.name}}</ion-text>
-            <ng-template #_else_club>
-              <ion-text class="ion-text-center">Nome</ion-text>
-            </ng-template>
+            <ion-text  class="ion-text-center">{{selectedItem.name}}</ion-text>
           </ion-col>
         </ion-row>
+        <ng-template #_else_club>
+          <ion-row>
+            <ion-col offset="0.2" class="ion-align-self-center">
+              <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+            </ion-col >
+            <ion-col size="8" class="ion-align-self-center">
+              <ion-text class="ion-text-center">Nome</ion-text>
+            </ion-col>
+          </ion-row>
+        </ng-template>
       </div>
+      <br>
       <ion-searchbar debounce="500" animated="true" (ionChange)="_ionChange($event)"></ion-searchbar>
     </ion-toolbar>
   </ion-header>
@@ -26,7 +34,7 @@
         <ion-item >
           <ion-row class="ripple">
             <ion-col size="4">
-              <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+              <ion-img [src]="item.imgUrl" style="width: 50px ; height: 50px"></ion-img>
             </ion-col>
             <ion-col class="ion-align-self-center item-text-size">
               <ion-label>{{item.name}}</ion-label>

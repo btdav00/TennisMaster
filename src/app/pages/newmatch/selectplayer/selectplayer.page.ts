@@ -10,8 +10,8 @@ import {AuthorizationService} from "../../../service/authorization/authorization
 })
 export class SelectplayerPage implements OnInit {
 
-  public list: Array<Object>;
-  public searchedItem: any;
+  public list: Array<User>;
+  public searchedItem:  Array<User>;
   public teamNumber: number
   @Input() typeMatch: String
   @Input() team1: User[]

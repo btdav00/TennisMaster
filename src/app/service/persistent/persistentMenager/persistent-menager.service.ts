@@ -90,6 +90,10 @@ export class PersistentMenagerService {
     ))
   }
 
+  public getClubBooking(idBooking:string){
+    return this.clubPerformer.getClubBooking(idBooking)
+  }
+
   async addFollower(idFollowed:string,idFollower:string){
     await this.userPerformer.addFollower(idFollowed,idFollower)
   }

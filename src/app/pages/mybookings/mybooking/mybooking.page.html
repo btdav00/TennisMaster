@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row style="width: 100%">
     <ion-col class="ion-align-self-center">
-      <ion-img class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="" ></ion-img>
+      <ion-img *ngIf="club" class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="club.imgUrl" ></ion-img>
     </ion-col>
     <ion-col size="7" class="ion-align-self-center">
       <ion-text style="opacity: 0.7">{{stringDate(booking.date)}}</ion-text>

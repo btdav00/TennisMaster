@@ -4,7 +4,7 @@ import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {User} from "../../../../model/User";
 import {collection} from "firebase/firestore";
 import {Observable} from "rxjs";
-import {refCount} from "rxjs/operators";
+import {map, refCount} from "rxjs/operators";
 import {exists} from "fs";
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
@@ -18,6 +18,8 @@ import {setDoc} from "@angular/fire/firestore";
   providedIn: 'root'
 })
 export class UserPerformerService {
+
+  private defaultImgUrl="assets/defaultImg/profile.jpeg"
 
   constructor(private persistent:AngularFirestore) { }
 
@@ -33,6 +35,9 @@ export class UserPerformerService {
 
   public JsonToClassObject(json: object):User{
     let obj=<object>json;
+    // @ts-ignore
+    let ImgUrl=json.imgUrl
+    if(ImgUrl=='')ImgUrl=this.defaultImgUrl
     let user= new User()
     // @ts-ignore
     user.id=obj.id
@@ -42,18 +47,22 @@ export class UserPerformerService {
     user.surname=obj.surname
     // @ts-ignore
     user.birthdate=new Date(<number>obj.birthdate)
+    // @ts-ignore
+    user.imgUrl=ImgUrl
     return user
   }
 
   public ClassObjectToJson(user : User):object{
-    let id=''
-    if(user.id)id=user.id
+    let Id=''
+    if(user.id)Id=user.id
+    let ImgUrl=''
+    if(user.imgUrl)ImgUrl=user.imgUrl
     return {
-      id: id,
+      id: Id,
       name: user.name,
       surname: user.surname,
       birthdate: user.birthdate.getTime(),
-      imgUrl: '',
+      imgUrl: ImgUrl,
       IDC:'',
     }
   }
@@ -127,12 +136,15 @@ export class UserPerformerService {
   }
 
   public getImg(id:string){
-    let imgUrl=''
-    this.loadOne(id).subscribe(
-      // @ts-ignore
-      (objs)=>imgUrl=objs[0].imgUrl
+    this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges().pipe(
+      map(
+        (obj)=>{
+          const object=<object>obj[0]
+          // @ts-ignore
+          return object.imgUrl
+        }
+      )
     )
-    return imgUrl
   }
 
   addUserToClub(id:string , idClub:string){

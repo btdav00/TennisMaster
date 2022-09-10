@@ -16,18 +16,30 @@
       <ion-row *ngIf="typeMatch=='doppio';else _else">
 
         <ion-col offset="0.2" class="ion-align-self-center">
-          <ion-img [src]="" style="width: 40px ; height: 40px"></ion-img>
+          <ion-img *ngIf="team1[0];else _else_team11" [src]="team1[0].imgUrl" style="width: 40px ; height: 40px"></ion-img>
+          <ng-template #_else_team11>
+            <ion-img  [src]="" style="width: 40px ; height: 40px"></ion-img>
+          </ng-template>
         </ion-col>
         <ion-col class="ion-align-self-center">
-          <ion-img [src]="" style="width: 40px ; height: 40px"></ion-img>
+          <ion-img *ngIf="team1[1];else _else_team12" [src]="team1[1].imgUrl" style="width: 40px ; height: 40px"></ion-img>
+          <ng-template #_else_team12>
+            <ion-img  [src]="" style="width: 40px ; height: 40px"></ion-img>
+          </ng-template>
         </ion-col>
 
         <ion-col></ion-col>
         <ion-col class="ion-align-self-center">
-          <ion-img [src]="" style="width: 40px ; height: 40px"></ion-img>
+          <ion-img *ngIf="team2[0];else _else_team21" [src]="team2[0].imgUrl" style="width: 40px ; height: 40px"></ion-img>
+          <ng-template #_else_team21>
+            <ion-img  [src]="" style="width: 40px ; height: 40px"></ion-img>
+          </ng-template>
         </ion-col>
         <ion-col class="ion-align-self-center">
-          <ion-img [src]="" style="width: 40px ; height: 40px"></ion-img>
+          <ion-img *ngIf="team2[1];else _else_team22" [src]="team2[1].imgUrl" style="width: 40px ; height: 40px"></ion-img>
+          <ng-template #_else_team22>
+            <ion-img  [src]="" style="width: 40px ; height: 40px"></ion-img>
+          </ng-template>
         </ion-col>
 
 
@@ -37,14 +49,20 @@
         <ion-row>
 
           <ion-col offset="0.2" class="ion-align-self-center">
-            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+            <ion-img *ngIf="team1[0];else _else_team1" [src]="team1[0].imgUrl" style="width: 50px ; height: 50px"></ion-img>
+            <ng-template #_else_team1>
+              <ion-img  [src]="" style="width: 50px ; height: 50px"></ion-img>
+            </ng-template>
           </ion-col>
 
           <ion-col>
           </ion-col>
 
           <ion-col offset="3.2" class="ion-align-self-center">
-            <ion-img [src]="" style="width: 50px ; height: 50px "></ion-img>
+            <ion-img *ngIf="team2[0];else _else_team2" [src]="team2[0].imgUrl" style="width: 50px ; height: 50px "></ion-img>
+            <ng-template #_else_team2>
+              <ion-img  [src]="" style="width: 50px ; height: 50px"></ion-img>
+            </ng-template>
           </ion-col>
 
         </ion-row>
@@ -71,7 +89,7 @@
     <ion-item *ngFor="let item of searchedItem">
         <ion-row *ngIf="!justSelected(item);else _else_justSelected" class="ripple" (click)="addPlayer(item)" >
           <ion-col size="4" >
-            <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+            <ion-img [src]="item.imgUrl" style="width: 50px ; height: 50px"></ion-img>
           </ion-col>
           <ion-col size="8" class="ion-align-self-center ">
             <ion-label class="ion-text-left">{{item.name+' '+item.surname}}</ion-label>
@@ -80,7 +98,7 @@
         <ng-template #_else_justSelected>
           <ion-row class="disabled" (click)="addPlayer(item)" >
             <ion-col size="4" >
-              <ion-img [src]="" style="width: 50px ; height: 50px"></ion-img>
+              <ion-img [src]="item.imgUrl" style="width: 50px ; height: 50px"></ion-img>
             </ion-col>
             <ion-col size="8" class="ion-align-self-center ">
               <ion-label class="ion-text-left">{{item.name+' '+item.surname}}</ion-label>

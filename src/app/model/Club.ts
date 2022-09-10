@@ -7,5 +7,6 @@ export class Club {
   public id: string;
   public courts: Court[];
   public times: number[];
+  public imgUrl: string
   constructor() {}
 }

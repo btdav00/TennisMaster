@@ -12,7 +12,7 @@ import {PersistentMenagerService} from "../../../service/persistent/persistentMe
 export class SelecclubPage implements OnInit {
 
   public list: Array<Club>=[];
-  public searchedItem: any;
+  public searchedItem: Array<Club>;
   @Input() selectedItem: Club;
   @Output() selected=new EventEmitter<Club>();
 

@@ -8,16 +8,20 @@ import {Place} from "../../../../model/Place";
 import {Court} from "../../../../model/Court";
 import {Booking} from "../../../../model/Booking";
 import {collection, query, where} from "firebase/firestore";
-import {push} from "@angular/fire/database";
+import {object, push} from "@angular/fire/database";
 import {Firestore, onSnapshot} from "@angular/fire/firestore";
 import {Observable} from "rxjs";
 import {Review} from "../../../../model/Review";
 import {UserPerformerService} from "../userPerformer/user-performer.service";
+import {map, switchMap} from "rxjs/operators";
+import {Match} from "../../../../model/Match";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClubPerformerService {
+
+  private defaultImgUrl="assets/defaultImg/club.jpeg"
 
   constructor(private persistent:AngularFirestore , private userPerformer: UserPerformerService ) { }
 
@@ -33,13 +37,17 @@ export class ClubPerformerService {
   }
 
   public JsonToClassObject(json: object):Club{
-    console.log(json)
+    // @ts-ignore
+    let ImgUrl=json.imgUrl
+    if(ImgUrl=='')ImgUrl=this.defaultImgUrl
     let obj=<object>json;
     let club= new Club()
     // @ts-ignore
     club.id=obj.id
     // @ts-ignore
     club.name=obj.name
+    // @ts-ignore
+    club.imgUrl=ImgUrl
     // @ts-ignore
     club.place=this.JsonToPlace(obj.place)
     // @ts-ignore
@@ -52,12 +60,15 @@ export class ClubPerformerService {
   public ClassObjectToJson(club : Club):object{
     let id=''
     if(club.id)id=club.id
+    let ImgUrl=''
+    if(club.imgUrl)ImgUrl=club.imgUrl
     return {
       id: id,
       name: club.name,
       place: this.PlaceToJson(club.place),
       times: Object.assign({},club.times),
-      courts: this.CourtsToJson(club.courts)
+      courts: this.CourtsToJson(club.courts),
+      imgUrl: ImgUrl
     }
   }
 
@@ -173,6 +184,18 @@ export class ClubPerformerService {
     )
   }
 
+  public getImg(id:string){
+    this.persistent.collection(Club.name,ref => ref.where('id','==',id)).valueChanges().pipe(
+      map(
+        (obj)=>{
+          const object=<object>obj[0]
+          // @ts-ignore
+          return object.imgUrl
+        }
+      )
+    )
+  }
+
 
   public BookingToJson(user: User,booking: Booking , club: Club,court: Court){
     let id=''
@@ -249,6 +272,16 @@ export class ClubPerformerService {
        if(result.length>0)exist=true;
     })
     return exist
+  }
+
+  public getClubBooking(idBooking:string){
+    return this.loadOne(idBooking).pipe(switchMap(
+      data=>{
+        // @ts-ignore
+        if(data.length>0)return this.loadOne(data[0].CID)
+        else throw new Error('match do not have club')
+      }
+    ))
   }
 
 
