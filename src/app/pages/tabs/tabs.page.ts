@@ -58,7 +58,8 @@ export class TabsPage implements OnInit {
 
   showProfile(){
     this.myinput.addInput({
-      user: this.user
+      user: this.user,
+      fromTabs: true
     })
     this.selected='profile'
     this.router.navigate(['./tabs','userprofile'])

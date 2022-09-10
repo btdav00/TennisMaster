@@ -1,105 +1,92 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>modprofile</ion-title>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="secondary">
+      <ion-button href="tabs">
+        <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-text class="ion-text-center" color="primary">
-    <h3>Nuove credenziali</h3>
-  </ion-text>
-  <form [formGroup]="credential">
-    <p>Modifica e-mail:</p>
-    <ion-item>
-      <ion-label position="floating" color="#808080">email</ion-label>
-      <ion-input
-        required="true"
-        type="email"
-        formControlName="email"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
+  <div *ngIf="currentUser">
+    <ion-text class="ion-text-center" color="primary">
+      <h3>Nuove credenziali</h3>
+    </ion-text>
+    <form [formGroup]="credential">
+      <ion-item>
+        <ion-label position="floating" color="#808080">nuova email</ion-label>
+        <ion-input
+          required="true"
+          type="email"
+          formControlName="email"
+          clearInput="true"
+        ></ion-input>
+      </ion-item>
+      <br>
+      <ion-item>
+        <ion-label position="floating" color="#808080">nuova password</ion-label>
+        <ion-input
+          required="true"
+          type="password"
+          formControlName="password"
+          clearInput="true"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="#808080"
+        >conferma password</ion-label
+        >
+        <ion-input
+          required="true"
+          type="password"
+          formControlName="confirmPassword"
+          clearInput="true"
+        ></ion-input>
+      </ion-item>
+    </form>
+    <br />
+    <ion-text class="ion-text-center" color="primary">
+      <h3>Dati personali</h3>
+    </ion-text>
+    <div class="ion-text-center">
+      <img src="{{currentUser.imgUrl}}" style="width: 100px; height: 100px"/>
+    </div>
     <br>
-    <p>Modifica password:</p>
-    <ion-item>
-      <ion-label position="floating" color="#808080">nuova password</ion-label>
-      <ion-input
-        required="true"
-        type="password"
-        formControlName="password"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="#808080"
-      >conferma password</ion-label
-      >
-      <ion-input
-        required="true"
-        type="password"
-        formControlName="confirmPassword"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-  </form>
-  <br />
-  <ion-text class="ion-text-center" color="primary">
-    <h3>Dati personali</h3>
-  </ion-text>
-  <form [formGroup]="personalData">
-    <p>Modifica nome:</p>
-    <ion-item>
-      <ion-label position="floating" color="#808080">nome</ion-label>
-      <ion-input
-        required="true"
-        type="text"
-        formControlName="name"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-    <p>Modifica cognome:</p>
-    <ion-item>
-      <ion-label position="floating" color="#808080">cognome</ion-label>
-      <ion-input
-        required="true"
-        type="text"
-        formControlName="surname"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-  </form>
-  <ion-button color="light" expand="block" (click)="showCalendar()">Data di nascita</ion-button>
-  <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
-  </ion-datetime>
-  <br />
-  <ion-text class="ion-text-center" color="primary">
-    <h3>Autenticazione</h3>
-  </ion-text>
-  <form [formGroup]="auth">
-    <ion-item>
-      <ion-label position="floating" color="#808080">email</ion-label>
-      <ion-input
-        required="true"
-        type="email"
-        formControlName="authemail"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating" color="#808080">password</ion-label>
-      <ion-input
-        required="true"
-        type="password"
-        formControlName="authpassword"
-        clearInput="true"
-      ></ion-input>
-    </ion-item>
-  </form>
+    <form [formGroup]="personalData">
+      <ion-item>
+        <ion-label position="floating" color="#808080">nuovo nome</ion-label>
+        <ion-input
+          required="true"
+          type="text"
+          formControlName="name"
+          clearInput="true"
+          placeholder="{{currentUser.name}}"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating" color="#808080">nuovo cognome</ion-label>
+        <ion-input
+          required="true"
+          type="text"
+          formControlName="surname"
+          clearInput="true"
+          placeholder="{{currentUser.surname}}"
+        ></ion-input>
+      </ion-item>
+    </form>
+    <br>
+    <ion-button color="light" expand="block" (click)="showCalendar()">{{this.labelDate}}</ion-button>
+    <ion-datetime max="{{getToday()}}" *ngIf="showCal" value="{{getDateValue(currentUser.birthdate)}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
+    </ion-datetime>
 
+    <ion-button color="primary" expand="block" (click)="submit()"> Conferma </ion-button>
 
-  <ion-button color="primary" expand="block" (click)="submit()" href="login"> Conferma </ion-button>
-
-  <div class="ion-text-center">
-    <a href="login"><p class="text-center">annulla</p></a>
+    <div class="ion-text-center">
+      <a href="login"><p class="text-center">annulla</p></a>
+    </div>
   </div>
+
 </ion-content>

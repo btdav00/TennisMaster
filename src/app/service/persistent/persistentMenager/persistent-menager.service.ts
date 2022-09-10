@@ -126,7 +126,7 @@ export class PersistentMenagerService {
     await this.getPersistentPerformer(className).addImg(id, url)
   }
 
-  public getImg(className:string,id:string):string{
+  public getImg(className:string,id:string){
     return  this.getPersistentPerformer(className).getImg(id)
   }
 

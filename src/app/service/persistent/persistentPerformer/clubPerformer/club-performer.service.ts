@@ -293,7 +293,6 @@ export class ClubPerformerService {
       CID : club.id,
       id : id,
       comment : review.comment,
-      mark : review.mark,
       title: review.title
     }
   }
@@ -304,8 +303,6 @@ export class ClubPerformerService {
     review.id=json.id
     // @ts-ignore
     review.comment=json.comment
-    // @ts-ignore
-    review.mark=json.mark
     // @ts-ignore
     this.userPerformer.loadOne(json.UID).subscribe((obj)=>
       review.user=this.userPerformer.JsonToClassObject(obj)

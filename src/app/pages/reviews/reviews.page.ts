@@ -38,6 +38,9 @@ export class ReviewsPage implements OnInit {
     //@ts-ignore
     this.currentClub = this.myinput.getInput().club
     this.clubReviews()
+    this.persistentMenager.loadOne(User.name, this.auth.getCurrentUId()).subscribe(
+      (object)=>{this.user=this.persistentMenager.eval(User.name, object, true)}
+    )
   }
 
   clubReviews(){

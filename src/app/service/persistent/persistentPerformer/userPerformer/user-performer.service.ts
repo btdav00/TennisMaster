@@ -136,7 +136,7 @@ export class UserPerformerService {
   }
 
   public getImg(id:string){
-    this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges().pipe(
+    return this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges().pipe(
       map(
         (obj)=>{
           const object=<object>obj[0]
@@ -188,10 +188,10 @@ export class UserPerformerService {
 
   public NotificationToJson(notification: Notification , user: User){
     let id=''
-    if(notification.id)id=notification.id
+    if(notification.id) id=notification.id
     return{
-      UID : id,
-      id : notification.id,
+      UID : user.id,
+      id : id,
       text :notification.text,
       reference : notification.reference.id,
     }
@@ -204,7 +204,7 @@ export class UserPerformerService {
     // @ts-ignore
     notification.text=json.text
     // @ts-ignore
-    this.userPerformer.loadOne(json.reference).subscribe(
+    this.loadOne(json.reference).subscribe(
       (result)=>notification.reference=this.JsonToClassObject(<object>result[0])
     )
 

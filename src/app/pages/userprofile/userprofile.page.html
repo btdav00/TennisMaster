@@ -1,17 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="secondary">
-      <ion-button href="homesearch">
+      <ion-button href="homesearch" *ngIf="fromtabs; else notFromTabs">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
+      <ng-template #notFromTabs>
+        <ion-button href="tabs">
+          <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+        </ion-button>
+      </ng-template>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <ion-card>
-      <div class="ion-text-center">
-        <img src="./default.jpg" style="width: 100px; height: 100px"/>
+      <div class="ion-text-center" (click)="changeImg()">
+        <img src="{{user.imgUrl}}" style="width: 100px; height: 100px"/>
       </div>
       <div class="ion-text-center">
         <ion-card-header>

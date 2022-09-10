@@ -11,19 +11,6 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let review of arrayReviews">
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{review.user.name}} {{review.user.surname}}</h2>
-        <h3>{{review.title}}</h3>
-        <p>{{review.comment}}</p>
-      </ion-label>
-    </ion-item>
-  </div>
-  <br>
   <h4 class="ion-text-center">Aggiungi una recensione</h4>
   <form [formGroup]="reviews">
     <ion-item>
@@ -37,4 +24,16 @@
   </form>
   <ion-button class="error-size" color="primary" expand="block" (click)="submit()" > Invia </ion-button>
   <br>
+  <div *ngFor="let review of arrayReviews">
+    <ion-item *ngIf="review.user">
+      <ion-avatar slot="start">
+        <img src="{{review.user.imgUrl}}"/>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{review.user.name}} {{review.user.surname}}</h2>
+        <h3>{{review.title}}</h3>
+        <p>{{review.comment}}</p>
+      </ion-label>
+    </ion-item>
+  </div>
 </ion-content>
