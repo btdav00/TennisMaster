@@ -4,7 +4,7 @@ import {AngularFireDatabase} from "@angular/fire/compat/database";
 import {User} from "../../../../model/User";
 import {collection} from "firebase/firestore";
 import {Observable} from "rxjs";
-import {map, refCount} from "rxjs/operators";
+import {map, refCount, switchMap} from "rxjs/operators";
 import {exists} from "fs";
 import firebase from "firebase/compat";
 import WhereFilterOp = firebase.firestore.WhereFilterOp;
@@ -13,6 +13,7 @@ import {Club} from "../../../../model/Club";
 import {Match} from "../../../../model/Match";
 import {Comment} from "../../../../model/Comment";
 import {setDoc} from "@angular/fire/firestore";
+import {ClubPerformerService} from "../clubPerformer/club-performer.service";
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,7 @@ export class UserPerformerService {
     let result:string
     if(id!=null){
       result=id
+      toBeStored.id=id
       await this.persistent.collection(toBeStored.constructor.name).doc(id).set(this.ClassObjectToJson(toBeStored)).then(
         ()=>toBeStored.id=id,
         (e)=>{throw new Error(e)}
@@ -151,17 +153,12 @@ export class UserPerformerService {
     let doc=this.persistent.collection(User.name).doc(id).update({IDC: idClub})
   }
 
-  getUserClubId(id:string){
-    let idClub=''
-    this.loadOne(id).subscribe(
-      // @ts-ignore
-      (objs)=>idClub=objs[0].IDC
-    )
-    return idClub
+  getUserClub(id:string){
+    return this.loadOne(id)
   }
 
   async addFollower(idFollowed:string,idFollower:string){
-    await this.persistent.collection('Follower').doc(idFollower).set({idFollower:idFollower,idFollowed:idFollowed})
+    await this.persistent.collection('Follower').add({idFollower:idFollower,idFollowed:idFollowed})
   }
 
   getFolloweds(idFollower:string){
@@ -172,18 +169,19 @@ export class UserPerformerService {
     return this.persistent.collection('Follower',ref=>ref.where('idFollowed','==',idFollowed)).valueChanges()
   }
 
-  deleteFollowed(idFollower:string){
-    this.persistent.doc('Follower' + "/" + idFollower).delete().catch(
-      (error) => console.log(error)
+  deleteFollowed(idFollower:string,idFollowed:string){
+    this.persistent.collection('Follower',ref => ref.where('idFollower','==',idFollower).where('idFollowed','==',idFollowed)).doc(idFollower).delete().catch(
+      (error) => { throw new Error(error)}
     )
   }
 
   existFollower(idFollowed:string,idFollower:string){
-    let result=false
-    this.persistent.collection('Follower',ref=>ref.where('idFollowed','==',idFollowed)).valueChanges().subscribe(
-      (resultQ)=>{if(resultQ.length>0)result=true}
-    )
-    return result
+    return this.persistent.collection('Follower',ref=>ref.where('idFollowed','==',idFollowed).where('idFollower','==',idFollower)).valueChanges().pipe(map(
+        (resultQ)=>{
+          if(resultQ.length>0)return true
+          else return false
+        }
+    ))
   }
 
   public NotificationToJson(notification: Notification , user: User){

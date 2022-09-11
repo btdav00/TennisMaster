@@ -17,12 +17,11 @@ import {Router} from "@angular/router";
 export class ClubprofilePage implements OnInit {
 
   page: String
-  private club: Club
-  private currentUser: User
+  public club: Club
+  public currentUserClub : Club
   private userClub: boolean
 
   constructor(private authorization: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, private route: Router) {
-    this.page='profilo'
   }
 
   setPage(page : String){
@@ -30,24 +29,33 @@ export class ClubprofilePage implements OnInit {
   }
 
   ngOnInit() {
+    this.page='profilo'
     let userId = this.authorization.getCurrentUId()
     if(this.myinput.getInput()){
       // @ts-ignore
-      this.club = this.myinput.getInput().club
-      this.userClub = true
-    }
-    else{
-      let userId=this.authorization.getCurrentUId()
-      this.persistent.getUserClub(userId).subscribe(
-        (object)=>{
-          if(object.length>1){
-            this.club = this.persistent.eval(Club.name, <object[]>object, true)
-            this.userClub = true
-          }
-          else this.userClub=false
+      this.persistent.loadOne(Club.name,this.myinput.getInput().club).subscribe(
+        (obj)=>{
+          this.club=this.persistent.eval(Club.name,obj,true)
+          this.userClub = true
         }
       )
     }
+    this.persistent.getUserClub(this.authorization.getCurrentUId()).subscribe(
+      (object)=>{
+        if(object.length>0){
+          this.currentUserClub = this.persistent.eval(Club.name, <object[]>object, true)
+        }
+        else this.currentUserClub=null
+      }
+    )
+  }
+
+  joinClub(){
+    this.persistent.addUserToClub(this.authorization.getCurrentUId(),this.club.id)
+  }
+
+  leaveClub(){
+    this.persistent.addUserToClub(this.authorization.getCurrentUId(),'')
   }
 
   inputToReview(){

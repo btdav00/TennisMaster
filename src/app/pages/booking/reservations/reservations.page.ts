@@ -7,6 +7,9 @@ import {Router} from "@angular/router";
 import {Court} from "../../../model/Court";
 import {BookingService} from "../../../service/manageObject/booking/booking.service";
 import {Club} from "../../../model/Club";
+import {DateService} from "../../../service/manageObject/date/date.service";
+import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -19,28 +22,38 @@ export class ReservationsPage implements OnInit {
   date: Date
   labelDate: string
   showCal =false
-  private club: Club;
-  private selected: boolean;
-  private timeClicked: number;
-  private courtSelected: number;
-  private booking: Booking;
+  public club: Club;
+  public selected: boolean;
+  public timeClicked: number;
+  public courtSelected: number;
+  public booking: Booking;
+  private bookingSubscribe : Subscription
+  public bookingsDay: Booking[];
+  private idClub : string;
+  private fromTabs : boolean
 
-  constructor(private myInput: MyinputService, private bookingservice: BookingService) {
-    this.labelDate = formatDate(new Date(), 'yyy/MM/dd', 'en');
+  constructor(private myInput: MyinputService, private bookingservice: BookingService, private dateService: DateService, private persistentService: PersistentMenagerService , private route: Router) {
     this.selected = false
   }
 
   ngOnInit() {
     this.date=new Date()
-    let  day= <unknown>this.date.getUTCDate()
-    let month= <unknown>(this.date.getMonth()+1)
-    let year= <unknown>this.date.getFullYear()
-    this.labelDate= day+"/"+month+"/"+year;
-    let court = new Court()
-    court.number = 1
-    this.club = new Club()
-    this.club.courts = [court]
-    this.club.times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    this.labelDate= this.dateService.getStringDate(this.date) ;
+    // @ts-ignore
+    this.idClub=this.myInput.getInput().club
+    // @ts-ignore
+    this.fromTabs=this.myInput.getInput().fromTabs
+    this.persistentService.loadOne(Club.name, this.idClub).subscribe(
+      (obj)=>{
+        this.club= this.persistentService.eval(Club.name,obj,true)
+      }
+    )
+    this.bookingSubscribe=this.persistentService.searchBooking(null,null,this.idClub,null,this.dateService.getStartDay(this.date),this.dateService.getEndDay(this.date)).subscribe(
+      (obj)=>{
+        if(obj.length>0)this.bookingsDay=this.persistentService.eval(Booking.name,obj)
+        else this.bookingsDay=[]
+      }
+    )
     this.booking = new Booking()
   }
 
@@ -51,17 +64,15 @@ export class ReservationsPage implements OnInit {
   dateChange(dateinput : string ){
 
     this.date= new Date(dateinput);
-    let  day= <unknown>this.date.getUTCDate()
-    let month= <unknown>(this.date.getMonth()+1)
-    let year= <unknown>this.date.getFullYear()
-    if(day<10){
-      day= "0"+day
-    }
-    if(month<10){
-      month= "0"+month
-    }
-    this.labelDate= day+"/"+month+"/"+year;
+    this.labelDate= this.dateService.getStringDate(this.date);
     this.showCalendar()
+    this.bookingSubscribe.unsubscribe()
+    this.bookingSubscribe=this.persistentService.searchBooking(null,null,this.idClub,null,this.dateService.getStartDay(this.date),this.dateService.getEndDay(this.date)).subscribe(
+      (obj)=>{
+        if(obj.length>0)this.bookingsDay=this.persistentService.eval(Booking.name,obj)
+        else this.bookingsDay=[]
+      }
+    )
   }
 
   getDateValue(){
@@ -76,7 +87,7 @@ export class ReservationsPage implements OnInit {
   }
 
   bookingCheck(court: Court, time: number){
-    return this.bookingservice.bookingCheck(this.club, court, time)
+    return this.bookingservice.bookingCheck(this.bookingsDay, court.number, time)
   }
 
   setSelected(time: number, court: number){
@@ -89,6 +100,10 @@ export class ReservationsPage implements OnInit {
     }
     else if(this.timeClicked == time && this.courtSelected == court){
       this.selected = false
+      this.booking.startHour = null
+      this.booking.numberHour = null
+      this.timeClicked = null
+      this.courtSelected = null
     }
     else if(this.courtSelected == court){
       this.booking.numberHour  = 1 + time-this.booking.startHour
@@ -96,8 +111,27 @@ export class ReservationsPage implements OnInit {
   }
 
   setDisableHour(time: number, court: number){
-    if(court!=this.courtSelected) return true
+    if(!this.timeClicked && !this.courtSelected) return false
+    if(this.courtSelected && court!=this.courtSelected) return true
     else if (time < this.timeClicked || time>this.timeClicked+1) return true
+    else return false
+  }
+
+  goToPayment(){
+    if(this.booking && this.booking.startHour && this.booking.numberHour){
+      this.booking.date=this.date
+      let court : Court
+      for (const item of this.club.courts) {
+        if(item.number==this.courtSelected)court=item
+      }
+      this.myInput.addInput({
+        club : this.idClub,
+        fromTabs : this.fromTabs,
+        booking : this.booking,
+        court : court
+      })
+      this.route.navigate(['payments'])
+    }
   }
 
 }

@@ -37,13 +37,14 @@ export class NewmatchPage implements OnInit {
     if(!this.match.player2)this.match.player2=[]
     if(!this.match.sets)this.match.sets=[]
     if(!this.match.type)this.match.type='doppio'
-    console.log(this.auth.getCurrentUId())
     if(!this.match.publisher){
-      const currentId=this.auth.getCurrentUId()
-      this.persistent.loadOne(User.name,'J8tsdmFHE8d7WDSLDykp3fty8563').subscribe(
+      this.persistent.loadOne(User.name,this.auth.getCurrentUId()).subscribe(
         (obj)=>this.match.publisher=this.persistent.eval(User.name,obj,true)
       )
     }
+    this.persistent.loadOne(User.name,this.auth.getCurrentUId()).subscribe(
+      (obj)=>this.match.player1[0]=this.persistent.eval(User.name,obj,true)
+    )
   }
 
   setMood(mood:String){

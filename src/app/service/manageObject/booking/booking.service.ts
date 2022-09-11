@@ -9,31 +9,16 @@ import {Court} from "../../../model/Court";
 })
 export class BookingService {
 
-  private courts: any;
-  private times: any;
-  private timeClicked: number
-  private color: String
-  private arrayTimes = [];
-  private arrayCourts = [];
-  private selected: Booking;
+
 
   constructor() { }
 
-  bookingCheck(club: Club, court: Court, time: Number){
-    /*
-    const db = getFirestore();
-    const colcourt = collection(db, 'court')
-    const colclub = collection(db, 'club')
-    const coltime = collection(db, 'time')
-    this.courts.forEach(function (court){
-      this.times.forEach(function(time){
-        this.arrayTimes[time]
-      })
-      this.arrayCourts[court]=(this.arrayTimes)
-      this.arrayTimes = []
-    })
-     */
-    return true
+  bookingCheck(bookingsDay: Booking[], courtNumber: number, time: number){
+    let result=true
+    for (const booking of bookingsDay) {
+      if(booking.startHour<=time && booking.numberHour-1>booking.startHour-time)result=false
+    }
+    return result
   }
 
 }

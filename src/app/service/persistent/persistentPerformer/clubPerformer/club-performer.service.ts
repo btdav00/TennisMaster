@@ -103,6 +103,7 @@ export class ClubPerformerService {
       court.number=<number>courtObj.number
       court.indoor=<boolean>courtObj.indoor
       court.surface=courtObj.surface
+      court.price=courtObj.price
       courts.push(court)
     }
     return courts
@@ -114,7 +115,8 @@ export class ClubPerformerService {
       let courtObj={
         number: court.number,
         indoor: court.indoor,
-        surface: court.surface
+        surface: court.surface,
+        price : court.price
       }
       courtsObj.push(courtObj)
     }
@@ -275,11 +277,11 @@ export class ClubPerformerService {
   }
 
   public getClubBooking(idBooking:string){
-    return this.loadOne(idBooking).pipe(switchMap(
+    return this.searchBooking(idBooking).pipe(switchMap(
       data=>{
         // @ts-ignore
         if(data.length>0)return this.loadOne(data[0].CID)
-        else throw new Error('match do not have club')
+        else throw new Error('booking do not have club')
       }
     ))
   }
@@ -305,7 +307,7 @@ export class ClubPerformerService {
     review.comment=json.comment
     // @ts-ignore
     this.userPerformer.loadOne(json.UID).subscribe((obj)=>
-      review.user=this.userPerformer.JsonToClassObject(obj)
+      review.user=this.userPerformer.JsonToClassObject(<object>obj[0])
     )
     // @ts-ignore
     review.title=json.title

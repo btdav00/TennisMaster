@@ -45,9 +45,10 @@ export class SearchclubPage implements OnInit {
 
   sendSelected(club: Club){
     this.myinput.addInput({
-      club: club,
+      club: club.id,
+      fromClub: false,
     })
-    this.route.navigate(['./tabs','homeclub'])
+    this.route.navigate(['homeclub'])
   }
 
 }

@@ -2,9 +2,14 @@
 
   <ion-toolbar color="primary">
     <ion-buttons slot="secondary">
-      <ion-button href="homesearch">
+      <ion-button *ngIf="fromTabs;else no_from_tabs" href="homesearch">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
+      <ng-template #no_from_tabs>
+        <ion-button href="tabs">
+          <ion-icon slot="icon-only" name="arrow-undo-outline"></ion-icon>
+        </ion-button>
+      </ng-template>
     </ion-buttons>
 
   </ion-toolbar>

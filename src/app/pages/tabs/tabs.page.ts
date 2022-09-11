@@ -23,10 +23,10 @@ export class TabsPage implements OnInit {
   private club: Club
 
   constructor(private router : Router, private myinput: MyinputService, private auth: AuthorizationService, private persistent: PersistentMenagerService) {
-    this.selected='home'
   }
 
   ngOnInit() {
+    this.selected='home'
     let userId = this.auth.getCurrentUId()
     this.persistent.getUserClub(userId).subscribe(
       (object)=>{
@@ -46,19 +46,25 @@ export class TabsPage implements OnInit {
   }
 
   showClub(){
-    if(!this.club){
-      this.club = null
+    if(this.club){
+      this.myinput.addInput({
+        club: this.club.id,
+        fromTabs: true
+      })
     }
-    this.myinput.addInput({
-      club: this.club
-    })
+    else {
+      this.myinput.addInput({
+        club: '',
+        fromTabs: true
+      })
+    }
     this.selected='club'
     this.router.navigate(['./tabs','homeclub'])
   }
 
   showProfile(){
     this.myinput.addInput({
-      user: this.user,
+      user: this.auth.getCurrentUId(),
       fromTabs: true
     })
     this.selected='profile'

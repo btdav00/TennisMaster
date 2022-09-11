@@ -106,8 +106,8 @@ export class PersistentMenagerService {
     return this.userPerformer.getFollowers(idFollowed)
   }
 
-  deleteFollowed(idFollower:string){
-    this.userPerformer.deleteFollowed(idFollower)
+  deleteFollowed(idFollower:string,idFollowed:string){
+    this.userPerformer.deleteFollowed(idFollower,idFollowed)
   }
 
   existFollower(idFollowed:string,idFollower:string){
@@ -130,8 +130,8 @@ export class PersistentMenagerService {
     return  this.getPersistentPerformer(className).getImg(id)
   }
 
-  public getMatchOfFollowee(idUser){
-    this.matchPerformer.getMatchOfFollowee(idUser)
+  public getMatchOfFollowee(idUser:string){
+    return this.matchPerformer.getMatchOfFollowee(idUser)
   }
 
   public addUserToClub(idUser:string,idClub:string){
@@ -139,8 +139,13 @@ export class PersistentMenagerService {
   }
 
   public getUserClub(idUser:string){
-    let idClub=this.userPerformer.getUserClubId(idUser)
-    return this.clubPerformer.loadOne(idClub)
+    return this.userPerformer.getUserClub(idUser).pipe(switchMap(
+      (userObj)=>{
+        let user=<object>userObj[0]
+        // @ts-ignore
+        return this.clubPerformer.loadOne(user.IDC)
+      }
+    ))
   }
 
   public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {

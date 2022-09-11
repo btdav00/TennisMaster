@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Match} from "../../../model/Match";
 import {Club} from "../../../model/Club";
+import {Notification} from "../../../model/Notification";
 import {Router} from "@angular/router";
 import {PersistentMenagerService} from "../../../service/persistent/persistentMenager/persistent-menager.service";
 
@@ -51,6 +52,22 @@ export class ShowsummaryPage implements OnInit {
     if(this.validation()){
       this.persistent.store(this.match).then(
         (idMatch)=>this.persistent.setClubMatch(idMatch,this.club.id)
+      ).then(
+        ()=>{
+          let notification=new Notification()
+          notification.text='sei stato aggiunto ad una partita da '+this.match.publisher.name+' '+this.match.publisher.surname
+          notification.reference=this.match.publisher
+          for (const item of this.match.player1) {
+            if(item.id!=this.match.publisher.id){
+              this.persistent.addNotification(notification,item)
+            }
+          }
+          for (const item of this.match.player2) {
+            if(item.id!=this.match.publisher.id){
+              this.persistent.addNotification(notification,item)
+            }
+          }
+        }
       )
       this.router.navigate(['tabs'])
     }

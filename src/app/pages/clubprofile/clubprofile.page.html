@@ -1,35 +1,33 @@
-<!DOCTYPE html>
-<head>
-  <style>
-    ion-col1 > div {
-    border: solid 1px #ddd;
-    padding: 10px;
-    }
-  </style>
-</head>
 
-<ion-grid>
-  <ion-row>
-    <div *ngIf="this.club!=null">
-      <ion-col>
-        <img src="./default.jpg" />
-      </ion-col>
-      <ion-col>
-        <ion-button expand="full">unisciti</ion-button>
-      </ion-col>
+<div *ngIf="club">
+  <ion-grid>
+    <div *ngIf="this.club" class="ion-text-center">
+      <ion-row>
+        <ion-col size="6">
+          <img src="{{this.club.imgUrl}}" style="height: 100px ; width: 100px" />
+        </ion-col>
+        <ion-col size="6">
+          <br>
+          <ion-button *ngIf="!currentUserClub;else no_current_club" expand="block" (click)="joinClub()">Unisciti</ion-button>
+          <ng-template #no_current_club>
+            <ion-button *ngIf="currentUserClub.id==club.id" expand="block" color="danger" (click)="leaveClub()">Abbandona</ion-button>
+          </ng-template>
+        </ion-col>
+      </ion-row>
     </div>
-  </ion-row>
-</ion-grid>
-<br>
-<div *ngIf="this.club!=null">
-  <p class="ion-text-center">Nome:{{this.club.name}}</p>
-  <p class="ion-text-center">Indirizzo:{{this.club.place.street}} N°{{this.club.place.houseNumber}} ({{this.club.place.city}})</p>
-  <p class="ion-text-center">Numero di campi: {{this.club.courts.length}}</p>
+  </ion-grid>
+  <br>
+  <div *ngIf="this.club!=null">
+    <p class="ion-text-center">Nome:{{this.club.name}}</p>
+    <p class="ion-text-center">Indirizzo:{{this.club.place.street}} N°{{this.club.place.houseNumber}} ({{this.club.place.city}})</p>
+    <p class="ion-text-center">Numero di campi: {{this.club.courts.length}}</p>
+  </div>
+  <hr>
+  <br>
+  <div *ngIf="club!=null">
+    <ion-button expand="block" (click)="inputToReview()">recensioni</ion-button>
+  </div>
 </div>
-<hr>
-<br>
-<div *ngIf="club!=null">
-  <ion-button expand="full" (click)="inputToReview()">recensioni</ion-button>
-</div>
+
 
 

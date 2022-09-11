@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<head>
-  <style>
-    .scrolling-wrapper{
-      overflow-x: scroll;
-      overflow-y: hidden;
-      white-space: nowrap;
-    }
-    .card {
-      display: inline-block;
-    }
-
-  </style>
-</head>
 <p>GIORNO:</p>
 <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
-<ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)">
-</ion-datetime>
+<ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)"></ion-datetime>
 <br>
-<div *ngFor="let court of club.courts">
-  <p><b>CAMPO {{court.number}}</b></p>
-  <div class="scrolling-wrapper">
-    <ion-col *ngFor="let time of club.times">
-      <ion-button size="small" value="{{time}}" color="success" *ngIf="bookingCheck(court, time)" (click)="setSelected(time, court.number)" [disabled]="setDisableHour(time, court.number)" ]>{{time}}:00-{{time+1}}:00</ion-button>
-      <ion-button size="small" value="{{time}}" color="danger" *ngIf="!bookingCheck(court, time)" disabled="true">{{time}}:00-{{time+1}}:00</ion-button>
-    </ion-col>
+<div *ngIf="club">
+  <div *ngFor="let court of club.courts">
+    <p><b>CAMPO {{court.number}}</b></p>
+    <div class="scrolling-wrapper">
+      <ion-col *ngFor="let time of club.times">
+        <ion-button size="small" color="success" *ngIf="bookingsDay && bookingCheck(court, time)" (click)="setSelected(time, court.number)" [disabled]="setDisableHour(time, court.number)" >{{time}}:00-{{time+1}}:00</ion-button>
+        <ion-button size="small"  color="danger" *ngIf="bookingsDay &&!bookingCheck(court, time)" disabled="true">{{time}}:00-{{time+1}}:00</ion-button>
+      </ion-col>
+    </div>
   </div>
-  <br>
-  <ion-button href="payments">Vai al pagamento</ion-button>
 </div>
+<br>
+<ion-button expand="block" (click)="goToPayment()" [disabled]="!booking || !booking.startHour || !booking.numberHour">Vai al pagamento</ion-button>

@@ -1,39 +1,32 @@
-
-<ion-grid>
-  <ion-row class="row-block">
-    <ion-col></ion-col>
-    <ion-col *ngFor="let item of match.sets ; let i=index" >
-      <ion-text style="font-size: 95%">set {{i+1}}</ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row class="row-block">
-    <ion-col>
-      <ion-img *ngIf="match.player1[0]" [src]="match.player1[0].imgUrl" style="width: 50px ; height: 50px"></ion-img>
-    </ion-col>
-    <ion-col *ngIf="match.type=='doppio'">
-      <ion-img *ngIf="match.player1[1]" [src]="match.player1[1].imgUrl" style="width: 50px ; height: 50px"></ion-img>
-    </ion-col>
-    <ion-col *ngFor="let item of match.sets" class="ion-align-self-center">
-      <ion-text>{{item.gamesPlayer1}}</ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row class="row-block">
-    <ion-col>
-      <ion-img *ngIf="match.player2[0]" [src]="match.player2[0].imgUrl" style="width: 50px ; height: 50px"></ion-img>
-    </ion-col>
-    <ion-col *ngIf="match.type=='doppio'">
-      <ion-img *ngIf="match.player2[1]" [src]="match.player2[1].imgUrl" style="width: 50px ; height: 50px"></ion-img>
-    </ion-col>
-    <ion-col *ngFor="let item of match.sets" class="ion-align-self-center">
-      <ion-text>{{item.gamesPlayer2}}</ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row class="row-block" >
-    <ion-col  >
-      <ion-button expand="block" (click)="goToMatchDetail()"><ion-text style="font-size: 90%">dettagli partita</ion-text> </ion-button>
-    </ion-col>
-    <ion-col >
-      <ion-button expand="block" (click)="goToPostMatch()"><ion-text style="font-size: 90%">post</ion-text></ion-button>
-    </ion-col>
-  </ion-row>
-</ion-grid>
+ <ion-grid style="width: 100%">
+    <ion-row class="row-block">
+      <ion-col>
+        <ion-img *ngIf="match.player1[0]" [src]="match.player1[0].imgUrl" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col *ngIf="match.type=='doppio'">
+        <ion-img *ngIf="match.player1[1]" [src]="match.player1[1].imgUrl" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col *ngFor="let item of match.sets" class="ion-align-self-center">
+        <ion-text>{{item.gamesPlayer1}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-block">
+      <ion-col>
+        <ion-img *ngIf="match.player2[0]" [src]="match.player2[0].imgUrl" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col *ngIf="match.type=='doppio'">
+        <ion-img *ngIf="match.player2[1]" [src]="match.player2[1].imgUrl" style="width: 50px ; height: 50px"></ion-img>
+      </ion-col>
+      <ion-col *ngFor="let item of match.sets" class="ion-align-self-center">
+        <ion-text>{{item.gamesPlayer2}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-block" >
+      <ion-col  >
+        <ion-button expand="block" (click)="goToMatchDetail()"><ion-text style="font-size: 90%">dettagli partita</ion-text> </ion-button>
+      </ion-col>
+      <ion-col >
+        <ion-button expand="block" (click)="goToPostMatch()"><ion-text style="font-size: 90%">post</ion-text></ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>

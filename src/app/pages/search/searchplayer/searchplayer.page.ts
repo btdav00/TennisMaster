@@ -43,7 +43,7 @@ export class SearchplayerPage implements OnInit {
 
   sendSelected(user: User, fromtabs: boolean=false){
     this.myinput.addInput({
-      user: user,
+      user: user.id,
       fromTabs: fromtabs
     })
     this.route.navigate(['userprofile'])

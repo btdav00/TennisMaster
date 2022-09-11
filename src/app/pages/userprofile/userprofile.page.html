@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-card>
+    <ion-card *ngIf="user">
       <div class="ion-text-center" (click)="changeImg()">
         <img src="{{user.imgUrl}}" style="width: 100px; height: 100px"/>
       </div>
@@ -42,8 +42,11 @@
           </ion-card-content>
         </div>
         <ng-template #follow>
-          <ion-card-content>
-            <ion-button color="primary" expand="block" (click)="followUser()"> Segui </ion-button>
+          <ion-card-content *ngIf="jastFollowed!=null">
+            <ion-button *ngIf="!jastFollowed;else justFollowe" color="primary" expand="block" (click)="followUser()"> Segui </ion-button>
+            <ng-template #justFollowe>
+              <ion-button color="primary" expand="block" (click)="noFollowUser()"> Non Seguire </ion-button>
+            </ng-template>
           </ion-card-content>
         </ng-template>
       </div>

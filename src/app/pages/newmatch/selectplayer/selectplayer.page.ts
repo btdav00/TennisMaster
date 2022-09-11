@@ -29,9 +29,6 @@ export class SelectplayerPage implements OnInit {
         this.searchedItem=this.list
       }
     )
-    this.persistent.loadOne(User.name,this.auth.getCurrentUId()).subscribe(
-      (obj)=>this.team1.push(this.persistent.eval(User.name,obj,true))
-    )
     this.teamNumber=1
   }
 

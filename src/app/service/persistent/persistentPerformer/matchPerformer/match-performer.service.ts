@@ -172,14 +172,16 @@ export class MatchPerformerService {
   }
 
   public getMatchOfFollowee(idUser){
-    this.userPerformer.getFolloweds(idUser).pipe(switchMap(
+    return this.userPerformer.getFolloweds(idUser).pipe(switchMap(
       (obj)=>{
         let followee=[]
         for (const item of <object[]>obj) {
           // @ts-ignore
-          followee.push(obj.followed)
+          followee.push(item.idFollowed)
         }
-        return this.persistent.collection(Match.name,ref => ref.where('publisher','array-contains-any',followee).orderBy('date','desc')).valueChanges()
+        followee.push(idUser)
+        console.log(followee)
+        return this.persistent.collection(Match.name,ref => ref.where('publisher','in',followee).orderBy('date','desc')).valueChanges()
       }
     ))
   }

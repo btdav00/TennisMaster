@@ -20,39 +20,39 @@ import {object} from "@angular/fire/database";
 })
 export class UserprofilePage implements OnInit {
 
-  name: string
-  surname: string
-  playedmatch: string
-  favouritecourt: string
   fromTabs: boolean
-  private currentUserId: string
+  private idUser: string
+  public jastFollowed : boolean
+  public currentUserId: string
   private currentUser: User
-  private user: User
-  private fromtabs: boolean
+  public user: User
+  public fromtabs: boolean
 
   constructor(private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, public dateservice: DateService, private imgservice: StorageImgService ) {
-    this.name = "nome";
-    this.surname = "cognome";
-    this.playedmatch = "match giocati";
-    this.favouritecourt = "superficie preferita";
   }
 
   ngOnInit() {
     this.currentUserId = this.auth.getCurrentUId()
     if(this.myinput.getInput()){
       // @ts-ignore
-      this.user = this.myinput.getInput().user
+      this.idUser=this.myinput.getInput().user
       // @ts-ignore
       this.fromtabs = this.myinput.getInput().fromTabs
     }
+
+
+    this.persistent.loadOne(User.name,this.idUser).subscribe(
+      (obj)=>this.user=this.persistent.eval(User.name, <object[]>obj, true)
+    )
+
     let userId=this.auth.getCurrentUId()
     this.persistent.loadOne(User.name, userId).subscribe(
       (object)=>{
         this.currentUser = this.persistent.eval(User.name, <object[]>object, true)
       }
     )
-    this.persistent.getImg(User.name, this.user.id).subscribe(
-      (obj)=>{this.user.imgUrl=obj}
+    this.persistent.existFollower(this.idUser,this.auth.getCurrentUId()).subscribe(
+      (exist)=>this.jastFollowed=exist
     )
   }
 
@@ -69,6 +69,10 @@ export class UserprofilePage implements OnInit {
     notification.text = this.currentUser.name+" "+this.currentUser.surname+" ha iniziato a seguirti."
     notification.reference = this.currentUser
     this.persistent.addNotification(notification, this.user)
+  }
+
+  noFollowUser(){
+    this.persistent.deleteFollowed(this.auth.getCurrentUId(),this.user.id)
   }
 
   changeImg(){

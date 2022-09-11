@@ -30,10 +30,6 @@ export class ReviewsPage implements OnInit {
     })
   }
 
-  showClub(){
-    this.router.navigate(['./tabs','homeclub'])
-  }
-
   ngOnInit() {
     //@ts-ignore
     this.currentClub = this.myinput.getInput().club
@@ -43,6 +39,10 @@ export class ReviewsPage implements OnInit {
     )
   }
 
+  showClub(){
+    this.router.navigate(['./tabs','homeclub'])
+  }
+
   clubReviews(){
     this.persistentMenager.searchReview(null, null, this.currentClub.id, null).subscribe(
       (object)=>{
@@ -50,6 +50,7 @@ export class ReviewsPage implements OnInit {
       }
     )
   }
+  //
 
   submit(){
     let review = new Review()
