@@ -1,23 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {MyinputService} from "../../service/input/myinput.service";
 import {Club} from "../../model/Club";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {TabsPageService} from "../../service/tabspage/tabs-page.service";
 
 @Component({
   selector: 'app-homeclub',
   templateUrl: './homeclub.page.html',
   styleUrls: ['./homeclub.page.scss'],
 })
-export class HomeclubPage implements OnInit {
+export class HomeclubPage implements OnInit , AfterViewChecked {
 
   page: String
   public club: boolean
   public fromTabs : boolean
   private clubId : string
 
-  constructor(private myinput: MyinputService , private persistent: PersistentMenagerService, private auth: AuthorizationService) {
+  constructor( private tabsService : TabsPageService ,private myinput: MyinputService , private persistent: PersistentMenagerService, private auth: AuthorizationService) {
     this.page='profilo'
+  }
+
+  ngAfterViewChecked(){
+    this.tabsService.setPage('club')
   }
 
   ngOnInit() {

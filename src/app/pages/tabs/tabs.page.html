@@ -1,6 +1,6 @@
 <ion-tabs >
   <ion-tab-bar color="primary" slot="bottom" >
-    <ion-tab-button *ngIf="selected=='home';else notHome"   tab="home">
+    <ion-tab-button *ngIf="this.tabsService.getPage()=='home';else notHome"   tab="home">
       <ion-icon  color="secondary"  name="home"></ion-icon>
       <ion-label color="secondary">Home</ion-label>
     </ion-tab-button>
@@ -12,7 +12,7 @@
     </ng-template>
 
 
-    <ion-tab-button *ngIf="selected=='club';else notClub"  tab="homeclub">
+    <ion-tab-button *ngIf="this.tabsService.getPage()=='club';else notClub"  tab="homeclub">
       <ion-icon color="secondary" name="tennisball"></ion-icon>
       <ion-label color="secondary" >Circolo</ion-label>
     </ion-tab-button>
@@ -23,7 +23,7 @@
       </ion-tab-button>
     </ng-template>
 
-    <ion-tab-button  tab="userprofile" *ngIf="selected=='profile';else notProfile" >
+    <ion-tab-button  tab="userprofile" *ngIf="this.tabsService.getPage()=='profile';else notProfile" >
       <ion-icon color="secondary" name="person-circle"></ion-icon>
       <ion-label color="secondary" >Profilo</ion-label>
     </ion-tab-button>

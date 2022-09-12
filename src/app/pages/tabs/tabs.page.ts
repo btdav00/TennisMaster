@@ -9,6 +9,7 @@ import {AuthorizationService} from "../../service/authorization/authorization.se
 import {Review} from "../../model/Review";
 import {Club} from "../../model/Club";
 import {object} from "@angular/fire/database";
+import {TabsPageService} from "../../service/tabspage/tabs-page.service";
 
 @Component({
   selector: 'app-tabs',
@@ -17,16 +18,14 @@ import {object} from "@angular/fire/database";
 })
 export class TabsPage implements OnInit {
 
-  selected : String
   fromTabs: boolean
   private user: User
   private club: Club
 
-  constructor(private router : Router, private myinput: MyinputService, private auth: AuthorizationService, private persistent: PersistentMenagerService) {
+  constructor(private router : Router, private myinput: MyinputService, private auth: AuthorizationService, private persistent: PersistentMenagerService , public tabsService: TabsPageService) {
   }
 
   ngOnInit() {
-    this.selected='home'
     let userId = this.auth.getCurrentUId()
     this.persistent.getUserClub(userId).subscribe(
       (object)=>{
@@ -41,7 +40,6 @@ export class TabsPage implements OnInit {
   }
 
   showHome(){
-    this.selected='home'
     this.router.navigate(['./tabs','home'])
   }
 
@@ -58,7 +56,6 @@ export class TabsPage implements OnInit {
         fromTabs: true
       })
     }
-    this.selected='club'
     this.router.navigate(['./tabs','homeclub'])
   }
 
@@ -67,7 +64,6 @@ export class TabsPage implements OnInit {
       user: this.auth.getCurrentUId(),
       fromTabs: true
     })
-    this.selected='profile'
     this.router.navigate(['./tabs','userprofile'])
   }
 

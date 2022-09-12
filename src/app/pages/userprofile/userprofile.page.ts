@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewChecked } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
 import {BehaviorSubject} from "rxjs";
@@ -11,6 +11,7 @@ import {PersistentMenagerService} from "../../service/persistent/persistentMenag
 import {DateService} from "../../service/manageObject/date/date.service";
 import {StorageImgService} from "../../service/storageImg/storage-img.service";
 import {object} from "@angular/fire/database";
+import {TabsPageService} from "../../service/tabspage/tabs-page.service";
 
 
 @Component({
@@ -18,7 +19,7 @@ import {object} from "@angular/fire/database";
   templateUrl: './userprofile.page.html',
   styleUrls: ['./userprofile.page.scss'],
 })
-export class UserprofilePage implements OnInit {
+export class UserprofilePage implements OnInit , AfterViewChecked {
 
   fromTabs: boolean
   private idUser: string
@@ -28,7 +29,11 @@ export class UserprofilePage implements OnInit {
   public user: User
   public fromtabs: boolean
 
-  constructor(private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, public dateservice: DateService, private imgservice: StorageImgService ) {
+  constructor( private tabsService : TabsPageService ,private route: Router, private auth: AuthorizationService, private persistent: PersistentMenagerService, private myinput: MyinputService, public dateservice: DateService, private imgservice: StorageImgService ) {
+  }
+
+  ngAfterViewChecked(){
+    this.tabsService.setPage('profile')
   }
 
   ngOnInit() {
