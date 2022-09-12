@@ -50,6 +50,8 @@ export class ReservationsPage implements OnInit {
     )
     this.bookingSubscribe=this.persistentService.searchBooking(null,null,this.idClub,null,this.dateService.getStartDay(this.date),this.dateService.getEndDay(this.date)).subscribe(
       (obj)=>{
+        console.log(this.dateService.getStartDay(this.date))
+        console.log(this.dateService.getEndDay(this.date))
         if(obj.length>0)this.bookingsDay=this.persistentService.eval(Booking.name,obj)
         else this.bookingsDay=[]
       }
@@ -62,7 +64,6 @@ export class ReservationsPage implements OnInit {
   }
 
   dateChange(dateinput : string ){
-
     this.date= new Date(dateinput);
     this.labelDate= this.dateService.getStringDate(this.date);
     this.showCalendar()
@@ -111,6 +112,8 @@ export class ReservationsPage implements OnInit {
   }
 
   setDisableHour(time: number, court: number){
+    let date=new Date()
+    if(time <=date.getHours())return true
     if(!this.timeClicked && !this.courtSelected) return false
     if(this.courtSelected && court!=this.courtSelected) return true
     else if (time < this.timeClicked || time>this.timeClicked+1) return true

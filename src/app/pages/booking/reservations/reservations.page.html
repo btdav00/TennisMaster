@@ -2,7 +2,7 @@
 <ion-button color="light" expand="block" (click)="showCalendar()">{{labelDate}}</ion-button>
 <ion-datetime min="{{getToday()}}" *ngIf="showCal" value="{{getDateValue()}}" presentation="date" #datetime (ionChange)="dateChange(datetime.value)"></ion-datetime>
 <br>
-<div *ngIf="club">
+<div *ngIf="club && bookingsDay ">
   <div *ngFor="let court of club.courts">
     <p><b>CAMPO {{court.number}}</b></p>
     <div class="scrolling-wrapper">
