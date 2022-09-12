@@ -226,6 +226,8 @@ export class ClubPerformerService {
     booking.startHour=<number>json.startHour
     // @ts-ignore
     booking.numberHour=<number>json.numberHour
+    // @ts-ignore
+    booking.courtNumber=<number>json.courtNumber
     return booking
   }
 
@@ -249,8 +251,8 @@ export class ClubPerformerService {
     if(idUser)whereClauses.push({field: 'UID', op:<WhereFilterOp>'==', value: idUser})
     if(idClub)whereClauses.push({field: 'CID', op:<WhereFilterOp>'==', value: idClub})
     if(courtNumber)whereClauses.push({field: 'courtNumber', op:<WhereFilterOp>'==', value: courtNumber})
-    if(minDate)whereClauses.push({field: 'date', op:<WhereFilterOp>'<=', value: minDate.getTime()})
-    if(maxDate)whereClauses.push({field: 'date', op:<WhereFilterOp>'>=', value: maxDate.getTime()})
+    if(minDate)whereClauses.push({field: 'date', op:<WhereFilterOp>'>=', value: minDate.getTime()})
+    if(maxDate)whereClauses.push({field: 'date', op:<WhereFilterOp>'<=', value: maxDate.getTime()})
 
     let q: AngularFirestoreCollection<object>
     if(whereClauses.length>0){

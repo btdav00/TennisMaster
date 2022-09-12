@@ -16,7 +16,7 @@ export class BookingService {
   bookingCheck(bookingsDay: Booking[], courtNumber: number, time: number){
     let result=true
     for (const booking of bookingsDay) {
-      if(booking.startHour<=time && booking.numberHour-1>booking.startHour-time)result=false
+      if(booking.startHour<=time && booking.numberHour-1>=time-booking.startHour && booking.courtNumber==courtNumber)result=false
     }
     return result
   }
