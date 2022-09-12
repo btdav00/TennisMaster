@@ -34,6 +34,7 @@ export class MybookingPage implements OnInit {
   }
 
   enable(){
+    if(this.booking.payment) return false
     let today=new Date()
     if(this.dateService.getStartDay(today).getTime()<this.dateService.getStartDay(this.booking.date).getTime()) return true
     else return false

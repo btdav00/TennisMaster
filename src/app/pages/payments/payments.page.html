@@ -65,8 +65,6 @@
 
 
   <ion-card class="welcome-card" *ngIf="court && club && booking">
-    <ion-item >
-      <ion-img src="/assets/icon/ticket.jpg" ></ion-img></ion-item>
     <ion-card-header>
       <ion-card-title>Pagamento</ion-card-title>
       <ion-icon slot="end" name="ticket-outline"></ion-icon>
@@ -76,44 +74,43 @@
       <ion-row style="margin-top: 20px">
         <ion-col size="4">
           <div class="square_div" (click)="changeMethod(1)" [class.yellow]="method==1">
-            <img class="gray_img" src="../../../../resources/android/payment/credit%20card.png">
+            <img class="gray_img" src="../../../assets/payment/credit%20card.png">
           </div>
         </ion-col>
         <ion-col size="4">
           <div class="square_div" (click)="changeMethod(2)" [class.yellow]="method==2">
-            <img class="gray_img" src="../../../../resources/android/payment/cash%20.png">
+            <img class="gray_img" src="../../../assets/payment/cash%20.png">
           </div>
         </ion-col>
       </ion-row>
 
       <div *ngIf="method==1">
-        <ion-label>Inserisci i dati della tua carta:</ion-label>
-        <br>
-        <ion-labe>Numero di carta</ion-labe>
+        <form [formGroup]="dataCard">
+          <ion-label>Inserisci i dati della tua carta:</ion-label>
+          <br>
+          <ion-label>Numero di carta</ion-label>
+          <ion-input type="text" formControlName="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX" max="16"></ion-input>
+          <ion-row>
+            <ion-col size="4" class="left_col">
+              <ion-input formControlName="month" presentation="month" display-format="MM" placeholder="MM"></ion-input>
+            </ion-col>
 
-        <ion-input type="text" placeholder="XXXX-XXXX-XXXX-XXXX"></ion-input>
+            <ion-col size="4">
+              <ion-input formControlName="year" presentation="year" display-format="YYYY" placeholder="YYYY"></ion-input>
+            </ion-col>
 
-        <ion-row>
-          <ion-col size="4" class="left_col">
-            <ion-input presentation="month" display-format="MM" placeholder="MM"></ion-input>
-          </ion-col>
-
-          <ion-col size="4">
-            <ion-input presentation="year" display-format="YYYY" placeholder="YYYY"></ion-input>
-          </ion-col>
-
-          <ion-col size="4" class="right_col">
-            <ion-input type="text" placeholder="CVC"></ion-input>
-          </ion-col>
-        </ion-row>
-
-        <ion-button expand="block">Conferma</ion-button>
+            <ion-col size="4" class="right_col">
+              <ion-input formControlName="cvc" type="text" placeholder="CVC"></ion-input>
+            </ion-col>
+          </ion-row>
+        </form>
+        <ion-button expand="block" (click)="submit1()" [disabled]="disabled()">Conferma</ion-button>
       </div>
 
       <div *ngIf="method==2">
         <ion-label>Cliccando sul pulsante di conferma comunicherai la tua intenzione di pagare in struttura</ion-label>
         <ion-card-content>
-          <ion-button expand="block" (click)="submit()">Paga in struttura</ion-button>
+          <ion-button expand="block" (click)="submit2()">Paga in struttura</ion-button>
         </ion-card-content>
       </div>
     </div>
