@@ -21,8 +21,11 @@ export class PaymentsPage implements OnInit {
   public booking : Booking
   public court : Court
   private currentUser : User
+  private method: number
 
-  constructor(private route : Router, private myInput : MyinputService , public dateService : DateService, private persistent : PersistentMenagerService , private auth : AuthorizationService) { }
+  constructor(private myInput : MyinputService , public dateService : DateService, private persistent : PersistentMenagerService , private auth : AuthorizationService, private route: Router) {
+    this.method=1
+  }
 
   ngOnInit() {
     //@ts-ignore
@@ -44,13 +47,14 @@ export class PaymentsPage implements OnInit {
     else return 'outdoor'
   }
 
-  changeMetod(val: number){
+  changeMethod(selected: number){
+    this.method = selected
   }
 
   submit(){
     this.booking.payment=false
     this.persistent.addBooking(this.currentUser,this.booking,this.club,this.court)
-    this.route.navigate(['tabs'])
+    this.route.navigate(["tabs"])
   }
 
 }

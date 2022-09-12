@@ -65,22 +65,70 @@
 
 
   <ion-card class="welcome-card" *ngIf="court && club && booking">
+    <ion-item >
+      <ion-img src="/assets/icon/ticket.jpg" ></ion-img></ion-item>
     <ion-card-header>
       <ion-card-title>Pagamento</ion-card-title>
       <ion-icon slot="end" name="ticket-outline"></ion-icon>
-      <ion-row>
-        <ion-col>
-          {{court.price * booking.numberHour}} $
+    </ion-card-header>
+    <div class="main_content_div">
+      <ion-label>Seleziona il metodo di pagamento</ion-label>
+      <ion-row style="margin-top: 20px">
+        <ion-col size="4">
+          <div class="square_div" (click)="changeMethod(1)" [class.yellow]="method==1">
+            <img class="gray_img" src="../../../../resources/android/payment/credit%20card.png">
+          </div>
         </ion-col>
-        <ion-col>
+        <ion-col size="4">
+          <div class="square_div" (click)="changeMethod(2)" [class.yellow]="method==2">
+            <img class="gray_img" src="../../../../resources/android/payment/cash%20.png">
+          </div>
         </ion-col>
       </ion-row>
-    </ion-card-header>
-    <ion-card-content>
-     <ion-button expand="block" (click)="submit()"> Paga in struttura</ion-button>
-    </ion-card-content>
+
+      <div *ngIf="method==1">
+        <ion-label>Inserisci i dati della tua carta:</ion-label>
+        <br>
+        <ion-labe>Numero di carta</ion-labe>
+
+        <ion-input type="text" placeholder="XXXX-XXXX-XXXX-XXXX"></ion-input>
+
+        <ion-row>
+          <ion-col size="4" class="left_col">
+            <ion-input presentation="month" display-format="MM" placeholder="MM"></ion-input>
+          </ion-col>
+
+          <ion-col size="4">
+            <ion-input presentation="year" display-format="YYYY" placeholder="YYYY"></ion-input>
+          </ion-col>
+
+          <ion-col size="4" class="right_col">
+            <ion-input type="text" placeholder="CVC"></ion-input>
+          </ion-col>
+        </ion-row>
+
+        <ion-button expand="block">Conferma</ion-button>
+      </div>
+
+      <div *ngIf="method==2">
+        <ion-label>Cliccando sul pulsante di conferma comunicherai la tua intenzione di pagare in struttura</ion-label>
+        <ion-card-content>
+          <ion-button expand="block" (click)="submit()">Paga in struttura</ion-button>
+        </ion-card-content>
+      </div>
+    </div>
   </ion-card>
 </ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col size="7">
+      <ion-text>
+        <h4 class="ion-text-center">Importo: {{court.price * booking.numberHour}} $</h4>
+      </ion-text>
+    </ion-col>
+  </ion-row>
+</ion-footer>
 
 
 

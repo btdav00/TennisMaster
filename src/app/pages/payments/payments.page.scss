@@ -40,6 +40,10 @@ ion-toolbar{
     position: relative;
   }
 
+  .yellow{
+    background: linear-gradient(to right, #b91d73, #f953c6);
+  }
+
   .gray_img{
     width: 50px;
     position: absolute;
@@ -48,17 +52,32 @@ ion-toolbar{
     transform: translate(-50%,-50%);
   }
 
-  ion-input{
+  ion-input,ion-datetime{
     border: 1px solid lightgray;
     border-radius: 5px;
     --padding-start: 8px;
     margin-top: 15px;
   }
+
+  .left-col{
+    padding-left:0px;
+  }
+
+  .right_col{
+    padding-right:0px;
+  }
+
+  ion-button{
+    background: linear-gradient(to right , #045de9, #045de9);
+    color: white;
+    margin-top: 30px;
+  }
+
 }
 
 ion-footer{
   ion-row{
-    background: linear-gradient(to right , #045de9, #09c6f9);
+    background: linear-gradient(to right , #045de9, #045de9);
     color: white;
   }
 }
