@@ -148,8 +148,8 @@ export class PersistentMenagerService {
     ))
   }
 
-  public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {
-    return this.clubPerformer.searchBooking(id,idUser,idClub,courtNumber,minDate,maxDate)
+  public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null,orderByField:string[]=[],orderByAscending:boolean[]=[]) {
+    return this.clubPerformer.searchBooking(id,idUser,idClub,courtNumber,minDate,maxDate,orderByField,orderByAscending)
   }
 
   public existBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {

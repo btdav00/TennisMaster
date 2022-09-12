@@ -16,7 +16,7 @@ export class MybookingsPage implements OnInit {
   constructor(private persistent:PersistentMenagerService,private auth:AuthorizationService) {}
 
   ngOnInit() {
-    this.persistent.searchBooking(null,this.auth.getCurrentUId()).subscribe(
+    this.persistent.searchBooking(null,this.auth.getCurrentUId(),null,null,null,null,['date'],[false]).subscribe(
       (result)=>this.bookings=this.persistent.eval(Booking.name,result)
     )
   }

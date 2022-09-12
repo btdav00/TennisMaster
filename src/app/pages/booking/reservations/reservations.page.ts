@@ -113,7 +113,7 @@ export class ReservationsPage implements OnInit {
 
   setDisableHour(time: number, court: number){
     let date=new Date()
-    if(time <=date.getHours())return true
+    if(this.dateService.getStartDay(this.date).getTime()==this.dateService.getStartDay(date).getTime() && time <=date.getHours())return true
     if(!this.timeClicked && !this.courtSelected) return false
     if(this.courtSelected && court!=this.courtSelected) return true
     else if (time < this.timeClicked || time>this.timeClicked+1) return true

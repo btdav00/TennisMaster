@@ -15,6 +15,7 @@ import {Review} from "../../../../model/Review";
 import {UserPerformerService} from "../userPerformer/user-performer.service";
 import {map, switchMap} from "rxjs/operators";
 import {Match} from "../../../../model/Match";
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 @Injectable({
   providedIn: 'root'
@@ -243,7 +244,7 @@ export class ClubPerformerService {
     )
   }
 
-  public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {
+  public searchBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null,orderByField:string[]=[],orderByAscending:boolean[]=[]) {
     let result=[]
     let whereClauses=[]
 
@@ -260,6 +261,11 @@ export class ClubPerformerService {
         let where=ref.where(whereClauses[0].field,whereClauses[0].op,whereClauses[0].value)
         for (let i = 1; i < whereClauses.length; i++) {
           where=where.where(whereClauses[i].field,whereClauses[i].op,whereClauses[i].value)
+        }
+        for (let i=0;i<orderByField.length;i++){
+          let order='desc'
+          if(orderByAscending[i]) order='asc'
+          where=where.orderBy(orderByField[i],<OrderByDirection>order)
         }
         return where
       })

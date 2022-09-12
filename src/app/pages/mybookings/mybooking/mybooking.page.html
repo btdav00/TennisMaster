@@ -1,13 +1,31 @@
-<ion-grid *ngIf="club">
-  <ion-row style="width: 100%">
-    <ion-col size="4">
-      <ion-img  class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="club.imgUrl" ></ion-img>
-    </ion-col>
-    <ion-col size="8">
-      <ion-text class="text-size" style="opacity: 0.7">{{stringDate(booking.date)}} dalle {{booking.startHour}}:00 alle {{booking.startHour+booking.numberHour}}:00 presso il circolo {{club.name}}</ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row style="width: 100%">
-    <ion-button style="width: 100%" color="danger" expand="block" (click)="delete()">Elimina</ion-button>
-  </ion-row>
-</ion-grid>
+
+<ion-item *ngIf="enable(); else disable">
+  <ion-grid *ngIf="club">
+    <ion-row style="width: 100%">
+      <ion-col size="4">
+        <ion-img  class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="club.imgUrl" ></ion-img>
+      </ion-col>
+      <ion-col size="8">
+        <ion-text class="text-size" style="opacity: 0.7">{{stringDate(booking.date)}} dalle {{booking.startHour}}:00 alle {{booking.startHour+booking.numberHour}}:00 presso il circolo {{club.name}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row style="width: 100%">
+      <ion-button style="width: 100%" color="danger" expand="block" (click)="delete()">Elimina</ion-button>
+    </ion-row>
+  </ion-grid>
+</ion-item>
+
+<ng-template #disable>
+  <ion-item class="disabled">
+    <ion-grid *ngIf="club">
+      <ion-row style="width: 100%">
+        <ion-col size="4">
+          <ion-img  class="ion-text-center" style="width: 50px ; height: 50px;border-radius: 50%" [src]="club.imgUrl" ></ion-img>
+        </ion-col>
+        <ion-col size="8">
+          <ion-text class="text-size" style="opacity: 0.7">{{stringDate(booking.date)}} dalle {{booking.startHour}}:00 alle {{booking.startHour+booking.numberHour}}:00 presso il circolo {{club.name}}</ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ng-template>

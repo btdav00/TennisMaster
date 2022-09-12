@@ -7,6 +7,7 @@ import {DateService} from "../../service/manageObject/date/date.service";
 import {PersistentMenagerService} from "../../service/persistent/persistentMenager/persistent-menager.service";
 import {User} from "../../model/User";
 import {AuthorizationService} from "../../service/authorization/authorization.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-payments',
@@ -21,7 +22,7 @@ export class PaymentsPage implements OnInit {
   public court : Court
   private currentUser : User
 
-  constructor(private myInput : MyinputService , public dateService : DateService, private persistent : PersistentMenagerService , private auth : AuthorizationService) { }
+  constructor(private route : Router, private myInput : MyinputService , public dateService : DateService, private persistent : PersistentMenagerService , private auth : AuthorizationService) { }
 
   ngOnInit() {
     //@ts-ignore
@@ -49,6 +50,7 @@ export class PaymentsPage implements OnInit {
   submit(){
     this.booking.payment=false
     this.persistent.addBooking(this.currentUser,this.booking,this.club,this.court)
+    this.route.navigate(['tabs'])
   }
 
 }

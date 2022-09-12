@@ -243,7 +243,7 @@ export class MatchPerformerService {
     )
   }
 
-  public searchComment(id:string=null,idMatch:string=null,writerId:string=null,orderByField:string[]=null,orderByAscending:boolean[]=null) {
+  public searchComment(id:string=null,idMatch:string=null,writerId:string=null,orderByField:string[]=[],orderByAscending:boolean[]=[]) {
     let result=[]
     let whereClauses=[]
 

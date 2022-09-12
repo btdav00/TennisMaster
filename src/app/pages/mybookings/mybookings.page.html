@@ -1,9 +1,7 @@
 
 
 <ion-list>
-  <ion-item *ngFor="let item of bookings">
-    <app-mybooking [booking]="item"></app-mybooking>
-  </ion-item>
+  <app-mybooking *ngFor="let item of bookings" [booking]="item"></app-mybooking>
 </ion-list>
 
 
