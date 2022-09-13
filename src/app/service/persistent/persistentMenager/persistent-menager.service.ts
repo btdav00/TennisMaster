@@ -152,10 +152,6 @@ export class PersistentMenagerService {
     return this.clubPerformer.searchBooking(id,idUser,idClub,courtNumber,minDate,maxDate,orderByField,orderByAscending)
   }
 
-  public existBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {
-    return this.clubPerformer.existBooking(id,idUser,idClub,courtNumber,minDate,maxDate)
-  }
-
   public async addReview(review: Review, club: Club){
     await this.clubPerformer.addReview(review,club)
   }
@@ -166,10 +162,6 @@ export class PersistentMenagerService {
 
   public searchReview(id:string=null,idUser:string=null, idClub:string=null, mark:number=null) {
     return this.clubPerformer.searchReview(id, idUser, idClub, mark)
-  }
-
-  public existReview(id:string=null,idUser:string=null,idClub:string=null,mark:number=null) {
-    return this.clubPerformer.existReview(id, idUser, idClub, mark)
   }
 
   public async addComment( comment:Comment ,match: Match ,idUser: string=null){
@@ -184,10 +176,6 @@ export class PersistentMenagerService {
     return this.matchPerformer.searchComment(id, idMatch, writerId,orderByField,orderByAscending)
   }
 
-  public existComment(id:string=null,idMatch:string=null,writerId:string=null) {
-    return this.matchPerformer.existComment(id, idMatch, writerId)
-  }
-
   public async addNotification( notification:Notification ,user: User ){
     await this.userPerformer.addNotification(notification, user)
   }
@@ -199,10 +187,5 @@ export class PersistentMenagerService {
   public searchNotification(id:string=null,idUser:string=null,referenceId:string=null) {
     return this.userPerformer.searchNotification(id, idUser, referenceId)
   }
-
-  public existNotification(id:string=null,idUser:string=null,referenceId:string=null) {
-    return this.userPerformer.existNotification(id, idUser, referenceId)
-  }
-
 
 }

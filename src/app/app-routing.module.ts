@@ -29,10 +29,6 @@ const routes: Routes = [
     canActivate:[RedirectIfLoggedGuard]
   },
   {
-    path: 'calendar',
-    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
-  },
-  {
     path: 'partite',
     loadChildren: () => import('./pages/partite/partite.module').then( m => m.PartitePageModule),
     canActivate:[RedirectIfNotLoggedGuard]
@@ -89,19 +85,23 @@ const routes: Routes = [
   },
   {
     path: 'homesearch',
-    loadChildren: () => import('./pages/search/homesearch/homesearch.module').then(m => m.HomesearchPageModule)
+    loadChildren: () => import('./pages/search/homesearch/homesearch.module').then(m => m.HomesearchPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
   },
   {
     path: 'searchplayer',
-    loadChildren: () => import('./pages/search/searchplayer/searchplayer.module').then( m => m.SearchplayerPageModule)
+    loadChildren: () => import('./pages/search/searchplayer/searchplayer.module').then( m => m.SearchplayerPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
   },
   {
     path: 'searchclub',
-    loadChildren: () => import('./pages/search/searchclub/searchclub.module').then(m => m.SearchclubPageModule)
+    loadChildren: () => import('./pages/search/searchclub/searchclub.module').then(m => m.SearchclubPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
   },
   {
     path: 'payments',
-    loadChildren: () => import('./pages/payments/payments.module').then(m => m.PaymentsPageModule)
+    loadChildren: () => import('./pages/payments/payments.module').then(m => m.PaymentsPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
   },
   {
     path: 'splash',
@@ -109,7 +109,8 @@ const routes: Routes = [
   },
   {
     path: 'homeclub',
-    loadChildren: () => import('./pages/homeclub/homeclub.module').then( m => m.HomeClubPageModule)
+    loadChildren: () => import('./pages/homeclub/homeclub.module').then( m => m.HomeClubPageModule),
+    canActivate:[RedirectIfNotLoggedGuard]
   }
 
 

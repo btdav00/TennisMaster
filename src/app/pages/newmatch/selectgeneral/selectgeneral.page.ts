@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {DateService} from "../../../service/manageObject/date/date.service";
 
 @Component({
   selector: 'app-selectgeneral',
@@ -16,21 +17,14 @@ export class SelectgeneralPage implements OnInit {
   @Output() outputType= new EventEmitter<String>();
 
 
-  constructor() { }
+  constructor( private dateservice: DateService) {
+
+  }
 
   ngOnInit() {
     console.log(this.type)
     if(this.date!=null){
-      let  day= <unknown>this.date.getUTCDate()
-      let month= <unknown>(this.date.getMonth()+1)
-      let year= <unknown>this.date.getFullYear()
-      if(day<10){
-        day= "0"+day
-      }
-      if(month<10){
-        month= "0"+month
-      }
-      this.labelDate='data di nascita : '+day+"/"+month+"/"+this.date.getFullYear();
+      this.labelDate='data del match : '+ this.dateservice.getStringDate(this.date);
     }
   }
 
@@ -41,16 +35,7 @@ export class SelectgeneralPage implements OnInit {
   dateChange(dateinput : string ){
 
     this.date= new Date(dateinput);
-    let  day= <unknown>this.date.getUTCDate()
-    let month= <unknown>(this.date.getMonth()+1)
-    let year= <unknown>this.date.getFullYear()
-    if(day<10){
-      day= "0"+day
-    }
-    if(month<10){
-      month= "0"+month
-    }
-    this.labelDate='data di nascita : '+day+"/"+month+"/"+this.date.getFullYear();
+    this.labelDate='data del match : '+this.dateservice.getStringDate(this.date);
     this.showCalendar()
     this.outputDate.emit(this.date)
   }

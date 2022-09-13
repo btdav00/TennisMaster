@@ -109,7 +109,6 @@ export class MatchPerformerService {
     let result: string
     if (id != null) {
       result = id
-      console.log(this.ClassObjectToJson(toBeStored))
       await this.persistent.collection(toBeStored.constructor.name).doc(id).set(this.ClassObjectToJson(toBeStored)).then(
         () => toBeStored.id = id,
         (e) => {
@@ -117,7 +116,6 @@ export class MatchPerformerService {
         }
       )
     } else {
-      console.log(this.ClassObjectToJson(toBeStored))
       await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
         (doc) => {
           this.persistent.doc(toBeStored.constructor.name + "/" + doc.id).update({id: doc.id})
@@ -145,26 +143,6 @@ export class MatchPerformerService {
       (error) => console.log('update ' + Match.name + ' error : ' + error))
   }
 
-  public async existOne(id:string){
-    let result=false
-    await this.persistent.collection(Match.name,ref => ref.where('id','==',id)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
-  }
-
-  public async exist(whereField: string,whereOp: WhereFilterOp,whereValue: string){
-    let result=false
-    await this.persistent.collection(Match.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
-  }
-
   public deleteOne(id:string) {
     this.persistent.doc(Match.name + "/" + id).delete().catch(
       (error) => console.log(error)
@@ -180,7 +158,6 @@ export class MatchPerformerService {
           followee.push(item.idFollowed)
         }
         followee.push(idUser)
-        console.log(followee)
         return this.persistent.collection(Match.name,ref => ref.where('publisher','in',followee).orderBy('date','desc')).valueChanges()
       }
     ))
@@ -271,15 +248,5 @@ export class MatchPerformerService {
     }
     return q.valueChanges()
   }
-
-  public existComment(id:string=null,idMatch:string=null,writerId:string=null) {
-    let exist=false;
-    this.searchComment(id, idMatch, writerId).subscribe((result) => {
-      if(result.length>0)exist=true;
-    })
-    return exist
-  }
-
-
 
 }

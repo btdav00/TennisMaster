@@ -1,16 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs.page';
-/*
-import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo} from '@angular/fire/compat/auth-guard';
+import {RedirectIfNotLoggedGuard} from "../../service/authorization/guard/ifnotlogged/redirect-if-not-logged.guard";
 
-
-const redirectUnauthorizedToLogin = () =>
-  redirectUnauthorizedTo(['/login']);
-
-const redirectLoggedInToHome = () =>
-  redirectLoggedInTo(['/tabs']);
-*/
 
 const routes: Routes = [
   {
@@ -19,16 +11,19 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule),
+        canActivate:[RedirectIfNotLoggedGuard]
+
       },
       {
         path: 'homeclub',
-        loadChildren: () => import('../homeclub/homeclub.module').then(m => m.HomeClubPageModule)
+        loadChildren: () => import('../homeclub/homeclub.module').then(m => m.HomeClubPageModule),
+        canActivate:[RedirectIfNotLoggedGuard]
       },
       {
         path: 'userprofile',
         loadChildren: () => import('../userprofile/userprofile.module').then(m => m.UserprofilePageModule),
-        //...canActivate(redirectUnauthorizedToLogin)
+        canActivate:[RedirectIfNotLoggedGuard]
       },
 
     ]

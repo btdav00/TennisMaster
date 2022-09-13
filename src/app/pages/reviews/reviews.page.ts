@@ -23,6 +23,8 @@ export class ReviewsPage implements OnInit {
   arrayReviews: Review[]
   public reviews: FormGroup
   selected: any
+  newTitle: string
+  newReview: string
 
   constructor(private router: Router, private auth: AuthorizationService, private persistentMenager: PersistentMenagerService, private myinput: MyinputService) {
     this.reviews = new FormGroup({
@@ -59,6 +61,8 @@ export class ReviewsPage implements OnInit {
     review.title = this.reviews.value.title
     review.user = this.user
     this.persistentMenager.addReview( review, this.currentClub)
+    this.newTitle=''
+    this.newReview=''
   }
 
   changeSelected(id: string){

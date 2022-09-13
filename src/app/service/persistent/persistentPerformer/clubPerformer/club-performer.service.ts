@@ -74,7 +74,6 @@ export class ClubPerformerService {
   }
 
   private JsonToPlace(json:object){
-    console.log(json)
     let place=new Place()
     // @ts-ignore
     place.street=json.street
@@ -159,26 +158,6 @@ export class ClubPerformerService {
   public update(toBeStored : Club) {
     this.persistent.doc(Club.name + "/" + toBeStored.id).update(this.ClassObjectToJson(toBeStored)).catch(
       (error) => console.log('update ' + Club.name + ' error : ' + error))
-  }
-
-  public async existOne(id:string){
-    let result=false
-    await this.persistent.collection(Club.name,ref => ref.where('id','==',id)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
-  }
-
-  public async exist(whereField: string,whereOp: WhereFilterOp,whereValue: string){
-    let result=false
-    await this.persistent.collection(Club.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
   }
 
   public deleteOne(id:string) {
@@ -276,14 +255,6 @@ export class ClubPerformerService {
     return q.valueChanges()
   }
 
-  public existBooking(id:string=null,idUser:string=null,idClub:string=null,courtNumber:number=null,minDate:Date=null,maxDate:Date=null) {
-    let exist=false;
-    this.searchBooking(id, idUser, idClub, courtNumber, minDate, maxDate).subscribe((result) => {
-       if(result.length>0)exist=true;
-    })
-    return exist
-  }
-
   public getClubBooking(idBooking:string){
     return this.searchBooking(idBooking).pipe(switchMap(
       data=>{
@@ -358,16 +329,5 @@ export class ClubPerformerService {
     }
     return q.valueChanges()
   }
-
-  public existReview(id:string=null,idUser:string=null,idClub:string=null,mark:number=null) {
-    let exist=false;
-    this.searchReview(id, idUser, idClub, mark).subscribe((result) => {
-      if(result.length>0)exist=true;
-    })
-    return exist
-  }
-
-
-
 
 }

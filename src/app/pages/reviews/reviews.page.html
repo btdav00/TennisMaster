@@ -15,18 +15,18 @@
   <form [formGroup]="reviews">
     <ion-item>
       <ion-label position="stacked">Titolo</ion-label>
-      <ion-input formControlName="title" placeholder="titolo..." type="text"></ion-input>
+      <ion-input [(ngModel)]="newTitle" formControlName="title" placeholder="titolo..." type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">recensione</ion-label>
-      <ion-textarea formControlName="rev" placeholder="recensione..."></ion-textarea>
+      <ion-textarea [(ngModel)]="newReview" formControlName="rev" placeholder="recensione..."></ion-textarea>
     </ion-item>
   </form>
   <ion-button class="error-size" color="primary" expand="block" (click)="submit()" > Invia </ion-button>
   <br>
   <div *ngFor="let review of arrayReviews">
     <div (click)="changeSelected(review.id)">
-      <ion-item *ngIf="review.id!=this.selected">
+      <ion-item *ngIf="review.id!=this.selected && review.user">
         <ion-avatar slot="start">
           <img src="{{review.user.imgUrl}}" />
         </ion-avatar>

@@ -79,7 +79,6 @@ export class UserPerformerService {
       )
     }
     else{
-      console.log(this.ClassObjectToJson(toBeStored))
       await this.persistent.collection(toBeStored.constructor.name).add(this.ClassObjectToJson(toBeStored)).then(
         (doc)=>{
           this.persistent.doc(toBeStored.constructor.name + "/" + doc.id).update({id:doc.id})
@@ -90,7 +89,6 @@ export class UserPerformerService {
   }
 
   public loadOne(id: string){
-    console.log('questo è : '+id)
     return this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges()
   }
 
@@ -105,26 +103,6 @@ export class UserPerformerService {
   public update(toBeStored : User) {
     this.persistent.doc(User.name + "/" + toBeStored.id).update(this.ClassObjectToJson(toBeStored)).catch(
       (error) => console.log('update ' + User.name + ' error : ' + error))
-  }
-
-  public async existOne(id:string){
-    let result=false
-    await this.persistent.collection(User.name,ref => ref.where('id','==',id)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
-  }
-
-  public async exist(whereField: string,whereOp: WhereFilterOp,whereValue: string){
-    let result=false
-    await this.persistent.collection(User.name,ref => ref.where(whereField,whereOp,whereValue)).valueChanges().subscribe(
-      res=>{
-        if(res.length>0) result=true
-      }
-    )
-    return result
   }
 
   public deleteOne(id:string) {
@@ -245,11 +223,4 @@ export class UserPerformerService {
     return q.valueChanges()
   }
 
-  public existNotification(id:string=null,idUser:string=null,referenceId:string=null) {
-    let exist=false;
-    this.searchNotification(id, idUser, referenceId).subscribe((result) => {
-      if(result.length>0)exist=true;
-    })
-    return exist
-  }
 }

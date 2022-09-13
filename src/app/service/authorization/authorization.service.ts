@@ -77,9 +77,7 @@ export class AuthorizationService {
 
 
   public isLogged():boolean{
-    console.log(localStorage.getItem('userUid'))
     if(<string>localStorage.getItem('userUid')!="") {
-      console.log('perchè')
       return true ;
     }
     else return false
