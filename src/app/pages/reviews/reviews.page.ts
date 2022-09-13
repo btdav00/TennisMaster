@@ -9,6 +9,7 @@ import {PersistentMenagerService} from "../../service/persistent/persistentMenag
 import {Club} from "../../model/Club";
 import {Booking} from "../../model/Booking";
 import {MyinputService} from "../../service/input/myinput.service";
+import {getNumberOfCurrencyDigits} from "@angular/common";
 
 @Component({
   selector: 'app-reviews',
@@ -20,8 +21,8 @@ export class ReviewsPage implements OnInit {
   user: User
   currentClub: Club
   arrayReviews: Review[]
-
   public reviews: FormGroup
+  selected: any
 
   constructor(private router: Router, private auth: AuthorizationService, private persistentMenager: PersistentMenagerService, private myinput: MyinputService) {
     this.reviews = new FormGroup({
@@ -50,7 +51,7 @@ export class ReviewsPage implements OnInit {
       }
     )
   }
-  //
+
 
   submit(){
     let review = new Review()
@@ -58,6 +59,10 @@ export class ReviewsPage implements OnInit {
     review.title = this.reviews.value.title
     review.user = this.user
     this.persistentMenager.addReview( review, this.currentClub)
+  }
+
+  changeSelected(id: string){
+    this.selected = id
   }
 
 }

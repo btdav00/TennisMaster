@@ -25,20 +25,29 @@
   <ion-button class="error-size" color="primary" expand="block" (click)="submit()" > Invia </ion-button>
   <br>
   <div *ngFor="let review of arrayReviews">
-    <ion-grid *ngIf="review.user">
-      <ion-row>
-        <ion-avatar>
-          <img src="{{review.user.imgUrl}}"/>
+    <div (click)="changeSelected(review.id)">
+      <ion-item *ngIf="review.id!=this.selected">
+        <ion-avatar slot="start">
+          <img src="{{review.user.imgUrl}}" />
         </ion-avatar>
         <ion-label>
           <h2>{{review.user.name}} {{review.user.surname}}</h2>
           <h3>{{review.title}}</h3>
+          <p>{{review.comment}}</p>
         </ion-label>
-      </ion-row>
-      <ion-row>
-        <ion-text>{{review.comment}}</ion-text>
-        <ion-item-divider></ion-item-divider>
-      </ion-row>
-    </ion-grid>
+      </ion-item>
+    </div>
+    <div (click)="changeSelected(null)">
+      <div *ngIf="review.id==this.selected">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>{{review.user.name}} {{review.user.surname}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            {{review.comment}}
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
   </div>
 </ion-content>
